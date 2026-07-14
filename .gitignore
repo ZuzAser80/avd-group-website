@@ -1,2 +1,5 @@
 /backend/.venv
 .idea
+backend/.env
+*.pyc
+*__pycache__
