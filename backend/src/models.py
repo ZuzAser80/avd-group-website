@@ -9,7 +9,8 @@ class User(Base):
     email = Column(String, nullable=False, unique=True, index=True)
     password = Column(String, nullable=False, index=True)
 
-class PostBase(Base):
+class Post(Base):
     __tablename__ = "posts"
     id = Column(Integer, primary_key=True, index=True)
     title = Column(String, index=True)
+    content = Column(String, index=True)
