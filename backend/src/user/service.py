@@ -6,17 +6,15 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 class UserRepository:
     @classmethod
-    async def create_user(cls, 
+    async def create_user(cls,
                           session: AsyncSession,
                           user: UserCreate) -> User:
         async with session.begin():
             user_data = user.model_dump()
-            print(user_data)
             new_user = User(name=user_data['name'],
                             email=user_data['email'],
                             password=hash_password(user_data['password']))
             session.add(new_user)
-        await session.commit()
         await session.refresh(new_user)
         return new_user
 

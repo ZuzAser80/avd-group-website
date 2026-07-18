@@ -1,7 +1,7 @@
 const routes = [
+    { path: '/', component: Frontpage },
     { path: '/login', component: Login },
     { path: '/dashboard', component: Dashboard },
-    { path: '/', redirect: '/dashboard' },
 ];
 
 const router = VueRouter.createRouter({
@@ -10,7 +10,7 @@ const router = VueRouter.createRouter({
 });
 
 router.beforeEach((to, from, next) => {
-    if (to.path !== '/login' && !API.isLoggedIn()) {
+    if (to.path !== '/login' && to.path !== '/' && !API.isLoggedIn()) {
         next('/login');
     } else {
         next();

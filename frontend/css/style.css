@@ -1,162 +1,479 @@
+/* ============================================
+   ИМПОРТ ШРИФТОВ (как в Figma)
+   ============================================ */
+@import url('https://fonts.googleapis.com/css?family=Montserrat|Inter&display=swap');
+
+/* ============================================
+   ПЕРЕМЕННЫЕ ИЗ FIGMA
+   ============================================ */
+:root {
+  --font-family-montserrat: 'Montserrat', sans-serif;
+  --font-family-inter: 'Inter', sans-serif;
+  --primary-orange: rgba(207, 120, 85, 1);
+  --primary-orange-dark: rgba(181, 85, 47, 1);
+  --neutral-black-text: rgba(50, 50, 50, 1);
+  --neutral-gray-light: rgba(158, 158, 158, 1);
+  --neutral-white: rgba(255, 255, 255, 1);
+  --neutral-black-absolute: rgba(0, 0, 0, 1);
+  --text-rgb-50-50-50: rgba(50, 50, 50, 1);
+  --text-rgb-181-85-47: rgba(181, 85, 47, 1);
+  --text-rgb-207-120-85: rgba(207, 120, 85, 1);
+  --text-white: rgba(255, 255, 255, 1);
+  --text-rgb-158-158-158: rgba(158, 158, 158, 1);
+  --text-black: rgba(0, 0, 0, 1);
+}
+
+/* ============================================
+   ГЛОБАЛЬНЫЕ СБРОСЫ И БАЗА
+   ============================================ */
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
 body {
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-    background: #f0f2f5;
-    color: #1a1a2e;
-    min-height: 100vh;
+  font-family: var(--font-family-inter);
+  background: #F5F5F5;
+  color: var(--neutral-black-text);
+  min-height: 100vh;
+  line-height: 1.5;
 }
 
-#app {
-    min-height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+img {
+  max-width: 100%;
+  height: auto;
 }
 
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+/* ============================================
+   УТИЛИТЫ ДЛЯ ЦВЕТОВ ТЕКСТА
+   ============================================ */
+.text-rgb-50-50-50   { color: var(--text-rgb-50-50-50); }
+.text-rgb-181-85-47  { color: var(--text-rgb-181-85-47); }
+.text-rgb-207-120-85 { color: var(--text-rgb-207-120-85); }
+.text-white          { color: var(--text-white); }
+.text-rgb-158-158-158{ color: var(--text-rgb-158-158-158); }
+.text-black          { color: var(--text-black); }
+
+/* ============================================
+   КОМПОНЕНТЫ ИЗ FIGMA (шапка, меню, кнопки)
+   ============================================ */
+
+/* Шапка */
+.header-2 {
+  background-color: var(--neutral-white);
+  padding: 0 24px;
+}
+
+.container-3 {
+  max-width: 1170px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 90px;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+/* Меню */
+.menu {
+  font-family: var(--font-family-montserrat);
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 1;
+  color: var(--text-rgb-50-50-50);
+  transition: color 0.2s;
+}
+
+.menu:hover {
+  color: var(--text-rgb-207-120-85);
+}
+
+/* Телефон */
+.text-9 {
+  font-family: var(--font-family-montserrat);
+  font-weight: 700;
+  font-size: 16px;
+  line-height: 1;
+  color: var(--text-rgb-207-120-85);
+  white-space: nowrap;
+}
+
+/* Кнопка (общая) */
+.button {
+  font-family: var(--font-family-montserrat);
+  font-weight: 700;
+  font-size: 16px;
+  line-height: 1.5;
+  color: var(--text-white);
+  background: var(--primary-orange);
+  border: none;
+  border-radius: 6px;
+  padding: 12px 24px;
+  cursor: pointer;
+  transition: background 0.2s, box-shadow 0.2s;
+}
+
+.button:hover {
+  background: var(--primary-orange-dark);
+  box-shadow: 0 4px 12px rgba(207, 120, 85, 0.3);
+}
+
+.button:disabled {
+  background: #D9A68B;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+/* ============================================
+   АВТОРИЗАЦИЯ (Login)
+   ============================================ */
 .auth-container {
-    background: #fff;
-    border-radius: 12px;
-    box-shadow: 0 2px 12px rgba(0,0,0,0.08);
-    padding: 40px;
-    width: 100%;
-    max-width: 400px;
+  background: var(--neutral-white);
+  border-radius: 12px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+  padding: 48px 40px;
+  width: 100%;
+  max-width: 420px;
+  margin: 20px;
+}
+
+.auth-container .logo {
+  display: block;
+  height: 60px;
+  width: auto;
+  margin: 0 auto 8px;
 }
 
 .auth-container h1 {
-    text-align: center;
-    margin-bottom: 8px;
-    font-size: 24px;
+  font-family: var(--font-family-montserrat);
+  font-weight: 700;
+  font-size: 36px;
+  text-align: center;
+  color: var(--neutral-black-text);
+  margin-bottom: 4px;
 }
 
 .auth-container .subtitle {
-    text-align: center;
-    color: #666;
-    margin-bottom: 24px;
-    font-size: 14px;
+  text-align: center;
+  font-size: 16px;
+  color: var(--neutral-gray-light);
+  margin-bottom: 24px;
 }
 
+/* Поля ввода */
 .form-group {
-    margin-bottom: 16px;
+  margin-bottom: 16px;
 }
 
 .form-group label {
-    display: block;
-    margin-bottom: 6px;
-    font-size: 14px;
-    font-weight: 500;
+  display: block;
+  font-family: var(--font-family-montserrat);
+  font-weight: 500;
+  font-size: 14px;
+  color: var(--neutral-black-text);
+  margin-bottom: 6px;
 }
 
 .form-group input {
-    width: 100%;
-    padding: 10px 12px;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    font-size: 14px;
-    outline: none;
-    transition: border-color 0.2s;
+  width: 100%;
+  padding: 12px 16px;
+  border: 2px solid #E0E0E0;
+  border-radius: 8px;
+  font-family: var(--font-family-inter);
+  font-size: 16px;
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  background: var(--neutral-white);
 }
 
 .form-group input:focus {
-    border-color: #4a6cf7;
+  border-color: var(--primary-orange);
+  box-shadow: 0 0 0 3px rgba(207, 120, 85, 0.2);
 }
 
-.btn {
-    width: 100%;
-    padding: 10px;
-    border: none;
-    border-radius: 8px;
-    font-size: 14px;
-    font-weight: 500;
-    cursor: pointer;
-    transition: background 0.2s;
+.form-group input::placeholder {
+  color: var(--neutral-gray-light);
 }
 
-.btn-primary {
-    background: #4a6cf7;
-    color: #fff;
-}
-
-.btn-primary:hover {
-    background: #3a5ce5;
-}
-
-.btn-primary:disabled {
-    background: #a0b4f7;
-    cursor: not-allowed;
-}
-
-.btn-danger {
-    background: #e74c3c;
-    color: #fff;
-}
-
-.btn-danger:hover {
-    background: #c0392b;
-}
-
+/* Ошибка */
 .error {
-    color: #e74c3c;
-    font-size: 13px;
-    margin-top: 8px;
-    text-align: center;
+  color: #e74c3c;
+  font-size: 13px;
+  margin-top: 8px;
+  text-align: center;
 }
 
-/* Dashboard */
+/* ============================================
+   ДАШБОРД (Dashboard)
+   ============================================ */
 .dashboard {
-    width: 100%;
-    min-height: 100vh;
-    background: #f0f2f5;
+  width: 100%;
+  min-height: 100vh;
+  background: #F5F5F5;
 }
 
 .dashboard-header {
-    background: #fff;
-    padding: 16px 32px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+  background: var(--neutral-white);
+  padding: 16px 32px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.dashboard-header .logo {
+  height: 40px;
+  width: auto;
 }
 
 .dashboard-header h1 {
-    font-size: 20px;
+  font-family: var(--font-family-montserrat);
+  font-weight: 700;
+  font-size: 22px;
+  color: var(--neutral-black-text);
+}
+
+.dashboard-header .btn {
+  width: auto;
+  padding: 8px 16px;
 }
 
 .dashboard-content {
-    max-width: 800px;
-    margin: 32px auto;
-    padding: 0 32px;
+  max-width: 800px;
+  margin: 32px auto;
+  padding: 0 32px;
 }
 
+/* Карточки */
 .card {
-    background: #fff;
-    border-radius: 12px;
-    box-shadow: 0 2px 12px rgba(0,0,0,0.08);
-    padding: 24px;
-    margin-bottom: 16px;
+  background: var(--neutral-white);
+  border-radius: 12px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+  padding: 24px;
+  margin-bottom: 16px;
 }
 
 .card h2 {
-    font-size: 18px;
-    margin-bottom: 16px;
+  font-family: var(--font-family-montserrat);
+  font-weight: 600;
+  font-size: 22px;
+  color: var(--neutral-black-text);
+  margin-bottom: 16px;
 }
 
 .info-row {
-    display: flex;
-    justify-content: space-between;
-    padding: 8px 0;
-    border-bottom: 1px solid #f0f0f0;
-    font-size: 14px;
+  display: flex;
+  justify-content: space-between;
+  padding: 8px 0;
+  border-bottom: 1px solid #f0f0f0;
+  font-size: 16px;
 }
 
 .info-row:last-child {
-    border-bottom: none;
+  border-bottom: none;
 }
 
 .info-row .label {
-    color: #666;
+  color: var(--neutral-gray-light);
+}
+
+.info-row .value {
+  color: var(--neutral-black-text);
+  font-weight: 500;
+}
+
+/* Кнопка выхода */
+.btn-logout {
+  background: var(--neutral-gray-light);
+  color: var(--neutral-white);
+}
+.btn-logout:hover {
+  background: var(--neutral-black-text);
+}
+
+/* ============================================
+   ГЛАВНАЯ СТРАНИЦА (Frontpage)
+   ============================================ */
+.frontpage {
+  width: 100%;
+  min-height: 100vh;
+  background: #F5F5F5;
+}
+
+.frontpage-header {
+  background: var(--neutral-white);
+  padding: 16px 32px;
+  display: flex;
+  align-items: center;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+}
+
+.frontpage-header h1 {
+  font-family: var(--font-family-montserrat);
+  font-weight: 700;
+  font-size: 22px;
+  color: var(--neutral-black-text);
+  margin-right: auto;
+}
+
+.frontpage-header .logo {
+  height: 40px;
+  margin-right: 12px;
+}
+
+.header-actions {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.hero {
+  background: linear-gradient(135deg, var(--primary-orange), var(--primary-orange-dark));
+  color: var(--text-white);
+  padding: 64px 32px;
+  text-align: center;
+}
+
+.hero h2 {
+  font-family: var(--font-family-montserrat);
+  font-weight: 700;
+  font-size: 28px;
+  margin-bottom: 12px;
+}
+
+.hero p {
+  font-family: var(--font-family-inter);
+  font-size: 16px;
+  opacity: 0.9;
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+.frontpage-content {
+  max-width: 900px;
+  margin: 32px auto;
+  padding: 0 32px;
+}
+
+.frontpage-content h2 {
+  font-family: var(--font-family-montserrat);
+  font-weight: 600;
+  font-size: 20px;
+  margin-bottom: 16px;
+}
+
+.loading, .empty {
+  text-align: center;
+  color: var(--neutral-gray-light);
+  padding: 48px 0;
+  font-size: 14px;
+}
+
+.post-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 16px;
+}
+
+.post-card {
+  background: var(--neutral-white);
+  border-radius: 12px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+  overflow: hidden;
+}
+
+.post-image {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+}
+
+.post-body {
+  padding: 16px;
+}
+
+.post-body h3 {
+  font-family: var(--font-family-montserrat);
+  font-weight: 600;
+  font-size: 16px;
+  margin-bottom: 8px;
+}
+
+.post-body p {
+  font-size: 14px;
+  color: var(--neutral-gray-light);
+  line-height: 1.5;
+}
+
+.frontpage-footer {
+  text-align: center;
+  padding: 24px;
+  color: var(--neutral-gray-light);
+  font-size: 13px;
+}
+
+/* ============================================
+   АДАПТИВНОСТЬ (как в Figma)
+   ============================================ */
+@media (max-width: 1440px) {
+  .header-2 {
+    padding-left: 24px;
+    padding-right: 24px;
+  }
+}
+
+@media (max-width: 768px) {
+  .header-2 {
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+
+  .container-3 {
+    flex-wrap: wrap;
+    justify-content: center;
+    height: auto;
+    padding: 16px 0;
+    gap: 12px;
+  }
+
+  .auth-container {
+    padding: 24px 20px;
+  }
+
+  .dashboard-header {
+    padding: 12px 16px;
+  }
+
+  .dashboard-content {
+    padding: 0 16px;
+  }
+
+  .card {
+    padding: 16px;
+  }
+
+  .hero {
+    padding: 40px 16px;
+  }
+
+  .hero h2 {
+    font-size: 22px;
+  }
+
+  .frontpage-content {
+    padding: 0 16px;
+  }
+
+  .post-grid {
+    grid-template-columns: 1fr;
+  }
 }

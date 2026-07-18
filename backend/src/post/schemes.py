@@ -3,8 +3,10 @@ from pydantic import BaseModel
 class PostCreate(BaseModel):
     title: str
     content: str
-    
+    image: str | None = None
+
 class PostResponse(BaseModel):
     id: int
     title: str
-    content: str    
+    content: str
+    image: str | None = None    

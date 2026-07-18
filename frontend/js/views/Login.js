@@ -1,7 +1,8 @@
 const Login = {
     template: `
         <div class="auth-container">
-            <h1>AVD Group</h1>
+            <img src="/static/images/logo.png" alt="АВД ГРУПП" class="logo">
+            <h1>АВД Групп</h1>
             <p class="subtitle">Вход в систему</p>
             <form @submit.prevent="handleLogin">
                 <div class="form-group">
@@ -16,7 +17,7 @@ const Login = {
                     <label>Пароль</label>
                     <input v-model="password" type="password" required placeholder="Введите пароль">
                 </div>
-                <button class="btn btn-primary" type="submit" :disabled="loading">
+                <button class="button" type="submit" :disabled="loading" style="width:100%;">
                     {{ loading ? 'Вход...' : 'Войти' }}
                 </button>
                 <p v-if="error" class="error">{{ error }}</p>

@@ -2,8 +2,9 @@ const Dashboard = {
     template: `
         <div class="dashboard">
             <div class="dashboard-header">
-                <h1>AVD Group</h1>
-                <button class="btn btn-danger" style="width:auto;padding:8px 16px" @click="handleLogout">Выйти</button>
+                <img src="/static/images/logo.png" alt="АВД ГРУПП" class="logo">
+                <h1>АВД Групп</h1>
+                <button class="button btn-logout" @click="handleLogout">Выйти</button>
             </div>
             <div class="dashboard-content">
                 <div class="card">
@@ -11,14 +12,14 @@ const Dashboard = {
                     <div v-if="user">
                         <div class="info-row">
                             <span class="label">ID</span>
-                            <span>{{ user.sub }}</span>
+                            <span class="value">{{ user.sub }}</span>
                         </div>
                         <div class="info-row">
                             <span class="label">Токен истекает</span>
-                            <span>{{ exp }}</span>
+                            <span class="value">{{ exp }}</span>
                         </div>
                     </div>
-                    <p v-else style="color:#666">Нет данных</p>
+                    <p v-else class="info-row">Нет данных</p>
                 </div>
             </div>
         </div>
