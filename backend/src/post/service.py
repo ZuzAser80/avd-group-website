@@ -28,7 +28,7 @@ MAX_FILE_SIZE = 10 * 1024 * 1024  # 10MB
 
 
 async def validate_image_upload(file: UploadFile) -> bytes:
-    if file.content_type not in ALLOWED_IMAGE_TYPES:
+    if not file.content_type or file.content_type not in ALLOWED_IMAGE_TYPES:
         raise HTTPException(
             status_code=400,
             detail=f"File type '{file.content_type}' is not allowed. Accepted: jpeg, png, gif, webp"

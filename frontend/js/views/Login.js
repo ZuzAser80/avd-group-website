@@ -10,10 +10,6 @@ const Login = {
                     <input v-model="name" type="text" required placeholder="Введите имя">
                 </div>
                 <div class="form-group">
-                    <label>Email</label>
-                    <input v-model="email" type="email" required placeholder="Введите email">
-                </div>
-                <div class="form-group">
                     <label>Пароль</label>
                     <input v-model="password" type="password" required placeholder="Введите пароль">
                 </div>
@@ -25,14 +21,14 @@ const Login = {
         </div>
     `,
     data() {
-        return { name: '', email: '', password: '', loading: false, error: '' };
+        return { name: '', password: '', loading: false, error: '' };
     },
     methods: {
         async handleLogin() {
             this.loading = true;
             this.error = '';
             try {
-                await API.login(this.name, this.email, this.password);
+                await API.login(this.name, this.password);
                 this.$router.push('/dashboard');
             } catch (e) {
                 this.error = e.message;

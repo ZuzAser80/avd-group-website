@@ -12,7 +12,6 @@ class UserRepository:
         async with session.begin():
             user_data = user.model_dump()
             new_user = User(name=user_data['name'],
-                            email=user_data['email'],
                             password=hash_password(user_data['password']))
             session.add(new_user)
         await session.refresh(new_user)

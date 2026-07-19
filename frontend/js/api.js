@@ -31,10 +31,10 @@ const API = {
         return data;
     },
 
-    async login(name, email, password) {
+    async login(name, password) {
         const data = await this.request(`${this.BASE}/`, {
             method: 'POST',
-            body: JSON.stringify({ name, email, password }),
+            body: JSON.stringify({ name, password }),
         });
         this.setToken(data.access_token);
         return data;
