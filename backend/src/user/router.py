@@ -19,7 +19,8 @@ async def get_all_users(
 @user_router.post('/create')
 async def create_user(
     user: UserCreate,
-    session: AsyncSession = Depends(get_db)
+    session: AsyncSession = Depends(get_db),
+    current_user = Depends(get_current_user)
     ):
     created = await UserRepository.create_user(session=session, user=user)
     return UserResponse.model_validate(created)

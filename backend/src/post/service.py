@@ -1,3 +1,4 @@
+import asyncio
 import uuid
 from pathlib import Path
 
@@ -24,20 +25,43 @@ MIME_TO_EXT = {
     "image/webp": ".webp",
 }
 
+MAGIC_BYTES = {
+    b"\xff\xd8\xff": "image/jpeg",
+    b"\x89PNG": "image/png",
+    b"GIF87a": "image/gif",
+    b"GIF89a": "image/gif",
+    b"RIFF": "image/webp",
+}
+
 MAX_FILE_SIZE = 10 * 1024 * 1024  # 10MB
 
 
+def detect_image_type(data: bytes) -> str | None:
+    for signature, mime in MAGIC_BYTES.items():
+        if data[:len(signature)] == signature:
+            if signature == b"RIFF" and data[8:12] != b"WEBP":
+                continue
+            return mime
+    return None
+
+
 async def validate_image_upload(file: UploadFile) -> bytes:
-    if not file.content_type or file.content_type not in ALLOWED_IMAGE_TYPES:
-        raise HTTPException(
-            status_code=400,
-            detail=f"File type '{file.content_type}' is not allowed. Accepted: jpeg, png, gif, webp"
-        )
     content = await file.read()
     if len(content) > MAX_FILE_SIZE:
         raise HTTPException(
             status_code=400,
             detail=f"File too large. Maximum size is {MAX_FILE_SIZE // (1024 * 1024)}MB"
+        )
+    if len(content) < 12:
+        raise HTTPException(
+            status_code=400,
+            detail="File is too small to be a valid image"
+        )
+    detected_type = detect_image_type(content)
+    if not detected_type or detected_type not in ALLOWED_IMAGE_TYPES:
+        raise HTTPException(
+            status_code=400,
+            detail="File is not a valid image. Accepted: jpeg, png, gif, webp"
         )
     return content
 
@@ -52,10 +76,11 @@ class PostRepository:
         if file:
             UPLOADS_DIR.mkdir(parents=True, exist_ok=True)
             content = await validate_image_upload(file)
-            ext = MIME_TO_EXT[file.content_type]
+            detected_type = detect_image_type(content)
+            ext = MIME_TO_EXT[detected_type]
             filename = f"{uuid.uuid4().hex}{ext}"
             dest = UPLOADS_DIR / filename
-            dest.write_bytes(content)
+            await asyncio.to_thread(dest.write_bytes, content)
             image_path = f"/static/uploads/{filename}"
 
         async with session.begin():

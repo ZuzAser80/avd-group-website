@@ -16,4 +16,4 @@ class AuthService:
         if Userdb and verify_password(user.password, Userdb.password):
             token = create_access_token({"sub": str(Userdb.id)})
             return Token(access_token=token)
-        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="В")
+        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid username or password")
