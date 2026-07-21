@@ -2,7 +2,7 @@ const Dashboard = {
     template: `
         <div class="dashboard">
             <div class="dashboard-header">
-                <img src="/static/images/logo.png" alt="АВД ГРУПП" class="logo">
+                <img src="/static/images/1-4.png" alt="АВД ГРУПП" class="logo">
                 <h1>АВД Групп</h1>
                 <button class="button btn-logout" @click="handleLogout">Выйти</button>
             </div>
