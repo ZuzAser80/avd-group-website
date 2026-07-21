@@ -1,7 +1,7 @@
 const Login = {
     template: `
         <div class="auth-container">
-            <img src="/static/images/1-4.png" alt="АВД ГРУПП" class="logo">
+            <img src="/static/images/logo.png" alt="АВД ГРУПП" class="logo">
             <h1>АВД Групп</h1>
             <p class="subtitle">Вход в систему</p>
             <form @submit.prevent="handleLogin">
