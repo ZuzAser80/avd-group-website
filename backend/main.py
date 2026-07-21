@@ -3,7 +3,6 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
-import asyncio
 from dotenv import load_dotenv
 
 load_dotenv(Path(__file__).resolve().parent / ".env")
@@ -15,15 +14,12 @@ from fastapi.concurrency import asynccontextmanager
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 from slowapi.errors import RateLimitExceeded
-from slowapi import Limiter, _rate_limit_exceeded_handler
-from slowapi.util import get_remote_address
-
+from slowapi import _rate_limit_exceeded_handler
 
 from src.db import init_models
+from src.limiter import limiter
 
 FRONTEND_DIR = Path(__file__).resolve().parent.parent / "frontend"
-
-limiter = Limiter(key_func=get_remote_address)
 
 app = FastAPI(title='AVD group')
 app.state.limiter = limiter
@@ -34,7 +30,7 @@ app.add_middleware(
     CORSMiddleware,
     allow_origins=cors_origins or ["http://localhost:8000"],
     allow_credentials=True,
-    allow_methods=["GET", "POST"],
+    allow_methods=["GET", "POST", "DELETE", "PUT", "PATCH"],
     allow_headers=["*"],
 )
 
@@ -58,6 +54,9 @@ from fastapi.responses import FileResponse
 
 @app.get("/{full_path:path}")
 async def serve_spa(full_path: str):
+    file_path = (FRONTEND_DIR / full_path).resolve()
+    if file_path.is_file() and str(file_path).startswith(str(FRONTEND_DIR.resolve())):
+        return FileResponse(str(file_path))
     return FileResponse(str(FRONTEND_DIR / "index.html"))
 
 if __name__ == '__main__':

@@ -9,4 +9,7 @@ class PostResponse(BaseModel):
     id: int
     title: str
     content: str
-    image: str | None = None    
+    image: str | None = None
+
+    class Config:
+        from_attributes = True

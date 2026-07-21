@@ -90,6 +90,13 @@ class PostRepository:
         return new_post
 
     @classmethod
+    async def get_post_by_id(cls,
+                             session: AsyncSession,
+                             post_id: int) -> Post | None:
+        result = await session.execute(select(Post).where(Post.id == post_id))
+        return result.scalars().first()
+
+    @classmethod
     async def get_all_posts(cls,
                             session: AsyncSession) -> list[Post]:
         result = await session.execute(select(Post))
@@ -106,7 +113,7 @@ class PostRepository:
         if post.image:
             image_file = UPLOADS_DIR / Path(post.image).name
             if image_file.exists():
-                image_file.unlink()
+                await asyncio.to_thread(image_file.unlink)
         await session.delete(post)
         await session.commit()
         return True
