@@ -26,6 +26,10 @@ router.beforeEach((to, from, next) => {
     }
 });
 
-const app = Vue.createApp({});
+// ✅ ИСПРАВЛЕНО: добавлен template с router-view
+const app = Vue.createApp({
+    template: '<router-view></router-view>'
+});
+
 app.use(router);
 app.mount('#app');
