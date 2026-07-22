@@ -83,9 +83,9 @@ class PostRepository:
             await asyncio.to_thread(dest.write_bytes, content)
             image_path = f"/static/uploads/{filename}"
 
-        async with session.begin():
-            new_post = Post(title=post.title, content=post.content, image=image_path)
-            session.add(new_post)
+        new_post = Post(title=post.title, content=post.content, image=image_path)
+        session.add(new_post)
+        await session.commit()
         await session.refresh(new_post)
         return new_post
 

@@ -45,8 +45,7 @@ const Frontpage = {
     },
     async created() {
         try {
-            const res = await fetch('/post/all');
-            this.posts = await res.json();
+            this.posts = await API.request('/post/all');
         } catch (e) {
             console.error('Failed to load posts:', e);
         } finally {

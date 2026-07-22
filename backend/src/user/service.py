@@ -14,11 +14,11 @@ class UserRepository:
         existing = await cls.get_user_by_username(session, user.name)
         if existing:
             raise HTTPException(status_code=409, detail="Username already taken")
-        async with session.begin():
-            user_data = user.model_dump()
-            new_user = User(name=user_data['name'],
-                            password=hash_password(user_data['password']))
-            session.add(new_user)
+        user_data = user.model_dump()
+        new_user = User(name=user_data['name'],
+                        password=hash_password(user_data['password']))
+        session.add(new_user)
+        await session.commit()
         await session.refresh(new_user)
         return new_user
 

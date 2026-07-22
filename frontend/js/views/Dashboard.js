@@ -9,10 +9,15 @@ const Dashboard = {
             <div class="dashboard-content">
                 <div class="card">
                     <h2>Профиль</h2>
-                    <div v-if="user">
+                    <div v-if="loading">Загрузка...</div>
+                    <div v-else-if="user">
+                        <div class="info-row">
+                            <span class="label">Имя</span>
+                            <span class="value">{{ user.name }}</span>
+                        </div>
                         <div class="info-row">
                             <span class="label">ID</span>
-                            <span class="value">{{ user.sub }}</span>
+                            <span class="value">{{ user.id }}</span>
                         </div>
                         <div class="info-row">
                             <span class="label">Токен истекает</span>
@@ -24,18 +29,24 @@ const Dashboard = {
             </div>
         </div>
     `,
-    computed: {
-        user() {
-            return API.parseToken();
-        },
-        exp() {
-            if (!this.user || !this.user.exp) return '';
-            return new Date(this.user.exp * 1000).toLocaleString('ru-RU');
-        },
+    data() {
+        return { user: null, loading: true, exp: '' };
     },
-    created() {
+    async created() {
         if (!API.isLoggedIn()) {
             this.$router.push('/login');
+            return;
+        }
+        try {
+            this.user = await API.request('/user/me');
+            const tokenData = API.parseToken();
+            if (tokenData && tokenData.exp) {
+                this.exp = new Date(tokenData.exp * 1000).toLocaleString('ru-RU');
+            }
+        } catch (e) {
+            console.error('Failed to load profile:', e);
+        } finally {
+            this.loading = false;
         }
     },
     methods: {
