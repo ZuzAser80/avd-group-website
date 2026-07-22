@@ -1,3 +1,5 @@
+const publicPaths = ['/', '/about', '/projects', '/contacts', '/login'];
+
 const routes = [
     { path: '/', component: Frontpage },
     { path: '/login', component: Login },
@@ -13,10 +15,14 @@ const router = VueRouter.createRouter({
 });
 
 router.beforeEach((to, from, next) => {
-    if (to.path !== '/login' && !API.isLoggedIn()) {
-        next('/login');
-    } else {
+    if (publicPaths.includes(to.path)) {
         next();
+    } else {
+        if (!API.isLoggedIn()) {
+            next('/login');
+        } else {
+            next();
+        }
     }
 });
 

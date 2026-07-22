@@ -1,7 +1,6 @@
 const About = {
     template: `
         <div class="-38">
-            <!-- Шапка -->
             <div class="header-39">
                 <div class="container-40">
                     <img src="/static/images/logo.png" class="1-41" alt="АВД ГРУПП" />
@@ -18,8 +17,6 @@ const About = {
                     <p class="text-46"><span class="text-rgb-207-120-85">+7 902 80 32 835</span></p>
                 </div>
             </div>
-
-            <!-- Контент -->
             <div class="page">
                 <div class="page-header">
                     <h1 class="h1">О нас</h1>

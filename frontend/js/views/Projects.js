@@ -1,7 +1,6 @@
 const Projects = {
     template: `
         <div class="-83">
-            <!-- Шапка -->
             <div class="header-84">
                 <div class="container-85">
                     <img src="/static/images/logo.png" class="1-86" alt="АВД ГРУПП" />
@@ -18,8 +17,6 @@ const Projects = {
                     <p class="text-91"><span class="text-rgb-207-120-85">+7 902 80 32 835</span></p>
                 </div>
             </div>
-
-            <!-- Контент -->
             <div class="page">
                 <div class="page-header">
                     <h1 class="h1">Наши объекты</h1>
