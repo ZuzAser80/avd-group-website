@@ -17,20 +17,27 @@ const Projects = {
                     <p class="body">Примеры наших работ — от частных домов до бизнес-центров.</p>
                 </div>
                 <div class="page-content">
-                    <div class="card">
-                        <h2 class="h2">ЖК «Солнечный»</h2>
-                        <p class="body">Многоквартирный жилой комплекс с подземным паркингом.</p>
-                    </div>
-                    <div class="card">
-                        <h2 class="h2">Бизнес-центр «Премьер»</h2>
-                        <p class="body">Современный офисный центр класса А.</p>
-                    </div>
-                    <div class="card">
-                        <h2 class="h2">Коттеджный посёлок «Зелёный бор»</h2>
-                        <p class="body">Элитные дома с участками.</p>
+                    <div v-if="loading" class="empty">Загрузка...</div>
+                    <div v-else-if="posts.length === 0" class="empty">Пока нет объектов</div>
+                    <div v-else class="card" v-for="post in posts" :key="post.id">
+                        <img v-if="post.image" :src="post.image" :alt="post.title" class="post-page-image">
+                        <h2 class="h2">{{ post.title }}</h2>
+                        <p class="body">{{ post.content }}</p>
                     </div>
                 </div>
             </div>
         </div>
-    `
+    `,
+    data() {
+        return { posts: [], loading: true };
+    },
+    async created() {
+        try {
+            this.posts = await API.request('/post/all');
+        } catch (e) {
+            console.error('Failed to load posts:', e);
+        } finally {
+            this.loading = false;
+        }
+    },
 };

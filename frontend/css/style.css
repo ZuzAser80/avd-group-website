@@ -289,6 +289,13 @@ a { text-decoration: none; color: inherit; }
   line-height: 1.6;
   color: var(--Neutral/Black_Text);
 }
+.post-page-image {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  border-radius: 8px;
+  margin-bottom: 12px;
+}
 .page-content .card ul {
   list-style: none;
   padding: 0;
