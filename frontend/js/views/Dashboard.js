@@ -16,17 +16,6 @@ const Dashboard = {
                     <button class="btn-logout" @click="handleLogout">Выйти</button>
                 </div>
             </div>
-<<<<<<< HEAD
-            <div class="dashboard-content">
-                <div class="card">
-                    <h2>Профиль</h2>
-                    <div v-if="loading">Загрузка...</div>
-                    <div v-else-if="user">
-                        <div class="info-row">
-                            <span class="label">Имя</span>
-                            <span class="value">{{ user.name }}</span>
-                        </div>
-=======
 
             <!-- MAIN CONTENT -->
             <div class="dashboard-main">
@@ -55,30 +44,61 @@ const Dashboard = {
 
                 <div class="dashboard-content-card">
                     <h2>Информация о профиле</h2>
-                    <div v-if="user">
->>>>>>> 9045012 (Супер обновлений 6767 оно теперь работает)
-                        <div class="info-row">
-                            <span class="label">ID</span>
-                            <span class="value">{{ user.id }}</span>
-                        </div>
-                        <div class="info-row">
-                            <span class="label">Токен истекает</span>
-                            <span class="value">{{ exp }}</span>
-                        </div>
-                        <div class="info-row">
-                            <span class="label">Последний вход</span>
-                            <span class="value">{{ now }}</span>
-                        </div>
+                    <p class="info-row">Скоро здесь появится больше информации</p>
+                </div>
+
+                <div class="dashboard-content-card" style="margin-top: 24px;">
+                    <div class="create-post-header">
+                        <h2>Управление объектами</h2>
+                        <button class="btn-create" @click="openCreateModal">Создать объект</button>
                     </div>
-                    <p v-else class="info-row">Нет данных</p>
+                    <p v-if="successMessage" class="success-message">{{ successMessage }}</p>
+                </div>
+            </div>
+
+            <!-- CREATE POST MODAL -->
+            <div class="modal-overlay" v-if="showCreateModal" @click.self="closeCreateModal">
+                <div class="modal-content">
+                    <h2>Новый объект</h2>
+                    <form @submit.prevent="submitPost">
+                        <label>Название *</label>
+                        <input type="text" v-model="newPost.title" required placeholder="Название объекта" />
+
+                        <label>Описание</label>
+                        <textarea v-model="newPost.content" placeholder="Описание объекта"></textarea>
+
+                        <label>Адрес</label>
+                        <input type="text" v-model="newPost.address" placeholder="г. Пермь, ул. ..." />
+
+                        <label>Заказчик</label>
+                        <input type="text" v-model="newPost.client" placeholder="ООО «Название»" />
+
+                        <label>Год</label>
+                        <input type="text" v-model="newPost.year" placeholder="2024 год" />
+
+                        <label>Фото</label>
+                        <input type="file" accept="image/*" @change="onFileChange" class="file-input" />
+
+                        <div class="modal-actions">
+                            <button type="submit" class="btn-primary" :disabled="submitting">
+                                {{ submitting ? 'Создание...' : 'Создать' }}
+                            </button>
+                            <button type="button" class="btn-secondary" @click="closeCreateModal">Отмена</button>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
     `,
-<<<<<<< HEAD
     data() {
-        return { user: null, loading: true, exp: '' };
-=======
+        return {
+            showCreateModal: false,
+            successMessage: '',
+            submitting: false,
+            newPost: { title: '', content: '', address: '', client: '', year: '' },
+            newPostFile: null,
+        };
+    },
     computed: {
         user() {
             return API.parseToken();
@@ -91,34 +111,65 @@ const Dashboard = {
             return new Date().toLocaleString('ru-RU');
         },
         userName() {
-            return this.user ? ('Пользователь ' + this.user.sub) : 'Гость';
+            return this.user ? this.user.name : 'Гость';
         },
         userInitials() {
-            return this.user ? 'АВ' : 'Г';
+            if (!this.user || !this.user.name) return 'Г';
+            return this.user.name.substring(0, 2).toUpperCase();
         }
->>>>>>> 9045012 (Супер обновлений 6767 оно теперь работает)
     },
     async created() {
         if (!API.isLoggedIn()) {
             this.$router.push('/login');
             return;
         }
-        try {
-            this.user = await API.request('/user/me');
-            const tokenData = API.parseToken();
-            if (tokenData && tokenData.exp) {
-                this.exp = new Date(tokenData.exp * 1000).toLocaleString('ru-RU');
-            }
-        } catch (e) {
-            console.error('Failed to load profile:', e);
-        } finally {
-            this.loading = false;
-        }
     },
     methods: {
         handleLogout() {
             API.logout();
             this.$router.push('/login');
+        },
+        openCreateModal() {
+            this.showCreateModal = true;
+        },
+        closeCreateModal() {
+            this.showCreateModal = false;
+            this.newPost = { title: '', content: '', address: '', client: '', year: '' };
+            this.newPostFile = null;
+        },
+        onFileChange(e) {
+            this.newPostFile = e.target.files[0] || null;
+        },
+        async submitPost() {
+            this.submitting = true;
+            try {
+                const formData = new FormData();
+                formData.append('title', this.newPost.title);
+                if (this.newPost.content) formData.append('content', this.newPost.content);
+                if (this.newPost.address) formData.append('address', this.newPost.address);
+                if (this.newPost.client) formData.append('client', this.newPost.client);
+                if (this.newPost.year) formData.append('year', this.newPost.year);
+                if (this.newPostFile) formData.append('file', this.newPostFile);
+
+                const token = API.getToken();
+                const res = await fetch('/post/create', {
+                    method: 'POST',
+                    headers: { 'Authorization': `Bearer ${token}` },
+                    body: formData,
+                });
+                if (!res.ok) {
+                    const data = await res.json();
+                    throw new Error(data.detail || 'Ошибка создания');
+                }
+                this.closeCreateModal();
+                this.successMessage = 'Объект успешно создан!';
+                setTimeout(() => { this.successMessage = ''; }, 3000);
+            } catch (e) {
+                console.error('Failed to create post:', e);
+                alert('Ошибка: ' + e.message);
+            } finally {
+                this.submitting = false;
+            }
         },
     },
 };

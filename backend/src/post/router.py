@@ -39,11 +39,14 @@ async def delete_post(
 @post_router.post('/create')
 async def create_post(
     title: str = Form(...),
-    content: str = Form(...),
+    content: str = Form(None),
     file: UploadFile = File(None),
+    address: str = Form(None),
+    client: str = Form(None),
+    year: str = Form(None),
     session: AsyncSession = Depends(get_db),
     current_user = Depends(get_current_user)
     ):
-    post = PostCreate(title=title, content=content)
+    post = PostCreate(title=title, content=content, address=address, client=client, year=year)
     created = await PostRepository.create_post(session=session, post=post, file=file)
     return PostResponse.model_validate(created)

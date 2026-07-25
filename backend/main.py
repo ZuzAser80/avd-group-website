@@ -48,7 +48,7 @@ app.include_router(user_router)
 app.include_router(auth_router)
 app.include_router(post_router)
 
-app.mount("/static", StaticFiles(directory=str(FRONTEND_DIR)), name="static")
+app.mount("/static", StaticFiles(directory=str(FRONTEND_DIR / "static")), name="static")
 
 from fastapi.responses import FileResponse
 

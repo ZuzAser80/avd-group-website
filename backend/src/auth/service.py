@@ -14,6 +14,6 @@ class AuthService:
                          user: UserLogin) -> Token:
         Userdb = await UserRepository.get_user_by_username(session, user.name)
         if Userdb and verify_password(user.password, Userdb.password):
-            token = create_access_token({"sub": str(Userdb.id)})
+            token = create_access_token({"sub": str(Userdb.id), "name": Userdb.name})
             return Token(access_token=token)
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid username or password")
