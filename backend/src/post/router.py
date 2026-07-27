@@ -50,3 +50,21 @@ async def create_post(
     post = PostCreate(title=title, content=content, address=address, client=client, year=year)
     created = await PostRepository.create_post(session=session, post=post, file=file)
     return PostResponse.model_validate(created)
+
+@post_router.put('/{post_id}')
+async def update_post(
+    post_id: int,
+    title: str = Form(...),
+    content: str = Form(None),
+    file: UploadFile = File(None),
+    address: str = Form(None),
+    client: str = Form(None),
+    year: str = Form(None),
+    session: AsyncSession = Depends(get_db),
+    current_user = Depends(get_current_user)
+    ):
+    post = PostCreate(title=title, content=content, address=address, client=client, year=year)
+    updated = await PostRepository.update_post(session=session, post_id=post_id, post=post, file=file)
+    if not updated:
+        raise HTTPException(status_code=404, detail="Post not found")
+    return PostResponse.model_validate(updated)

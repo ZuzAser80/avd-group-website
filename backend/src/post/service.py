@@ -9,7 +9,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from src.models import Post
 from src.post.schemes import PostCreate
 
-UPLOADS_DIR = Path(__file__).resolve().parent.parent.parent / "frontend" / "static" / "uploads"
+UPLOADS_DIR = Path(__file__).resolve().parent.parent.parent.parent / "frontend" / "static" / "uploads"
 
 ALLOWED_IMAGE_TYPES = {
     "image/jpeg",
@@ -108,8 +108,8 @@ class PostRepository:
 
     @classmethod
     async def delete_post(cls,
-                              session: AsyncSession,
-                              post_id: int) -> bool:
+                               session: AsyncSession,
+                               post_id: int) -> bool:
         result = await session.execute(select(Post).where(Post.id == post_id))
         post = result.scalars().first()
         if not post:
@@ -121,3 +121,38 @@ class PostRepository:
         await session.delete(post)
         await session.commit()
         return True
+
+    @classmethod
+    async def update_post(cls,
+                          session: AsyncSession,
+                          post_id: int,
+                          post: PostCreate,
+                          file: UploadFile | None = None) -> Post | None:
+        result = await session.execute(select(Post).where(Post.id == post_id))
+        db_post = result.scalars().first()
+        if not db_post:
+            return None
+        
+        if file:
+            if db_post.image:
+                old_image_file = UPLOADS_DIR / Path(db_post.image).name
+                if old_image_file.exists():
+                    await asyncio.to_thread(old_image_file.unlink)
+            
+            content = await validate_image_upload(file)
+            detected_type = detect_image_type(content)
+            ext = MIME_TO_EXT[detected_type]
+            filename = f"{uuid.uuid4().hex}{ext}"
+            dest = UPLOADS_DIR / filename
+            await asyncio.to_thread(dest.write_bytes, content)
+            db_post.image = f"/static/uploads/{filename}"
+        
+        db_post.title = post.title
+        db_post.content = post.content
+        db_post.address = post.address
+        db_post.client = post.client
+        db_post.year = post.year
+        
+        await session.commit()
+        await session.refresh(db_post)
+        return db_post
