@@ -33,5 +33,7 @@ const app = Vue.createApp({
     template: '<router-view></router-view>'
 });
 
+app.component('AppHeader', AppHeader);
+
 app.use(router);
 app.mount('#app');

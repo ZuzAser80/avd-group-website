@@ -2,31 +2,7 @@ const Frontpage = {
     template: `
         <div class="page-main">
             <!-- ШАПКА -->
-            <div class="header-2">
-                <div class="container-3">
-                    <router-link to="/" class="prototype-link">
-                        <img src="/static/images/logo.png" alt="АВД ГРУПП" />
-                    </router-link>
-                    <div class="nav-center">
-                        <p class="menu active"><span class="text-rgb-181-85-47">Главная</span></p>
-                        <router-link to="/about" class="prototype-link">
-                            <p class="menu"><span class="text-rgb-50-50-50">О компании</span></p>
-                        </router-link>
-                        <router-link to="/projects" class="prototype-link">
-                            <p class="menu"><span class="text-rgb-50-50-50">Объекты</span></p>
-                        </router-link>
-                        <router-link to="/contacts" class="prototype-link">
-                            <p class="menu"><span class="text-rgb-50-50-50">Контакты</span></p>
-                        </router-link>
-                    </div>
-                    <div class="nav-auth">
-                        <router-link to="/login" class="prototype-link">
-                            <button class="btn-login">Личный кабинет</button>
-                        </router-link>
-                        <p class="text-9"><span class="text-rgb-207-120-85">+7 902 80 32 835</span></p>
-                    </div>
-                </div>
-            </div>
+            <app-header></app-header>
 
             <!-- ГЕРОЙ-БЛОК -->
             <div class="hero-10 hero-developer">
@@ -276,6 +252,26 @@ const Frontpage = {
                         <div class="finance-icon">🔄</div>
                         <h3>Взаимозачёт и trade-in</h3>
                         <p>Обмен вторичного жилья на новый дом</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- РАСПОЛОЖЕНИЕ -->
+            <div class="loc-teaser animate-fade-in-up" style="animation-delay:0.1s;">
+                <div class="loc-teaser-inner">
+                    <div class="loc-teaser-info">
+                        <p class="about-subtitle">Расположение</p>
+                        <p class="loc-teaser-title">Тихий район — рядом с городом</p>
+                        <p class="loc-teaser-text">Комплекс на ул. Вольская, 29 — в Кировском районе Перми, в 20 минутах от центра. Рядом школа «СинТез», детские сады, магазины «Магнит» и «Пятёрочка», лесопарковая зона и лыжная база.</p>
+                        <router-link to="/project/volskaya" class="prototype-link">
+                            <p class="loc-more">Подробно об объекте →</p>
+                        </router-link>
+                    </div>
+                    <div class="loc-teaser-facts">
+                        <div class="loc-fact"><b>20 мин</b><span>от центра Перми</span></div>
+                        <div class="loc-fact"><b>10 м</b><span>до остановки</span></div>
+                        <div class="loc-fact"><b>СинТез</b><span>школа рядом</span></div>
+                        <div class="loc-fact"><b>Лес</b><span>лесопарковая зона</span></div>
                     </div>
                 </div>
             </div>

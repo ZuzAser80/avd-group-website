@@ -2,33 +2,7 @@ const ProjectDetail = {
     template: `
         <div class="pd">
             <!-- ШАПКА -->
-            <div class="header-84 pd-header">
-                <div class="container-85">
-                    <router-link to="/" class="prototype-link">
-                        <img src="/static/images/logo.png" alt="АВД ГРУПП" />
-                    </router-link>
-                    <div class="nav-center">
-                        <router-link to="/" class="prototype-link">
-                            <p class="menu"><span class="text-rgb-50-50-50">Главная</span></p>
-                        </router-link>
-                        <router-link to="/about" class="prototype-link">
-                            <p class="menu"><span class="text-rgb-50-50-50">О компании</span></p>
-                        </router-link>
-                        <router-link to="/projects" class="prototype-link">
-                            <p class="menu"><span class="text-rgb-50-50-50">Объекты</span></p>
-                        </router-link>
-                        <router-link to="/contacts" class="prototype-link">
-                            <p class="menu"><span class="text-rgb-50-50-50">Контакты</span></p>
-                        </router-link>
-                    </div>
-                    <div class="nav-auth">
-                        <router-link to="/login" class="prototype-link">
-                            <button class="btn-login">Личный кабинет</button>
-                        </router-link>
-                        <p class="text-91"><span class="text-rgb-207-120-85">+7 902 80 32 835</span></p>
-                    </div>
-                </div>
-            </div>
+            <app-header></app-header>
 
             <!-- ГЕРОЙ ОБЪЕКТА -->
             <div class="pd-hero">
