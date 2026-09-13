@@ -69,17 +69,17 @@ const About = {
                     <div class="ts-contact-cards">
                         <div class="ts-contact-card">
                             <div class="ts-contact-ico">📍</div>
-                            <b>Адрес</b>
+                            <b>Адрес </b>
                             <span>г. Пермь, ул. Петропавловская, 41, оф. 209</span>
                         </div>
                         <div class="ts-contact-card">
                             <div class="ts-contact-ico">📞</div>
-                            <b>Телефон</b>
+                            <b>Телефон </b>
                             <span>8 (908) 25-85-888 · +7 902 80 32 835</span>
                         </div>
                         <div class="ts-contact-card">
                             <div class="ts-contact-ico">✉️</div>
-                            <b>E-mail</b>
+                            <b>E-mail </b>
                             <span>avd_grupp@mail.ru</span>
                         </div>
                     </div>
