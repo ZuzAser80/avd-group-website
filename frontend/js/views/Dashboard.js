@@ -9,6 +9,7 @@ const Dashboard = {
                 <nav class="sidebar-nav">
                     <a href="#" class="active" @click.prevent><span>📊</span> Профиль</a>
                     <router-link to="/posts"><span>📄</span> Все объекты</router-link>
+                    <router-link to="/leads"><span>💬</span> Заявки</router-link>
                 </nav>
                 <div class="sidebar-footer">
                     <button class="btn-logout" @click="handleLogout">Выйти</button>

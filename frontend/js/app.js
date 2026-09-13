@@ -1,14 +1,14 @@
-const publicPaths = ['/', '/about', '/projects', '/project/volskaya', '/contacts', '/login'];
+const publicPaths = ['/', '/objects', '/request', '/contacts', '/login'];
 
 const routes = [
     { path: '/', component: Frontpage },
+    { path: '/objects', component: Objects },
+    { path: '/request', component: RequestPage },
+    { path: '/contacts', component: Contacts },
     { path: '/login', component: Login },
     { path: '/dashboard', component: Dashboard },
-    { path: '/about', component: About },
-    { path: '/projects', component: Projects },
-    { path: '/project/volskaya', component: ProjectDetail },
-    { path: '/contacts', component: Contacts },
     { path: '/posts', component: Posts },
+    { path: '/leads', component: Leads },
 ];
 
 const router = VueRouter.createRouter({

@@ -11,14 +11,14 @@ const AppHeader = {
                             <span :class="isActive('/') ? 'text-rgb-181-85-47' : 'text-rgb-50-50-50'">Главная</span>
                         </p>
                     </router-link>
-                    <router-link to="/about" class="prototype-link">
-                        <p class="menu" :class="{ active: isActive('/about') }">
-                            <span :class="isActive('/about') ? 'text-rgb-181-85-47' : 'text-rgb-50-50-50'">О компании</span>
+                    <router-link to="/objects" class="prototype-link">
+                        <p class="menu" :class="{ active: isActive('/objects') }">
+                            <span :class="isActive('/objects') ? 'text-rgb-181-85-47' : 'text-rgb-50-50-50'">Объекты</span>
                         </p>
                     </router-link>
-                    <router-link to="/projects" class="prototype-link">
-                        <p class="menu" :class="{ active: isProjects }">
-                            <span :class="isProjects ? 'text-rgb-181-85-47' : 'text-rgb-50-50-50'">Объекты</span>
+                    <router-link to="/request" class="prototype-link">
+                        <p class="menu" :class="{ active: isActive('/request') }">
+                            <span :class="isActive('/request') ? 'text-rgb-181-85-47' : 'text-rgb-50-50-50'">Заявка</span>
                         </p>
                     </router-link>
                     <router-link to="/contacts" class="prototype-link">
@@ -36,11 +36,6 @@ const AppHeader = {
             </div>
         </div>
     `,
-    computed: {
-        isProjects() {
-            return this.$route.path.startsWith('/projects') || this.$route.path.startsWith('/project/');
-        }
-    },
     methods: {
         isActive(path) {
             return this.$route.path === path || this.$route.path.startsWith(path + '/');

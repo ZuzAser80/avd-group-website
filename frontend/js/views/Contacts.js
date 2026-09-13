@@ -1,14 +1,13 @@
 const Contacts = {
     template: `
         <div class="-47">
-            <!-- ШАПКА -->
             <app-header></app-header>
 
             <!-- ТЁМНАЯ СЕКЦИЯ КОНТАКТОВ -->
             <div class="contacts-dark">
                 <p class="hero-badge">Контакты</p>
                 <p class="h1"><span class="text-white">Свяжитесь с нами</span></p>
-                <p class="inner-hero-sub">Отвечаем быстро и без посредников — свяжитесь удобным способом или отправьте заявку</p>
+                <p class="inner-hero-sub">Отвечаем быстро и без посредников — свяжитесь удобным способом или отправьте обращение</p>
                 <div class="contacts-grid">
                     <div class="contact-item">
                         <div class="contact-icon">
@@ -38,19 +37,13 @@ const Contacts = {
                         <div class="contact-icon">
                             <img src="/static/images/tg_simbol.svg" alt="Telegram" />
                         </div>
-                        <p class="h3"><span class="text-white"><a href="https://t.me/avd_grupp" target="_blank" class="contact-link">Наш Telegram</a></span></p>
+                        <p class="h3"><span class="text-white"><a href="https://t.me/avd_grupp" target="_blank" class="contact-link">Написать в Telegram</a></span></p>
                     </div>
                     <div class="contact-item">
                         <div class="contact-icon">
-                            <img src="/static/images/max_simbol.svg" alt="WhatsApp" />
+                            <img src="/static/images/vk_simbol.svg" alt="Мессенджеры" />
                         </div>
-                        <p class="h3"><span class="text-white"><a href="https://wa.me/79028032835" target="_blank" class="contact-link">Написать в WhatsApp</a></span></p>
-                    </div>
-                    <div class="contact-item">
-                        <div class="contact-icon">
-                            <img src="/static/images/vk_simbol.svg" alt="VK" />
-                        </div>
-                        <p class="h3"><span class="text-white"><a href="https://wa.me/79028032835" target="_blank" class="contact-link">Мы в мессенджерах</a></span></p>
+                        <p class="h3"><span class="text-white"><a href="https://t.me/avd_grupp" target="_blank" class="contact-link">Мы в мессенджерах</a></span></p>
                     </div>
                 </div>
             </div>
@@ -58,14 +51,16 @@ const Contacts = {
             <!-- ФОРМА ОБРАТНОЙ СВЯЗИ -->
             <div class="contact-form-section">
                 <div class="contact-form-wrap">
-                    <h2>Оставить заявку</h2>
+                    <h2>Оставить обращение</h2>
                     <form class="contact-form" @submit.prevent="submitForm">
                         <input type="text" v-model="form.name" placeholder="Ваше имя" required />
                         <input type="tel" v-model="form.phone" placeholder="Телефон" required />
                         <input type="email" v-model="form.email" placeholder="Email" />
                         <textarea v-model="form.message" placeholder="Сообщение"></textarea>
-                        <button type="submit">Отправить заявку</button>
+                        <button type="submit" :disabled="submitting">{{ submitting ? 'Отправляем...' : 'Отправить обращение' }}</button>
                     </form>
+                    <p v-if="sent" class="contact-form-success">Спасибо! Ваше обращение принято. Мы свяжемся с вами в ближайшее время.</p>
+                    <p v-if="error" class="contact-form-error">{{ error }}</p>
                     <div class="working-hours">
                         <h4>Режим работы</h4>
                         <p>Пн-Пт: 9:00 — 18:00 | Сб: 10:00 — 14:00 | Вс: выходной</p>
@@ -84,13 +79,35 @@ const Contacts = {
     `,
     data() {
         return {
-            form: { name: '', phone: '', email: '', message: '' }
+            form: { name: '', phone: '', email: '', message: '' },
+            sent: false,
+            submitting: false,
+            error: ''
         };
     },
     methods: {
-        submitForm() {
-            alert('Спасибо! Ваша заявка принята. Мы свяжемся с вами в ближайшее время.');
-            this.form = { name: '', phone: '', email: '', message: '' };
+        async submitForm() {
+            this.submitting = true;
+            this.error = '';
+            try {
+                await API.request('/lead/create', {
+                    method: 'POST',
+                    body: JSON.stringify({
+                        name: this.form.name,
+                        phone: this.form.phone,
+                        subject: 'Обратная связь',
+                        object_name: '',
+                        message: [this.form.email, this.form.message].filter(Boolean).join(' | ')
+                    })
+                });
+                this.sent = true;
+                this.form = { name: '', phone: '', email: '', message: '' };
+            } catch (e) {
+                this.error = 'Не удалось отправить обращение. Попробуйте ещё раз или позвоните нам.';
+                console.error('Failed to submit feedback:', e);
+            } finally {
+                this.submitting = false;
+            }
         }
     }
 };
