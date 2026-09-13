@@ -27,20 +27,6 @@ const Projects = {
                     </div>
                 </div>
             </div>
-<<<<<<< HEAD
-            <div class="page">
-                <div class="page-header">
-                    <h1 class="h1">Наши объекты</h1>
-                    <p class="body">Примеры наших работ — от частных домов до бизнес-центров.</p>
-                </div>
-                <div class="page-content">
-                    <div v-if="loading" class="empty">Загрузка...</div>
-                    <div v-else-if="posts.length === 0" class="empty">Пока нет объектов</div>
-                    <div v-else class="card" v-for="post in posts" :key="post.id">
-                        <img v-if="post.image" :src="post.image" :alt="post.title" class="post-page-image">
-                        <h2 class="h2">{{ post.title }}</h2>
-                        <p class="body">{{ post.content }}</p>
-=======
 
             <div class="page-wrap">
                 <div class="page">
@@ -130,7 +116,6 @@ const Projects = {
                                 <span class="project-tag">2017-2018</span>
                             </div>
                         </div>
->>>>>>> 9045012 (Супер обновлений 6767 оно теперь работает)
                     </div>
                 </div>
             </div>

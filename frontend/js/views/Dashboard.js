@@ -16,17 +16,6 @@ const Dashboard = {
                     <button class="btn-logout" @click="handleLogout">Выйти</button>
                 </div>
             </div>
-<<<<<<< HEAD
-            <div class="dashboard-content">
-                <div class="card">
-                    <h2>Профиль</h2>
-                    <div v-if="loading">Загрузка...</div>
-                    <div v-else-if="user">
-                        <div class="info-row">
-                            <span class="label">Имя</span>
-                            <span class="value">{{ user.name }}</span>
-                        </div>
-=======
 
             <!-- MAIN CONTENT -->
             <div class="dashboard-main">
@@ -56,7 +45,6 @@ const Dashboard = {
                 <div class="dashboard-content-card">
                     <h2>Информация о профиле</h2>
                     <div v-if="user">
->>>>>>> 9045012 (Супер обновлений 6767 оно теперь работает)
                         <div class="info-row">
                             <span class="label">ID</span>
                             <span class="value">{{ user.id }}</span>
@@ -75,10 +63,6 @@ const Dashboard = {
             </div>
         </div>
     `,
-<<<<<<< HEAD
-    data() {
-        return { user: null, loading: true, exp: '' };
-=======
     computed: {
         user() {
             return API.parseToken();
@@ -96,7 +80,6 @@ const Dashboard = {
         userInitials() {
             return this.user ? 'АВ' : 'Г';
         }
->>>>>>> 9045012 (Супер обновлений 6767 оно теперь работает)
     },
     async created() {
         if (!API.isLoggedIn()) {
