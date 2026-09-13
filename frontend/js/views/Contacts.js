@@ -1,80 +1,131 @@
 const Contacts = {
     template: `
-        <div class="-47">
+        <div class="ts">
             <app-header></app-header>
 
-            <!-- ТЁМНАЯ СЕКЦИЯ КОНТАКТОВ -->
-            <div class="contacts-dark">
-                <p class="hero-badge">Контакты</p>
-                <p class="h1"><span class="text-white">Свяжитесь с нами</span></p>
-                <p class="inner-hero-sub">Отвечаем быстро и без посредников — свяжитесь удобным способом или отправьте обращение</p>
-                <div class="contacts-grid">
-                    <div class="contact-item">
-                        <div class="contact-icon">
-                            <img src="/static/images/map_simbol.svg" alt="Адрес" />
-                        </div>
-                        <p class="h3"><span class="text-white">г. Пермь, ул. Петропавловская, 41, оф. 209</span></p>
-                    </div>
-                    <div class="contact-item">
-                        <div class="contact-icon">
-                            <img src="/static/images/phone_simbol.svg" alt="Телефон" />
-                        </div>
-                        <p class="h3"><span class="text-white">8(908) 25-85-888</span></p>
-                    </div>
-                    <div class="contact-item">
-                        <div class="contact-icon">
-                            <img src="/static/images/mail_simbol.svg" alt="Email" />
-                        </div>
-                        <p class="h3"><span class="text-white">avd_grupp@mail.ru</span></p>
-                    </div>
-                    <div class="contact-item">
-                        <div class="contact-icon">
-                            <img src="/static/images/phone_simbol.svg" alt="Телефон" />
-                        </div>
-                        <p class="h3"><span class="text-white">+7 902 80 32 835</span></p>
-                    </div>
-                    <div class="contact-item">
-                        <div class="contact-icon">
-                            <img src="/static/images/tg_simbol.svg" alt="Telegram" />
-                        </div>
-                        <p class="h3"><span class="text-white"><a href="https://t.me/avd_grupp" target="_blank" class="contact-link">Написать в Telegram</a></span></p>
-                    </div>
-                    <div class="contact-item">
-                        <div class="contact-icon">
-                            <img src="/static/images/vk_simbol.svg" alt="Мессенджеры" />
-                        </div>
-                        <p class="h3"><span class="text-white"><a href="https://t.me/avd_grupp" target="_blank" class="contact-link">Мы в мессенджерах</a></span></p>
-                    </div>
+            <!-- ГЕРОЙ -->
+            <section class="ts-hero ts-hero-small">
+                <div class="ts-hero-bg"></div>
+                <div class="ts-hero-inner">
+                    <p class="ts-hero-badge">Контакты</p>
+                    <h1 class="ts-hero-h1">Свяжитесь с нами удобным способом</h1>
+                    <p class="ts-hero-sub">Офис продаж в центре Перми. Позвоните, напишите или оставьте обращение — отвечаем быстро и без посредников.</p>
                 </div>
-            </div>
+            </section>
 
-            <!-- ФОРМА ОБРАТНОЙ СВЯЗИ -->
-            <div class="contact-form-section">
-                <div class="contact-form-wrap">
-                    <h2>Оставить обращение</h2>
-                    <form class="contact-form" @submit.prevent="submitForm">
-                        <input type="text" v-model="form.name" placeholder="Ваше имя" required />
-                        <input type="tel" v-model="form.phone" placeholder="Телефон" required />
-                        <input type="email" v-model="form.email" placeholder="Email" />
-                        <textarea v-model="form.message" placeholder="Сообщение"></textarea>
-                        <button type="submit" :disabled="submitting">{{ submitting ? 'Отправляем...' : 'Отправить обращение' }}</button>
-                    </form>
-                    <p v-if="sent" class="contact-form-success">Спасибо! Ваше обращение принято. Мы свяжемся с вами в ближайшее время.</p>
-                    <p v-if="error" class="contact-form-error">{{ error }}</p>
-                    <div class="working-hours">
-                        <h4>Режим работы</h4>
-                        <p>Пн-Пт: 9:00 — 18:00 | Сб: 10:00 — 14:00 | Вс: выходной</p>
+            <!-- КАРТОЧКИ КОНТАКТОВ -->
+            <section class="ts-section">
+                <div class="ts-container">
+                    <p class="ts-label ts-label-center">Как с нами связаться</p>
+                    <h2 class="ts-h2 ts-h2-center">Мы всегда на связи</h2>
+                    <div class="ts-contact-cards">
+                        <div class="ts-contact-card">
+                            <div class="ts-contact-ico">🏢</div>
+                            <h3>Офис продаж</h3>
+                            <p>г. Пермь, ул. Петропавловская, 41, оф. 209</p>
+                        </div>
+                        <div class="ts-contact-card">
+                            <div class="ts-contact-ico">📞</div>
+                            <h3>Телефон</h3>
+                            <p><a href="tel:+79082585888">8 (908) 25-85-888</a><br><a href="tel:+79028032835">+7 902 80 32 835</a></p>
+                        </div>
+                        <div class="ts-contact-card">
+                            <div class="ts-contact-ico">✉️</div>
+                            <h3>Электронная почта</h3>
+                            <p><a href="mailto:avd_grupp@mail.ru">avd_grupp@mail.ru</a></p>
+                        </div>
+                        <div class="ts-contact-card">
+                            <div class="ts-contact-ico">🕘</div>
+                            <h3>Время работы</h3>
+                            <p>Пн–Пт: 9:00–18:00<br>Сб: 10:00–14:00 · Вс: выходной</p>
+                        </div>
+                        <div class="ts-contact-card">
+                            <div class="ts-contact-ico">💬</div>
+                            <h3>Telegram</h3>
+                            <p><a href="https://t.me/avd_grupp" target="_blank">@avd_grupp</a></p>
+                        </div>
+                        <div class="ts-contact-card">
+                            <div class="ts-contact-ico">📍</div>
+                            <h3>Офис застройщика</h3>
+                            <p>Центр Перми · 5 минут пешком от остановки «Газета Звезда»</p>
+                        </div>
                     </div>
                 </div>
-            </div>
+            </section>
+
+            <!-- ФОРМА + ИНФО -->
+            <section class="ts-section ts-white-sec">
+                <div class="ts-container ts-contacts-grid">
+                    <div class="ts-req-form-wrap">
+                        <h3 class="ts-req-form-title">Оставить обращение</h3>
+                        <p class="ts-contact-form-sub">Расскажите, что вас интересует, — перезвоним в течение рабочего дня</p>
+                        <form class="ts-form ts-req-form" @submit.prevent="submitForm">
+                            <input type="text" v-model="form.name" placeholder="Ваше имя" required />
+                            <input type="tel" v-model="form.phone" placeholder="Телефон" required />
+                            <input type="email" v-model="form.email" placeholder="Email (необязательно)" />
+                            <textarea v-model="form.message" rows="4" placeholder="Сообщение"></textarea>
+                            <button type="submit" class="ts-btn ts-btn-orange ts-btn-block" :disabled="submitting">
+                                {{ submitting ? 'Отправляем...' : 'Отправить обращение' }}
+                            </button>
+                        </form>
+                        <p class="ts-form-note">Нажимая «Отправить», вы соглашаетесь на обработку персональных данных.</p>
+                        <p v-if="sent" class="ts-req-success ts-contacts-sent"><b>Спасибо!</b> Обращение принято, свяжемся с вами в ближайшее время.</p>
+                        <p v-if="error" class="ts-form-error">{{ error }}</p>
+                    </div>
+
+                    <div class="ts-contact-info">
+                        <div class="ts-req-tips">
+                            <p>Что важно знать</p>
+                            <ul>
+                                <li>Отвечаем на звонки и сообщения пн–пт с 9:00 до 18:00</li>
+                                <li>Дома сданы — приезжайте на просмотр в удобное время</li>
+                                <li>Рассчитаем ипотеку и условия покупки за один визит</li>
+                            </ul>
+                        </div>
+                        <a href="#/request" class="ts-contact-button">
+                            <span>Записаться на просмотр объекта</span>
+                            <b>→</b>
+                        </a>
+                    </div>
+                </div>
+            </section>
 
             <!-- КАРТА -->
-            <div class="map-section">
-                <div class="map-container">
-                    <iframe src="https://yandex.ru/map-widget/v1/?text=Пермь, улица Петропавловская, 41" allowfullscreen loading="lazy"></iframe>
+            <section class="ts-section">
+                <div class="ts-container">
+                    <p class="ts-label">Карта</p>
+                    <h2 class="ts-h2">Как добраться до офиса</h2>
+                    <div class="ts-contact-map">
+                        <iframe src="https://yandex.ru/map-widget/v1/?text=Пермь, улица Петропавловская, 41" allowfullscreen loading="lazy"></iframe>
+                    </div>
                 </div>
-                <p class="h2"><span class="text-black">Офис застройщика — центр Перми</span></p>
-            </div>
+            </section>
+
+            <!-- ФУТЕР -->
+            <footer class="ts-footer">
+                <div class="ts-container ts-footer-grid">
+                    <div>
+                        <p class="ts-footer-title">Офис продаж</p>
+                        <p class="ts-footer-item">г. Пермь, ул. Петропавловская, 41, оф. 209</p>
+                        <p class="ts-footer-item">пн–пт: 9:00–18:00 · сб: 10:00–14:00</p>
+                    </div>
+                    <div>
+                        <p class="ts-footer-title">Контакты</p>
+                        <p class="ts-footer-item">8 (908) 25-85-888 · +7 902 80 32 835</p>
+                        <p class="ts-footer-item">avd_grupp@mail.ru</p>
+                        <div class="ts-footer-links">
+                            <a href="https://t.me/avd_grupp" target="_blank">Telegram</a>
+                            <a href="mailto:avd_grupp@mail.ru">Написать</a>
+                        </div>
+                    </div>
+                    <div class="ts-footer-cta">
+                        <router-link to="/request" class="ts-btn ts-btn-orange">Записаться на просмотр</router-link>
+                    </div>
+                </div>
+                <div class="ts-container">
+                    <p class="ts-footer-legal">Застройщик: ООО «Специализированный застройщик СК „Рост-Строй“» · ИНН 5903124969 · ОГРН 1165958080199<br>Информация на сайте носит справочный характер и не является публичной офертой · © АВД ГРУПП</p>
+                </div>
+            </footer>
         </div>
     `,
     data() {
