@@ -1,307 +1,351 @@
 const Frontpage = {
     template: `
-        <div class="page-main">
+        <div class="ts">
             <!-- ШАПКА -->
-            <app-header></app-header>
-
-            <!-- ГЕРОЙ-БЛОК -->
-            <div class="hero-10 hero-developer">
-                <div class="hero-bg"></div>
-                <div class="hero-sketch" aria-hidden="true">
-                    <svg viewBox="0 0 1440 320" preserveAspectRatio="xMidYMax slice">
-                        <path fill="rgba(255,255,255,0.06)" d="M-40 320V120h120l100-80h160l100 80h160l100-80h160l100 80h160l100-80h160l80 40 0 160z"/>
-                        <path fill="rgba(255,255,255,0.05)" d="M-40 320V170h140l90-70h180l90 70h170l90-70h180l90 70h170l90-70h180l80 30v150z"/>
-                        <rect x="0" y="320" width="1440" height="40" fill="rgba(255,255,255,0.07)"/>
-                    </svg>
+            <header class="ts-top">
+                <div class="ts-top-inner">
+                    <router-link to="/" class="ts-logo" @click="toTop">
+                        <span class="ts-logo-mark">АВД</span>
+                        <span class="ts-logo-sub">ГРУПП · таунхаусы</span>
+                    </router-link>
+                    <nav class="ts-nav">
+                        <a v-for="m in menu" :key="m[1]" href="#" @click.prevent="goto(m[1])">{{ m[0] }}</a>
+                    </nav>
+                    <div class="ts-top-actions">
+                        <a href="#" @click.prevent="goto('sec-form')" class="ts-cta-top">Записаться на просмотр</a>
+                        <p class="ts-phone">8 (908) 25-85-888</p>
+                        <button class="ts-burger" @click="menuOpen = !menuOpen" :aria-label="menuOpen ? 'Закрыть меню' : 'Открыть меню'">
+                            <span></span><span></span><span></span>
+                        </button>
+                    </div>
                 </div>
-                <div class="hero-content">
-                    <p class="hero-badge animate-fade-in-up">Застройщик малоэтажного жилья · Пермь</p>
-                    <p class="h1 animate-fade-in-up delay-1"><span class="text-white">Готовые таунхаусы от застройщика</span></p>
-                    <p class="hero-sub animate-fade-in-up delay-2">Кирпичный дом 2 этажа с участком и закрытой охраняемой территорией. 20 минут от центра Перми. Ипотека, жилищные сертификаты и взаимозачёт — без посредников.</p>
-                    <div class="hero-actions animate-fade-in-up delay-3">
-                        <router-link to="/project/volskaya" class="prototype-link">
-                            <div class="button-primary-14">
-                                <p class="button"><span class="text-white">Смотреть объект</span></p>
-                                <span class="button-arrow">→</span>
-                            </div>
-                        </router-link>
-                        <router-link to="/about" class="prototype-link">
-                            <div class="button-ghost">
-                                <p class="button"><span class="text-white">О компании</span></p>
-                            </div>
-                        </router-link>
+            </header>
+
+            <!-- МЕНЮ НА ВЕСЬ ЭКРАН -->
+            <div class="ts-menu" :class="{ 'ts-menu-open': menuOpen }">
+                <div class="ts-menu-inner">
+                    <a v-for="m in menu" :key="m[1]" href="#" class="ts-menu-link" @click.prevent="goto(m[1])">{{ m[0] }}</a>
+                    <div class="ts-menu-foot">
+                        <a href="#" @click.prevent="goto('sec-form')" class="ts-cta-dark">Заказать звонок</a>
+                        <p class="ts-phone ts-phone-lg">+7 902 80 32 835</p>
+                        <a href="https://wa.me/79028032835" target="_blank" class="ts-menu-tg">WhatsApp</a>
                     </div>
                 </div>
             </div>
 
-            <!-- СЧЁТЧИКИ -->
-            <div class="stats-section">
-                <div class="stats-grid">
-                    <div class="stat-item animate-fade-in-up">
-                        <div class="stat-number">2013</div>
-                        <div class="stat-label">Строим с 2013 года</div>
+            <!-- ГЕРОЙ -->
+            <section class="ts-hero" id="sec-top">
+                <div class="ts-hero-bg"></div>
+                <div class="ts-hero-inner">
+                    <p class="ts-hero-badge">Таунхаусы в Перми · дом сдан</p>
+                    <h1 class="ts-hero-h1">Свой кирпичный дом<br>с участком — 20 минут от центра</h1>
+                    <p class="ts-hero-sub">Комплекс таунхаусов на ул. Вольская, 29, Кировский район. Два этажа, панорамные окна REHAU, автономный газовый котёл и закрытая охраняемая территория. Готов к заселению — остаётся выбрать дом.</p>
+                    <div class="ts-hero-actions">
+                        <a href="#" @click.prevent="goto('sec-form')" class="ts-btn ts-btn-orange">Записаться на просмотр</a>
+                        <a href="#" @click.prevent="goto('sec-homes')" class="ts-btn ts-btn-ghost">Выбрать дом</a>
                     </div>
-                    <div class="stat-item animate-fade-in-up delay-1">
-                        <div class="stat-number">5</div>
-                        <div class="stat-label">Таунхаусов в комплексе</div>
-                    </div>
-                    <div class="stat-item animate-fade-in-up delay-2">
-                        <div class="stat-number">2</div>
-                        <div class="stat-label">Формата — 99,6 и 133,6 м²</div>
-                    </div>
-                    <div class="stat-item animate-fade-in-up delay-3">
-                        <div class="stat-number">100%</div>
-                        <div class="stat-label">Готовое жильё — переезд сразу</div>
+                    <div class="ts-hero-meta">
+                        <div class="ts-hero-meta-item"><b>20 мин</b><span>До центра Перми</span></div>
+                        <div class="ts-hero-meta-item"><b>10 м</b><span>До остановки</span></div>
+                        <div class="ts-hero-meta-item"><b>99,6–133,6 м²</b><span>Площадь домов</span></div>
+                        <div class="ts-hero-meta-item"><b>Дом сдан</b><span>Переезд сразу</span></div>
                     </div>
                 </div>
-            </div>
+            </section>
 
-            <!-- ФЛАГМАНСКИЙ ОБЪЕКТ -->
-            <div class="featured-object">
-                <div class="featured-object-inner">
-                    <div class="featured-left animate-slide-left">
-                        <p class="about-subtitle">Флагманский объект</p>
-                        <p class="h2"><span class="text-rgb-181-85-47">Комплекс таунхаусов на ул. Вольская, 29</span></p>
-                        <p class="featured-address">Кировский район, Пермь · дом сдан</p>
-                        <div class="featured-specs">
-                            <div class="spec-item"><b>5</b><span>блок-секций</span></div>
-                            <div class="spec-item"><b>133,6 м²</b><span>максимальная площадь</span></div>
-                            <div class="spec-item"><b>2 этажа</b><span>+ подполье до 72 м²</span></div>
-                            <div class="spec-item"><b>Кирпич</b><span>стены и фасады</span></div>
+            <!-- КОНЦЕПЦИЯ -->
+            <section class="ts-section" id="sec-concept">
+                <div class="ts-container">
+                    <p class="ts-label">Концепция</p>
+                    <h2 class="ts-h2">Больше, чем квартира. <span>Проще, чем дом.</span></h2>
+                    <p class="ts-lead">Собственный кирпичный таунхаус с зелёной лужайкой, панорамным светом и своим отоплением — в тихом Кировском районе, но в 20 минутах от центра. Комплекс из пяти блокированных домов с закрытой охраняемой территорией: спокойно детям, комфортно взрослым, всё — по-настоящему капитально.</p>
+                    <div class="ts-concept-grid">
+                        <div class="ts-concept-card">
+                            <div class="ts-concept-ico">🧱</div>
+                            <h3>Капитальный кирпич</h3>
+                            <p>Несущие стены и фасады — полнотелый кирпич. Это дом на десятилетия, а не сезонная дача.</p>
                         </div>
-                        <p class="featured-text">Полноценный кирпичный таунхаус с собственным участком, панорамными окнами REHAU, автономным газовым котлом и закрытой охраняемой территорией с детской площадкой. В 20 минутах от центра города, рядом лесопарковая зона.</p>
-                        <router-link to="/project/volskaya" class="prototype-link">
-                            <div class="button-primary-14">
-                                <p class="button"><span class="text-white">Подробно об объекте</span></p>
-                                <span class="button-arrow">→</span>
-                            </div>
-                        </router-link>
-                    </div>
-                    <div class="featured-right animate-slide-right">
-                        <div class="house-illu">
-                            <svg viewBox="0 0 480 360" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
-                                <defs>
-                                    <linearGradient id="houseGrad" x1="0" y1="0" x2="1" y2="1">
-                                        <stop offset="0" stop-color="#B5552F"/>
-                                        <stop offset="1" stop-color="#CF7855"/>
-                                    </linearGradient>
-                                    <linearGradient id="roofGrad" x1="0" y1="0" x2="0" y2="1">
-                                        <stop offset="0" stop-color="#323232"/>
-                                        <stop offset="1" stop-color="#1a1a1a"/>
-                                    </linearGradient>
-                                </defs>
-                                <rect x="20" y="330" width="440" height="20" rx="6" fill="rgba(50,50,50,0.25)"/>
-                                <g>
-                                    <rect x="80" y="120" width="130" height="115" fill="url(#houseGrad)" rx="4"/>
-                                    <rect x="270" y="120" width="130" height="115" fill="url(#houseGrad)" rx="4"/>
-                                    <polygon points="70,120 145,55 220,120" fill="url(#roofGrad)"/>
-                                    <polygon points="260,120 335,55 410,120" fill="url(#roofGrad)"/>
-                                    <polygon points="55,75 145,25 235,75" fill="url(#roofGrad)"/>
-                                </g>
-                                <g fill="rgba(255,255,255,0.9)">
-                                    <rect x="95" y="145" width="36" height="30" rx="3"/>
-                                    <rect x="155" y="145" width="36" height="30" rx="3"/>
-                                    <rect x="100" y="195" width="24" height="40" rx="2"/>
-                                    <rect x="285" y="145" width="36" height="30" rx="3"/>
-                                    <rect x="345" y="145" width="36" height="30" rx="3"/>
-                                    <rect x="290" y="195" width="24" height="40" rx="2"/>
-                                    <rect x="160" y="60" width="40" height="28" rx="3"/>
-                                    <rect x="350" y="60" width="40" height="28" rx="3"/>
-                                </g>
-                                <g fill="rgba(50,50,50,0.7)">
-                                    <rect x="232" y="130" width="16" height="105" rx="2"/>
-                                </g>
-                                <text x="145" y="80" fill="#CF7855" font-size="22" font-family="Montserrat, sans-serif" font-weight="800" text-anchor="middle">5</text>
-                                <text x="335" y="80" fill="#CF7855" font-size="22" font-family="Montserrat, sans-serif" font-weight="800" text-anchor="middle">5</text>
-                            </svg>
+                        <div class="ts-concept-card">
+                            <div class="ts-concept-ico">🔑</div>
+                            <h3>Готовое жильё</h3>
+                            <p>Комплекс введён в эксплуатацию. Предчистовая отделка, два санузла, тёплые полы — меблируйте и заезжайте.</p>
                         </div>
-                        <div class="house-caption">Комплекс из 5 блокированных домов · два формата планировок</div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- О КОМПАНИИ -->
-            <div class="about-17">
-                <div class="frame-1-18">
-                    <div class="about-left animate-slide-left">
-                        <p class="about-subtitle">О компании</p>
-                        <p class="h2"><span class="text-rgb-181-85-47">АВД ГРУПП</span></p>
-                        <div class="frame-2-21">
-                            <p class="body"><span class="text-white">АВД ГРУПП — девелопер малоэтажного жилья в Перми. Мы строим и продаём собственные объекты: комплексы комфортных таунхаусов из кирпича с закрытыми территориями. Застройщиком выступает ООО «Специализированный застройщик СК „Рост-Строй“» — строим с 2013 года, гарантируем качество, сроки и прозрачные условия сделки.</span></p>
+                        <div class="ts-concept-card">
+                            <div class="ts-concept-ico">🌳</div>
+                            <h3>Закрытая территория</h3>
+                            <p>Охрана, детская площадка, ландшафтный дизайн и свой участок-лужайка у каждого дома.</p>
                         </div>
-                    </div>
-                    <div class="about-right animate-slide-right">
-                        <div class="about-stat-card">
-                            <p class="stat-num">13 лет</p>
-                            <p class="stat-txt">занимаемся строительством</p>
-                        </div>
-                        <div class="about-stat-card">
-                            <p class="stat-num">Собственный</p>
-                            <p class="stat-txt">проект готовых таунхаусов в Перми</p>
-                        </div>
-                        <div class="about-stat-card">
-                            <p class="stat-num">Прямые</p>
-                            <p class="stat-txt">продажи от застройщика, без посредников</p>
+                        <div class="ts-concept-card">
+                            <div class="ts-concept-ico">☀️</div>
+                            <h3>Свободные планировки</h3>
+                            <p>Продуманная эргономика: панорамные окна во всех жилых комнатах, два санузла, своя котельная.</p>
                         </div>
                     </div>
                 </div>
-            </div>
-
-            <!-- НАПРАВЛЕНИЯ -->
-            <div class="services-section">
-                <div class="section-header">
-                    <h2>Направления работы</h2>
-                    <p>От девелопмента до готового жилья</p>
-                </div>
-                <div class="services-grid">
-                    <div class="service-card animate-fade-in-up">
-                        <div class="service-icon">🏘️</div>
-                        <h3>Таунхаусы</h3>
-                        <p>Блокированные кирпичные дома 2 этажа с собственным участком</p>
-                    </div>
-                    <div class="service-card animate-fade-in-up delay-1">
-                        <div class="service-icon">🔑</div>
-                        <h3>Готовое жильё</h3>
-                        <p>Дом сдан — можно заезжать сразу после сделки</p>
-                    </div>
-                    <div class="service-card animate-fade-in-up delay-2">
-                        <div class="service-icon">📋</div>
-                        <h3>Ипотека и сертификаты</h3>
-                        <p>Семейная и IT-ипотека, жилищные сертификаты, взаимозачёт</p>
-                    </div>
-                    <div class="service-card animate-fade-in-up delay-3">
-                        <div class="service-icon">🏗️</div>
-                        <h3>Девелопмент площадок</h3>
-                        <p>Подготовка и застройка новых участков под малоэтажные комплексы</p>
-                    </div>
-                </div>
-            </div>
+            </section>
 
             <!-- ПРЕИМУЩЕСТВА -->
-            <div class="advantages-23">
-                <p class="h2"><span class="text-white">Почему выбирают</span> АВД ГРУПП</p>
-                <div class="advantages-grid">
-                    <div class="rectangle-1-25 animate-fade-in-up">
-                        <p class="h3"><span class="text-rgb-181-85-47">Полноценный кирпичный дом</span></p>
-                        <p class="body"><span class="text-rgb-50-50-50">Несущие стены и фасады из кирпича, панорамные стеклопакеты REHAU. Это капитальное жильё, которое прослужит десятилетиями — а не каркасная сезонная дача.</span></p>
-                    </div>
-                    <div class="rectangle-2-26 animate-fade-in-up delay-1">
-                        <p class="h3"><span class="text-rgb-181-85-47">Готовое жильё</span></p>
-                        <p class="body"><span class="text-rgb-50-50-50">Комплекс введён в эксплуатацию. Предчистовая отделка, два санузла, тёплые полы на первом этаже — остаётся только меблировать и заехать.</span></p>
-                    </div>
-                    <div class="rectangle-3-29 animate-fade-in-up delay-2">
-                        <p class="h3"><span class="text-rgb-181-85-47">Закрытая территория</span></p>
-                        <p class="body"><span class="text-rgb-50-50-50">Охраняемая территория комплекса, ландшафтный дизайн, детская площадка и свой участок-лужайка у каждого дома. Безопасно для семьи и детей.</span></p>
+            <section class="ts-chips-sec">
+                <div class="ts-container">
+                    <p class="ts-label ts-label-center">Почему этот дом</p>
+                    <h2 class="ts-h2 ts-h2-center">Всё уже продумано за вас</h2>
+                    <div class="ts-chips">
+                        <span class="ts-chip" v-for="c in chips" :key="c[0]"><b>{{ c[0] }}</b>{{ c[1] }}</span>
                     </div>
                 </div>
-            </div>
+            </section>
 
-            <!-- ЭТАПЫ ПОКУПКИ -->
-            <div class="steps-section">
-                <div class="section-header">
-                    <h2>Как проходит покупка</h2>
-                    <p>4 простых шага от заявки до переезда</p>
-                </div>
-                <div class="steps-grid">
-                    <div class="step-card animate-fade-in-up">
-                        <div class="step-number">1</div>
-                        <h3>Заявка</h3>
-                        <p>Оставьте заявку на сайте или позвоните нам</p>
-                    </div>
-                    <div class="step-card animate-fade-in-up delay-1">
-                        <div class="step-number">2</div>
-                        <h3>Подбор дома</h3>
-                        <p>Выберите формат: 99,6 или 133,6 м²</p>
-                    </div>
-                    <div class="step-card animate-fade-in-up delay-2">
-                        <div class="step-number">3</div>
-                        <h3>Ипотека</h3>
-                        <p>Поможем с программой, сертификатами и взаимозачётом</p>
-                    </div>
-                    <div class="step-card animate-fade-in-up delay-3">
-                        <div class="step-number">4</div>
-                        <h3>Сделка и переезд</h3>
-                        <p>Регистрация, ключи — и можно заезжать</p>
+            <!-- ДОМА / ПЛАНИРОВКИ -->
+            <section class="ts-section" id="sec-homes">
+                <div class="ts-container">
+                    <p class="ts-label">Дома в продаже</p>
+                    <h2 class="ts-h2">Два формата — <span>выберите свой</span></h2>
+                    <div class="ts-homes">
+                        <div class="ts-home" v-for="(h, i) in homes" :key="h.name" :class="{ 'ts-home-featured': i === 1 }">
+                            <div class="ts-home-card">
+                                <span class="ts-home-tag">{{ h.tag }}</span>
+                                <p class="ts-home-price"><span>от</span><b>{{ h.price }}</b></p>
+                                <h3 class="ts-home-name">{{ h.name }}</h3>
+                                <p class="ts-home-note">{{ h.note }}</p>
+                                <ul class="ts-home-floors">
+                                    <li v-for="f in h.floors" :key="f"><b>{{ f.split(' — ')[0] }}</b>{{ f.split(' — ')[1] }}</li>
+                                </ul>
+                                <a href="#" @click.prevent="goto('sec-form')" class="ts-btn" :class="i === 1 ? 'ts-btn-orange' : 'ts-btn-outline'">Заявка на дом</a>
+                            </div>
+                        </div>
                     </div>
                 </div>
-            </div>
+            </section>
 
-            <!-- ФИНАНСИРОВАНИЕ -->
-            <div class="finance-section">
-                <div class="section-header">
-                    <h2>Доступное финансирование</h2>
-                    <p>Подберём удобный вариант покупки</p>
+            <!-- ФОТО -->
+            <section class="ts-section ts-photo-sec" id="sec-photo">
+                <div class="ts-container">
+                    <p class="ts-label">Фотогалерея</p>
+                    <h2 class="ts-h2">Посмотрите, как это <span>по-настоящему</span></h2>
+                    <div class="ts-gallery">
+                        <figure class="ts-g-item ts-g-main-photo">
+                            <img src="/static/images/object/volskaya-1.jpg" alt="Комплекс таунхаусов на ул. Вольская, 29" />
+                            <figcaption>Комплекс из пяти блокированных кирпичных домов</figcaption>
+                        </figure>
+                        <figure class="ts-g-item">
+                            <img src="/static/images/object/volskaya-2.jpg" alt="Возведение стен и перегородок" />
+                            <figcaption>Стены и перегородки</figcaption>
+                        </figure>
+                        <figure class="ts-g-item">
+                            <img src="/static/images/object/volskaya-3.jpg" alt="Установка межэтажных перекрытий" />
+                            <figcaption>Межэтажные перекрытия</figcaption>
+                        </figure>
+                        <figure class="ts-g-item">
+                            <img src="/static/images/object/volskaya-4.jpg" alt="Благоустройство и озеленение территории" />
+                            <figcaption>Благоустройство территории</figcaption>
+                        </figure>
+                        <figure class="ts-g-item">
+                            <img src="/static/images/object/volskaya-5.jpg" alt="Детская площадка и зоны отдыха" />
+                            <figcaption>Детская площадка и зоны отдыха</figcaption>
+                        </figure>
+                    </div>
                 </div>
-                <div class="finance-grid">
-                    <div class="finance-card animate-fade-in-up">
-                        <div class="finance-icon">👨‍👩‍👧</div>
-                        <h3>Семейная ипотека</h3>
-                        <p>Льготная ставка для семей с детьми</p>
-                    </div>
-                    <div class="finance-card animate-fade-in-up delay-1">
-                        <div class="finance-icon">💻</div>
-                        <h3>IT-ипотека</h3>
-                        <p>Специальная программа для IT-специалистов</p>
-                    </div>
-                    <div class="finance-card animate-fade-in-up delay-2">
-                        <div class="finance-icon">📜</div>
-                        <h3>Жилищные сертификаты</h3>
-                        <p>Принимаем все виды жилищных сертификатов</p>
-                    </div>
-                    <div class="finance-card animate-fade-in-up delay-3">
-                        <div class="finance-icon">🔄</div>
-                        <h3>Взаимозачёт и trade-in</h3>
-                        <p>Обмен вторичного жилья на новый дом</p>
-                    </div>
+            </section>
+
+            <!-- ОТДЕЛКА -->
+            <section class="ts-section ts-white-sec">
+                <div class="ts-container ts-finish">
+                    <p class="ts-label">Отделка</p>
+                    <h2 class="ts-h2">Предчистовая отделка — <span>white box</span></h2>
+                    <p class="ts-lead ts-lead-narrow">Ровные оштукатуренные стены, подготовленные полы, смонтированные инженерные системы. Остаётся продумать интерьер — или заказать финишную отделку.</p>
+                    <ul class="ts-finish-list">
+                        <li>Кирпичные стены и фасады</li>
+                        <li>Двухкамерные стеклопакеты REHAU</li>
+                        <li>Водяные тёплые полы на 1 этаже</li>
+                        <li>Автономная газовая котельная</li>
+                        <li>Центральный водопровод и бойлер</li>
+                        <li>Металлическая лестница с перилами</li>
+                    </ul>
                 </div>
-            </div>
+            </section>
 
             <!-- РАСПОЛОЖЕНИЕ -->
-            <div class="loc-teaser animate-fade-in-up" style="animation-delay:0.1s;">
-                <div class="loc-teaser-inner">
-                    <div class="loc-teaser-info">
-                        <p class="about-subtitle">Расположение</p>
-                        <p class="loc-teaser-title">Тихий район — рядом с городом</p>
-                        <p class="loc-teaser-text">Комплекс на ул. Вольская, 29 — в Кировском районе Перми, в 20 минутах от центра. Рядом школа «СинТез», детские сады, магазины «Магнит» и «Пятёрочка», лесопарковая зона и лыжная база.</p>
-                        <router-link to="/project/volskaya" class="prototype-link">
-                            <p class="loc-more">Подробно об объекте →</p>
-                        </router-link>
-                    </div>
-                    <div class="loc-teaser-facts">
-                        <div class="loc-fact"><b>20 мин</b><span>от центра Перми</span></div>
-                        <div class="loc-fact"><b>10 м</b><span>до остановки</span></div>
-                        <div class="loc-fact"><b>СинТез</b><span>школа рядом</span></div>
-                        <div class="loc-fact"><b>Лес</b><span>лесопарковая зона</span></div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- CTA -->
-            <div class="cta-strip">
-                <div class="cta-strip-inner">
+            <section class="ts-section" id="sec-location">
+                <div class="ts-container ts-loc-grid">
                     <div>
-                        <p class="cta-title">Подберите свой таунхаус</p>
-                        <p class="cta-sub">Покажем дом лично, ответим на вопросы и рассчитаем ипотеку</p>
+                        <p class="ts-label">Расположение</p>
+                        <h2 class="ts-h2">Тихий Кировский район,<br><span>рядом — всё необходимое</span></h2>
+                        <ul class="ts-loc-list">
+                            <li><b>Остановка — в 10 метрах</b> — до центра города 20 минут без пробок</li>
+                            <li><b>Школа «СинТез» и детские сады</b> — в шаговой доступности</li>
+                            <li><b>«Магнит» и «Пятёрочка»</b> — по соседству</li>
+                            <li><b>Лесопарк, лыжная база, конный клуб</b> — рядом</li>
+                            <li><b>Доставка и сервисы</b> — без ограничений, как в городе</li>
+                        </ul>
+                        <a href="https://yandex.ru/maps/?text=Пермь, Вольская 29" target="_blank" class="ts-map-link">Показать на карте →</a>
                     </div>
-                    <router-link to="/contacts" class="prototype-link">
-                        <div class="button-primary-14">
-                            <p class="button"><span class="text-white">Оставить заявку</span></p>
-                            <span class="button-arrow">→</span>
-                        </div>
-                    </router-link>
+                    <div class="ts-loc-card">
+                        <p class="ts-loc-place">г. Пермь, Кировский район</p>
+                        <p class="ts-loc-addr">ул. Вольская, 29/1–29/5</p>
+                        <ul class="ts-loc-rows">
+                            <li><span>До центра</span><b>20 минут</b></li>
+                            <li><span>До остановки</span><b>10 метров</b></li>
+                            <li><span>До школы «СинТез»</span><b>пешком</b></li>
+                            <li><span>Лесопарк</span><b>рядом</b></li>
+                        </ul>
+                    </div>
                 </div>
-            </div>
+            </section>
 
-            <!-- ФУТЕР -->
-            <div class="info-34">
-                <div class="info-wrap">
-                    <div class="info-text">
-                        <p class="h3"><span class="text-white">Группа компаний «АВД ГРУПП»</span></p>
-                        <p class="body"><span class="text-white">Застройщик: ООО «Специализированный застройщик СК „Рост-Строй“»<br>ИНН 5903124969 · ОГРН 1165958080199 · г. Пермь, ул. Петропавловская, 41, оф. 209<br>тел. 8 (908) 25-85-888 · +7 902 80 32 835<br>e-mail: avd_grupp@mail.ru</span></p>
+            <!-- ПОКУПКА -->
+            <section class="ts-section ts-buy-sec" id="sec-buy">
+                <div class="ts-container">
+                    <p class="ts-label ts-label-center">Как купить</p>
+                    <h2 class="ts-h2 ts-h2-center">4 шага до собственного дома</h2>
+                    <div class="ts-steps">
+                        <div class="ts-step" v-for="(s, i) in steps" :key="s[0]">
+                            <span class="ts-step-num">{{ i + 1 }}</span>
+                            <h3>{{ s[0] }}</h3>
+                            <p>{{ s[1] }}</p>
+                        </div>
                     </div>
-                    <img src="/static/images/monochrome_logo.png" class="footer-logo" alt="Логотип" />
+                    <div class="ts-mortgages">
+                        <div class="ts-mortgage" v-for="m in mortgages" :key="m[0]">
+                            <div class="ts-mortgage-ico">{{ m[2] }}</div>
+                            <h3>{{ m[0] }}</h3>
+                            <p>{{ m[1] }}</p>
+                        </div>
+                    </div>
+                    <p class="ts-buy-note">Поможем подобрать самую выгодную программу и сопроводим сделку — без скрытых платежей.</p>
                 </div>
-            </div>
+            </section>
+
+            <!-- ФОРМА -->
+            <section class="ts-section ts-form-sec" id="sec-form">
+                <div class="ts-container ts-form-wrap">
+                    <p class="ts-label ts-label-center">Заявка</p>
+                    <h2 class="ts-h2 ts-h2-center">Запишитесь на индивидуальный просмотр</h2>
+                    <p class="ts-form-sub">Покажем дом лично, ответим на вопросы и рассчитаем ипотеку</p>
+                    <form class="ts-form" @submit.prevent="submitForm">
+                        <input type="text" v-model="form.name" placeholder="Ваше имя" required />
+                        <input type="tel" v-model="form.phone" placeholder="Телефон" required />
+                        <select v-model="form.home">
+                            <option value="" disabled>Интересующий дом</option>
+                            <option>Таунхаус 99,6 м² — 9 960 000 ₽</option>
+                            <option>Таунхаус 133,6 м² — 12 830 000 ₽</option>
+                            <option>Нужна консультация</option>
+                        </select>
+                        <button type="submit" class="ts-btn ts-btn-orange ts-btn-block">Отправить заявку</button>
+                    </form>
+                    <p class="ts-form-note">Нажимая «Отправить», вы соглашаетесь на обработку персональных данных. Перезвоним в течение рабочего дня.</p>
+                </div>
+            </section>
+
+            <!-- КОНТАКТЫ / ФУТЕР -->
+            <footer class="ts-footer" id="sec-contacts">
+                <div class="ts-container ts-footer-grid">
+                    <div>
+                        <p class="ts-footer-title">Офис продаж</p>
+                        <p class="ts-footer-item">г. Пермь, ул. Петропавловская, 41, оф. 209</p>
+                        <p class="ts-footer-item">пн–пт: 9:00–18:00 · сб: 10:00–14:00</p>
+                    </div>
+                    <div>
+                        <p class="ts-footer-title">Контакты</p>
+                        <p class="ts-footer-item">8 (908) 25-85-888 · +7 902 80 32 835</p>
+                        <p class="ts-footer-item">avd_grupp@mail.ru</p>
+                        <div class="ts-footer-links">
+                            <a href="https://wa.me/79028032835" target="_blank">WhatsApp</a>
+                            <a href="https://t.me/avd_grupp" target="_blank">Telegram</a>
+                        </div>
+                    </div>
+                    <div class="ts-footer-cta">
+                        <a href="#" @click.prevent="goto('sec-form')" class="ts-btn ts-btn-orange">Записаться на просмотр</a>
+                    </div>
+                </div>
+                <div class="ts-container">
+                    <p class="ts-footer-legal">Застройщик: ООО «Специализированный застройщик СК „Рост-Строй“» · ИНН 5903124969 · ОГРН 1165958080199<br>Информация на сайте носит справочный характер и не является публичной офертой · © АВД ГРУПП</p>
+                </div>
+            </footer>
+
+            <!-- ПЛАВАЮЩИЕ КНОПКИ -->
+            <a href="#" @click.prevent="goto('sec-form')" class="ts-fab ts-fab-call">Получить консультацию</a>
+            <a href="https://wa.me/79028032835" target="_blank" class="ts-fab-phone">WhatsApp</a>
         </div>
-    `
+    `,
+    data() {
+        return {
+            menuOpen: false,
+            menu: [
+                ['Концепция', 'sec-concept'],
+                ['Дома', 'sec-homes'],
+                ['Фото', 'sec-photo'],
+                ['Расположение', 'sec-location'],
+                ['Покупка', 'sec-buy'],
+                ['Контакты', 'sec-contacts']
+            ],
+            chips: [
+                ['Кирпич', 'стены и фасады'],
+                ['Панорамные окна', 'REHAU'],
+                ['Тёплые полы', '1 этаж'],
+                ['Два санузла', 'на каждом этаже'],
+                ['Газовый котёл', 'своя котельная'],
+                ['Центральный водопровод', 'и бойлер'],
+                ['Подполье до 72 м²', 'кладовая и прачечная'],
+                ['Участок 40–70 м²', 'закрытая лужайка'],
+                ['Закрытая территория', 'охрана'],
+                ['Детская площадка', 'для детей'],
+                ['Лесопарк рядом', 'лыжная база'],
+                ['Остановка в 10 м', 'до центра 20 минут']
+            ],
+            homes: [
+                {
+                    tag: '2 этажа · кирпич · дом сдан',
+                    price: '9 960 000 ₽',
+                    name: 'Таунхаус 99,6 м²',
+                    note: 'Компактный семейный дом с участком',
+                    floors: [
+                        '1 этаж — прихожая, кухня-гостиная, гостевой санузел, котельная, тёплые полы',
+                        '2 этаж — спальни с панорамными окнами, второй санузел',
+                        'Подполье 54 м² — кладовая и прачечная',
+                        'Участок-лужайка до 40 м²'
+                    ]
+                },
+                {
+                    tag: '2 этажа · кирпич · больше света',
+                    price: '12 830 000 ₽',
+                    name: 'Таунхаус 133,6 м²',
+                    note: 'Просторный дом с максимальным панорамным светом',
+                    floors: [
+                        '1 этаж — просторная кухня-гостиная, гостевой санузел, котельная, тёплые полы',
+                        '2 этаж — спальни, второй санузел, дополнительные окна в санузле и на лестнице',
+                        'Подполье до 72 м² — кладовая, прачечная, мастерская',
+                        'Участок-лужайка до 70 м²'
+                    ]
+                }
+            ],
+            steps: [
+                ['Заявка', 'Оставьте заявку — перезвоним в течение рабочего дня'],
+                ['Просмотр', 'Приедем на объект, покажем дом и территорию'],
+                ['Ипотека', 'Поможем с семейной и IT-ипотекой, сертификатами'],
+                ['Сделка и переезд', 'Регистрация, ключи — можно заезжать']
+            ],
+            mortgages: [
+                ['Семейная ипотека', 'Льготная ставка для семей с детьми', '👨‍👩‍👧'],
+                ['IT-ипотека', 'Специальная программа для IT-специалистов', '💻'],
+                ['Жилищные сертификаты', 'Принимаем все виды сертификатов', '📜'],
+                ['Взаимозачёт', 'Обмен вторичного жилья на новый дом', '🔄']
+            ],
+            form: { name: '', phone: '', home: '' }
+        };
+    },
+    methods: {
+        toTop() {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+            this.menuOpen = false;
+        },
+        goto(id) {
+            this.menuOpen = false;
+            const el = document.getElementById(id);
+            if (el) el.scrollIntoView({ behavior: 'smooth' });
+        },
+        submitForm() {
+            alert('Спасибо! Заявка принята. Мы свяжемся с вами в ближайшее время и подберём удобное время для просмотра.');
+            this.form = { name: '', phone: '', home: '' };
+        }
+    }
 };
