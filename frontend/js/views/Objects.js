@@ -9,7 +9,7 @@ const Objects = {
                 <div class="ts-hero-inner">
                     <p class="ts-hero-badge">Объекты</p>
                     <h1 class="ts-hero-h1">Готовое жильё, которое можно увидеть сегодня</h1>
-                    <p class="ts-hero-sub">Комплекс таунхаусов на ул. Вольская, 29 — сдан. Ниже — состав домов, планировки и фотографии. Остальные объекты в работе — следите за обновлениями.</p>
+                    <p class="ts-hero-sub">Комплекс таунхаусов на ул. Вольская, 29 — сдан и заселён. Из 5 домов в продаже остался один — просторный дом 133,6 м². Ниже его состав и фотографии.</p>
                     <div class="ts-hero-actions">
                         <router-link to="/request" class="ts-btn ts-btn-orange">Записаться на просмотр</router-link>
                     </div>
@@ -20,18 +20,26 @@ const Objects = {
             <section class="ts-section">
                 <div class="ts-container">
                     <p class="ts-label">Дома в продаже</p>
-                    <h2 class="ts-h2">Два формата — <span>выберите свой</span></h2>
-                    <div class="ts-homes">
-                        <div class="ts-home" v-for="(h, i) in homes" :key="h.name" :class="{ 'ts-home-featured': i === 1 }">
+                    <h2 class="ts-h2">Всего в комплексе 5 домов — <span>остался последний</span></h2>
+                    <div class="ts-avail-strip">
+                        <span class="ts-avail-chip">3 дома 99,6 м² — проданы</span>
+                        <span class="ts-avail-chip">1 дом 133,6 м² — продан</span>
+                        <span class="ts-avail-chip ts-avail-chip-hot">1 дом 133,6 м² — в продаже</span>
+                    </div>
+                    <div class="ts-homes ts-homes-single">
+                        <div class="ts-home ts-home-featured">
                             <div class="ts-home-card">
-                                <span class="ts-home-tag">{{ h.tag }}</span>
-                                <p class="ts-home-price"><span>от</span><b>{{ h.price }}</b></p>
-                                <h3 class="ts-home-name">{{ h.name }}</h3>
-                                <p class="ts-home-note">{{ h.note }}</p>
+                                <span class="ts-home-tag">2 этажа · кирпич · дом сдан</span>
+                                <p class="ts-home-price"><b>12 830 000 ₽</b></p>
+                                <h3 class="ts-home-name">Таунхаус 133,6 м²</h3>
+                                <p class="ts-home-note">Просторный дом с максимальным панорамным светом — последний в комплексе</p>
                                 <ul class="ts-home-floors">
-                                    <li v-for="f in h.floors" :key="f"><b>{{ f.split(' — ')[0] }}</b>{{ f.split(' — ')[1] }}</li>
+                                    <li><b>1 этаж</b>прихожая, кухня-гостиная, санузел, котельная, тёплые полы</li>
+                                    <li><b>2 этаж</b>спальни с панорамными окнами, санузел, дополнительные окна в санузле и на лестнице</li>
+                                    <li><b>Подполье</b>техническое помещение</li>
+                                    <li><b>Участок</b>закрытая лужайка до 70 м²</li>
                                 </ul>
-                                <router-link to="/request" class="ts-btn" :class="i === 1 ? 'ts-btn-orange' : 'ts-btn-outline'">Заявка на дом</router-link>
+                                <router-link to="/request" class="ts-btn ts-btn-orange">Заявка на дом</router-link>
                             </div>
                         </div>
                     </div>
@@ -92,7 +100,8 @@ const Objects = {
                         <p class="ts-label">Расположение</p>
                         <h2 class="ts-h2">Тихий Кировский район,<br><span>рядом — всё необходимое</span></h2>
                         <ul class="ts-loc-list">
-                            <li><b>Остановка — в 10 метрах</b> — до центра города 20 минут без пробок</li>
+                            <li><b>Остановка — в 10 метрах</b> — от дома до транспорта один шаг</li>
+                            <li><b>До центра</b> — 20 минут без пробок</li>
                             <li><b>Школа «СинТез» и детские сады</b> — в шаговой доступности</li>
                             <li><b>«Магнит» и «Пятёрочка»</b> — по соседству</li>
                             <li><b>Лесопарк, лыжная база, конный клуб</b> — рядом</li>
@@ -161,32 +170,6 @@ const Objects = {
     `,
     data() {
         return {
-            homes: [
-                {
-                    tag: '2 этажа · кирпич · дом сдан',
-                    price: '9 960 000 ₽',
-                    name: 'Таунхаус 99,6 м²',
-                    note: 'Компактный семейный дом с участком',
-                    floors: [
-                        '1 этаж — прихожая, кухня-гостиная, гостевой санузел, котельная, тёплые полы',
-                        '2 этаж — спальни с панорамными окнами, второй санузел',
-                        'Подполье 54 м² — кладовая и прачечная',
-                        'Участок-лужайка до 40 м²'
-                    ]
-                },
-                {
-                    tag: '2 этажа · кирпич · больше света',
-                    price: '12 830 000 ₽',
-                    name: 'Таунхаус 133,6 м²',
-                    note: 'Просторный дом с максимальным панорамным светом',
-                    floors: [
-                        '1 этаж — просторная кухня-гостиная, гостевой санузел, котельная, тёплые полы',
-                        '2 этаж — спальни, второй санузел, дополнительные окна в санузле и на лестнице',
-                        'Подполье до 72 м² — кладовая, прачечная, мастерская',
-                        'Участок-лужайка до 70 м²'
-                    ]
-                }
-            ],
             posts: []
         };
     },

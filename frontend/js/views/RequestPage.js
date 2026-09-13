@@ -29,13 +29,19 @@ const RequestPage = {
                             <h3 class="ts-req-form-title">Записаться на просмотр</h3>
                             <input type="text" v-model="form.name" placeholder="Ваше имя" required />
                             <input type="tel" v-model="form.phone" placeholder="Телефон" required />
-                            <select v-model="form.object_name">
-                                <option value="" disabled>Интересующий объект</option>
-                                <option>Таунхаус 99,6 м² — Вольская 29 · 9 960 000 ₽</option>
-                                <option>Таунхаус 133,6 м² — Вольская 29 · 12 830 000 ₽</option>
-                                <option v-for="post in posts" :key="post.id">{{ post.title }}</option>
-                                <option>Нужна консультация</option>
-                            </select>
+                            <div class="ts-opt-label">Интересующий объект</div>
+                            <div class="ts-opt-grid">
+                                <button type="button" v-for="o in choiceOptions" :key="o.key"
+                                        class="ts-opt" :class="{ 'ts-opt-active': pick === o.key, 'ts-opt-sold': o.disabled }"
+                                        :disabled="o.disabled" @click="pick = o.key">
+                                    <span class="ts-opt-radio"></span>
+                                    <span class="ts-opt-text">
+                                        <span class="ts-opt-name">{{ o.title }}</span>
+                                        <span class="ts-opt-sub">{{ o.sub }}</span>
+                                    </span>
+                                    <span v-if="o.badge" class="ts-opt-badge">{{ o.badge }}</span>
+                                </button>
+                            </div>
                             <textarea v-model="form.message" rows="3" placeholder="Комментарий (необязательно)"></textarea>
                             <button type="submit" class="ts-btn ts-btn-orange ts-btn-block" :disabled="submitting">
                                 {{ submitting ? 'Отправляем...' : 'Отправить заявку' }}
@@ -82,11 +88,29 @@ const RequestPage = {
     data() {
         return {
             form: { name: '', phone: '', object_name: '', message: '' },
+            pick: '',
             posts: [],
             sent: false,
             error: '',
             submitting: false
         };
+    },
+    computed: {
+        choiceOptions() {
+            const staticOpts = [
+                { key: 'av', title: 'Таунхаус 133,6 м²', sub: 'Вольская 29 · 12 830 000 ₽', badge: 'последний дом', disabled: false },
+                { key: 'consult', title: 'Нужна консультация', sub: 'Подбор дома и условий ипотеки', badge: '', disabled: false },
+                { key: 'sold', title: 'Таунхаус 99,6 м²', sub: 'Все дома этого формата проданы', badge: 'продано', disabled: true }
+            ];
+            const postOpts = this.posts.map(p => ({
+                key: 'p' + p.id,
+                title: p.title,
+                sub: p.address || 'Другой объект',
+                badge: '',
+                disabled: false
+            }));
+            return [...staticOpts, ...postOpts];
+        }
     },
     async created() {
         try {
@@ -99,6 +123,12 @@ const RequestPage = {
         async submitForm() {
             this.submitting = true;
             this.error = '';
+            const chosen = this.choiceOptions.find(o => o.key === this.pick);
+            if (!chosen || chosen.disabled) {
+                this.submitting = false;
+                this.error = 'Пожалуйста, выберите интересующий объект.';
+                return;
+            }
             try {
                 await API.request('/lead/create', {
                     method: 'POST',
@@ -106,7 +136,7 @@ const RequestPage = {
                         name: this.form.name,
                         phone: this.form.phone,
                         subject: 'Заявка на просмотр',
-                        object_name: this.form.object_name || '',
+                        object_name: chosen.title,
                         message: this.form.message || ''
                     })
                 });

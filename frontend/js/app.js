@@ -1,7 +1,8 @@
-const publicPaths = ['/', '/objects', '/request', '/contacts', '/login'];
+const publicPaths = ['/', '/about', '/objects', '/request', '/contacts', '/login'];
 
 const routes = [
     { path: '/', component: Frontpage },
+    { path: '/about', component: About },
     { path: '/objects', component: Objects },
     { path: '/request', component: RequestPage },
     { path: '/contacts', component: Contacts },

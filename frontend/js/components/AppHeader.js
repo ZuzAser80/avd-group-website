@@ -11,6 +11,11 @@ const AppHeader = {
                             <span :class="isActive('/') ? 'text-rgb-181-85-47' : 'text-rgb-50-50-50'">Главная</span>
                         </p>
                     </router-link>
+                    <router-link to="/about" class="prototype-link">
+                        <p class="menu" :class="{ active: isActive('/about') }">
+                            <span :class="isActive('/about') ? 'text-rgb-181-85-47' : 'text-rgb-50-50-50'">О компании</span>
+                        </p>
+                    </router-link>
                     <router-link to="/objects" class="prototype-link">
                         <p class="menu" :class="{ active: isActive('/objects') }">
                             <span :class="isActive('/objects') ? 'text-rgb-181-85-47' : 'text-rgb-50-50-50'">Объекты</span>

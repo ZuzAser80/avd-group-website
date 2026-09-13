@@ -1,192 +1,107 @@
 const About = {
     template: `
-        <div class="-38">
-            <!-- ШАПКА -->
+        <div class="ts">
             <app-header></app-header>
 
             <!-- ГЕРОЙ -->
-            <div class="inner-hero">
-                <p class="hero-badge">О компании</p>
-                <h1 class="h1">АВД ГРУПП — застройщик малоэтажного жилья</h1>
-                <p class="inner-hero-sub">Проектируем, строим и продаём собственные объекты в Перми. Прямые продажи от застройщика — без посредников.</p>
-            </div>
+            <section class="ts-hero ts-hero-small">
+                <div class="ts-hero-bg"></div>
+                <div class="ts-hero-inner">
+                    <p class="ts-hero-badge">О компании</p>
+                    <h1 class="ts-hero-h1">Малоэтажный девелопер АВД ГРУПП</h1>
+                    <p class="ts-hero-sub">Строим кирпичные таунхаусы в Перми с 2013 года: сами проектируем, сами строим и сами отвечаем за результат.</p>
+                </div>
+            </section>
 
-            <div class="page-wrap">
-                <div class="page">
-                    <div class="card card-lead">
-                        <h2 class="h2">Мы — застройщик, а не подрядчик</h2>
-                        <p class="body">АВД ГРУПП проектирует, строит и продаёт собственные объекты жилой недвижимости. Мы отвечаем за результат на всех этапах — от покупки земли и проекта до ввода дома в эксплуатацию и передачи ключей покупателям. Застройщиком объектов выступает ООО «Специализированный застройщик СК „Рост-Строй“», производственные задачи выполняет ООО «АВД-Строй». Это означает прямые продажи без посредников и полный контроль качества на стройке.</p>
+            <!-- РАССКАЗ -->
+            <section class="ts-section">
+                <div class="ts-container">
+                    <p class="ts-label">Кто мы</p>
+                    <h2 class="ts-h2">Компания, за которой <span>дело и опыт</span></h2>
+                    <div class="ts-about-text">
+                        <p>АВД ГРУПП — малоэтажный застройщик из Перми. Мы специализируемся на кирпичных домах блокированной застройки и выпускаем их в свет «под ключ»: с благоустроенной закрытой территорией, детской площадкой и готовой инфраструктурой.</p>
+                        <p>Всю строительную историю мы прошли в регионе — от первых объектов ещё в 2012–2013 годах до сданного комплекса на ул. Вольская, 29. Ценим репутацию: объекты вводим в срок, цены держим честными, а каждую сделку сопровождаем лично — от заявки до вручения ключей.</p>
                     </div>
-
-                    <!-- ЦИФРЫ -->
-                    <div class="about-counts">
-                        <div class="about-count"><b>2013</b><span>Строим с 2013 года</span></div>
-                        <div class="about-count"><b>5</b><span>Таунхаусов в комплексе на Вольской, 29</span></div>
-                        <div class="about-count"><b>2</b><span>Формата — 99,6 и 133,6 м²</span></div>
-                        <div class="about-count"><b>100%</b><span>Готовое жильё — переезд сразу</span></div>
+                    <div class="ts-about-stats">
+                        <div class="ts-about-stat"><b>с 2013</b><span>строим дома в Перми</span></div>
+                        <div class="ts-about-stat"><b>5 домов</b><span>комплекс на Вольской, 29</span></div>
+                        <div class="ts-about-stat"><b>100%</b><span>выполненных обязательств</span></div>
+                        <div class="ts-about-stat"><b>1</b><span>рабочий день на ответ по заявке</span></div>
                     </div>
+                </div>
+            </section>
 
-                    <!-- TIMELINE -->
-                    <h2 class="tl-title">История группы</h2>
-                    <div class="timeline">
-                        <div class="timeline-item">
-                            <div class="timeline-dot"></div>
-                            <div class="timeline-content">
-                                <p class="timeline-year">2013</p>
-                                <p class="timeline-text">Начало строительной деятельности группы «АВД ГРУПП» — первые объекты многоквартирного жилья в Перми.</p>
-                            </div>
+            <!-- ПРИНЦИПЫ -->
+            <section class="ts-section ts-white-sec">
+                <div class="ts-container">
+                    <p class="ts-label ts-label-center">Как мы работаем</p>
+                    <h2 class="ts-h2 ts-h2-center">Простые принципы</h2>
+                    <div class="ts-concept-grid">
+                        <div class="ts-concept-card">
+                            <div class="ts-concept-ico">🧱</div>
+                            <h3>Капитально</h3>
+                            <p>Полнотелый кирпич и продуманные инженерные системы. Дом строим так, чтобы жить в нём было спокойно десятилетиями.</p>
                         </div>
-                        <div class="timeline-item">
-                            <div class="timeline-dot"></div>
-                            <div class="timeline-content">
-                                <p class="timeline-year">2013–2018</p>
-                                <p class="timeline-text">Каталог выполненных работ: жилые дома и ЖК в Перми и Пермском крае — «Олимп», «Новый центр», комплексы домов в Усть-Качке и Лобаново.</p>
-                            </div>
+                        <div class="ts-concept-card">
+                            <div class="ts-concept-ico">🤝</div>
+                            <h3>Честно</h3>
+                            <p>Реальная цена дома и прозрачный состав покупки. Без скрытых платежей и «сюрпризов» на этапе сделки.</p>
                         </div>
-                        <div class="timeline-item">
-                            <div class="timeline-dot"></div>
-                            <div class="timeline-content">
-                                <p class="timeline-year">2016</p>
-                                <p class="timeline-text">Зарегистрирован специализированный застройщик ООО СК «Рост-Строй» — начата подготовка к девелопменту собственного малоэтажного жилья.</p>
-                            </div>
+                        <div class="ts-concept-card">
+                            <div class="ts-concept-ico">🗓️</div>
+                            <h3>В срок</h3>
+                            <p>Все объекты комплекса сданы. Выбирая нас, вы переезжаете в готовое жильё, а не ждёте обещанного «через пару лет».</p>
                         </div>
-                        <div class="timeline-item">
-                            <div class="timeline-dot"></div>
-                            <div class="timeline-content">
-                                <p class="timeline-year">2022</p>
-                                <p class="timeline-text">Создано производственно-строительное подразделение — ООО «АВД-Строй» (ИНН 5904400121).</p>
-                            </div>
-                        </div>
-                        <div class="timeline-item">
-                            <div class="timeline-dot"></div>
-                            <div class="timeline-content">
-                                <p class="timeline-year">2023</p>
-                                <p class="timeline-text">Собственный комплекс таунхаусов на ул. Вольская, 29 введён в эксплуатацию. Старт прямых продаж готового жилья от застройщика.</p>
-                            </div>
-                        </div>
-                        <div class="timeline-item">
-                            <div class="timeline-dot"></div>
-                            <div class="timeline-content">
-                                <p class="timeline-year">Сегодня</p>
-                                <p class="timeline-text">Продаём готовые таунхаусы, сопровождаем сделки с ипотекой и развиваем новые площадки под малоэтажную застройку.</p>
-                            </div>
+                        <div class="ts-concept-card">
+                            <div class="ts-concept-ico">🚗</div>
+                            <h3>Рядом</h3>
+                            <p>Офис продаж — в центре Перми, объект — в 20 минутах. Просмотр можно совместить с поездкой в офис.</p>
                         </div>
                     </div>
+                </div>
+            </section>
 
-                    <!-- КАТАЛОГ ВЫПОЛНЕННЫХ РАБОТ -->
-                    <h2 class="tl-title">Каталог выполненных работ</h2>
-                    <div class="portfolio-grid">
-                        <div class="portfolio-item">
-                            <span class="portfolio-year">2012</span>
-                            <h3>4-этажный жилой дом</h3>
-                            <p>г. Пермь, ул. Левченко, 11</p>
-                        </div>
-                        <div class="portfolio-item">
-                            <span class="portfolio-year">2013</span>
-                            <h3>16-этажный жилой дом</h3>
-                            <p>г. Пермь, ул. Беляева, 8</p>
-                        </div>
-                        <div class="portfolio-item">
-                            <span class="portfolio-year">2013–2014</span>
-                            <h3>16-этажный жилой дом</h3>
-                            <p>г. Пермь, ул. Левченко, 31</p>
-                        </div>
-                        <div class="portfolio-item">
-                            <span class="portfolio-year">2014</span>
-                            <h3>Группа малоэтажных домов</h3>
-                            <p>с. Лобаново, секции №7, №8</p>
-                        </div>
-                        <div class="portfolio-item">
-                            <span class="portfolio-year">2014–2015</span>
-                            <h3>Комплекс 4-этажных домов</h3>
-                            <p>г. Пермь, ул. Кировоградская, 180</p>
-                        </div>
-                        <div class="portfolio-item">
-                            <span class="portfolio-year">2014–2015</span>
-                            <h3>Апартаменты у курорта</h3>
-                            <p>с. Усть-Качка, Пермский район</p>
-                        </div>
-                        <div class="portfolio-item">
-                            <span class="portfolio-year">2014–2015</span>
-                            <h3>5-этажный жилой дом</h3>
-                            <p>с. Усть-Качка, ул. Победы, 18</p>
-                        </div>
-                        <div class="portfolio-item">
-                            <span class="portfolio-year">2016</span>
-                            <h3>ЖК «Олимп»</h3>
-                            <p>г. Пермь, ул. Локомотивная, 1</p>
-                        </div>
-                        <div class="portfolio-item">
-                            <span class="portfolio-year">2017–2018</span>
-                            <h3>ЖК «Новый центр»</h3>
-                            <p>г. Пермь, ул. Революции, 22</p>
-                        </div>
-                    </div>
-
-                    <!-- ГАРАНТИИ -->
-                    <div class="guarantees">
-                        <div class="guarantee-item">
-                            <div class="g-icon">🤝</div>
-                            <h3>Прямые продажи</h3>
-                            <p>Без риелторов и посредников — вы покупаете жильё напрямую у застройщика</p>
-                        </div>
-                        <div class="guarantee-item">
-                            <div class="g-icon">✅</div>
-                            <h3>Готовый объект</h3>
-                            <p>Комплекс введён в эксплуатацию: дом, техплан, регистрация права — всё оформлено</p>
-                        </div>
-                        <div class="guarantee-item">
-                            <div class="g-icon">🏦</div>
-                            <h3>Ипотека банков</h3>
-                            <p>Помогаем оформить семейную и IT-ипотеку, принимаем жилищные сертификаты</p>
-                        </div>
-                        <div class="guarantee-item">
-                            <div class="g-icon">📄</div>
-                            <h3>Прозрачный договор</h3>
-                            <p>Честные и понятные условия сделки без скрытых платежей</p>
-                        </div>
-                    </div>
-
-                    <div class="card">
-                        <h2 class="h2">Наша миссия</h2>
-                        <p class="body">Дать пермякам возможность жить в собственном полноценном доме из кирпича в тихом зелёном районе — но в 20 минутах от центра города. Мы верим, что ответственное строительство и честные продажи создают доверие на десятилетия.</p>
-                    </div>
-                    <div class="card">
-                        <h2 class="h2">Наши ценности</h2>
+            <!-- РЕКВИЗИТЫ -->
+            <section class="ts-section">
+                <div class="ts-container">
+                    <p class="ts-label">Реквизиты</p>
+                    <h2 class="ts-h2">Юридическая информация</h2>
+                    <div class="ts-req-tips">
                         <ul>
-                            <li>Капитальность — строим только из кирпича, без компромиссов</li>
-                            <li>Честность — продажи напрямую от застройщика, без посредников</li>
-                            <li>Прозрачность — понятные договоры и условия сделки</li>
-                            <li>Готовность — жильё сданное, пригодное для переезда сразу</li>
-                            <li>Сопровождение — помогаем с ипотекой, сертификатами и взаимозачётом</li>
+                            <li>Застройщик: ООО «Специализированный застройщик СК „Рост-Строй“»</li>
+                            <li>ИНН 5903124969 · ОГРН 1165958080199</li>
+                            <li>г. Пермь, ул. Петропавловская, 41, оф. 209</li>
+                            <li>тел. 8 (908) 25-85-888 · e-mail: avd_grupp@mail.ru</li>
                         </ul>
                     </div>
-                    <div class="card">
-                        <h2 class="h2">Реквизиты</h2>
-                        <p class="body">
-                            Застройщик: ООО «Специализированный застройщик „Строительная компания „Рост-Строй“»<br>
-                            ИНН 5903124969 · КПП 590201001 · ОГРН 1165958080199<br>
-                            Дата регистрации: 16.05.2016<br>
-                            Офис: 614000, г. Пермь, ул. Петропавловская, 41, оф. 209<br>
-                            Генеральный директор и учредитель: Авдеев Андрей Викторович<br><br>
-                            Производственное подразделение: ООО «АВД-Строй» (ИНН 5904400121)<br><br>
-                            Телефоны: 8 (908) 25-85-888, +7 902 80 32 835<br>
-                            Email: avd_grupp@mail.ru
-                        </p>
-                    </div>
                 </div>
-            </div>
+            </section>
 
             <!-- ФУТЕР -->
-            <div class="info-34">
-                <div class="info-wrap">
-                    <div class="info-text">
-                        <p class="h3"><span class="text-white">Группа компаний «АВД ГРУПП»</span></p>
-                        <p class="body"><span class="text-white">Застройщик: ООО «Специализированный застройщик СК „Рост-Строй“»<br>ИНН 5903124969 · ОГРН 1165958080199 · г. Пермь, ул. Петропавловская, 41, оф. 209<br>тел. 8 (908) 25-85-888 · +7 902 80 32 835<br>e-mail: avd_grupp@mail.ru</span></p>
+            <footer class="ts-footer">
+                <div class="ts-container ts-footer-grid">
+                    <div>
+                        <p class="ts-footer-title">Офис продаж</p>
+                        <p class="ts-footer-item">г. Пермь, ул. Петропавловская, 41, оф. 209</p>
+                        <p class="ts-footer-item">пн–пт: 9:00–18:00 · сб: 10:00–14:00</p>
                     </div>
-                    <img src="/static/images/monochrome_logo.png" class="footer-logo" alt="Логотип" />
+                    <div>
+                        <p class="ts-footer-title">Контакты</p>
+                        <p class="ts-footer-item">8 (908) 25-85-888 · +7 902 80 32 835</p>
+                        <p class="ts-footer-item">avd_grupp@mail.ru</p>
+                        <div class="ts-footer-links">
+                            <a href="https://t.me/avd_grupp" target="_blank">Telegram</a>
+                            <a href="mailto:avd_grupp@mail.ru">Написать</a>
+                        </div>
+                    </div>
+                    <div class="ts-footer-cta">
+                        <router-link to="/objects" class="ts-btn ts-btn-orange">Смотреть объекты</router-link>
+                    </div>
                 </div>
-            </div>
+                <div class="ts-container">
+                    <p class="ts-footer-legal">Застройщик: ООО «Специализированный застройщик СК „Рост-Строй“» · ИНН 5903124969 · ОГРН 1165958080199<br>Информация на сайте носит справочный характер и не является публичной офертой · © АВД ГРУПП</p>
+                </div>
+            </footer>
         </div>
     `
 };

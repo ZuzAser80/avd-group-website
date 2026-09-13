@@ -17,8 +17,8 @@ const Frontpage = {
                     <div class="ts-hero-meta">
                         <div class="ts-hero-meta-item"><b>Дом сдан</b><span>Переезд уже сейчас</span></div>
                         <div class="ts-hero-meta-item"><b>20 мин</b><span>До центра Перми</span></div>
-                        <div class="ts-hero-meta-item"><b>99,6–133,6 м²</b><span>Площадь домов</span></div>
-                        <div class="ts-hero-meta-item"><b>Ипотека</b><span>Семейная и IT</span></div>
+                        <div class="ts-hero-meta-item"><b>10 м</b><span>До остановки</span></div>
+                        <div class="ts-hero-meta-item"><b>1 дом</b><span>Остался в продаже</span></div>
                     </div>
                 </div>
             </section>
@@ -81,9 +81,9 @@ const Frontpage = {
                             <div class="ts-featured-specs">
                                 <div class="ts-fspec"><b>5</b><span>блок-секций</span></div>
                                 <div class="ts-fspec"><b>99,6–133,6 м²</b><span>площадь домов</span></div>
-                                <div class="ts-fspec"><b>Кирпич</b><span>стены и фасады</span></div>
+                                <div class="ts-fspec"><b>1</b><span>дом в продаже</span></div>
                             </div>
-                            <p class="ts-featured-price">от <b>9 960 000 ₽</b><span>дом 99,6 м²</span></p>
+                            <p class="ts-featured-price"><b>12 830 000 ₽</b><span>последний дом 133,6 м² · дома 99,6 м² проданы</span></p>
                             <router-link to="/objects" class="ts-btn ts-btn-orange">Подробнее об объекте</router-link>
                         </div>
                     </div>
@@ -156,12 +156,13 @@ const Frontpage = {
                 ['Два санузла', 'на каждом этаже'],
                 ['Газовый котёл', 'своя котельная'],
                 ['Центральный водопровод', 'и бойлер'],
-                ['Подполье до 72 м²', 'кладовая и прачечная'],
+                ['Подполье до 72 м²', 'техническое помещение'],
                 ['Участок 40–70 м²', 'закрытая лужайка'],
                 ['Закрытая территория', 'охрана'],
                 ['Детская площадка', 'для детей'],
                 ['Лесопарк рядом', 'лыжная база'],
-                ['Остановка в 10 м', 'до центра 20 минут']
+                ['Остановка в 10 м', 'в двух шагах от дома'],
+                ['До центра', '20 минут без пробок']
             ],
             mortgages: [
                 ['Семейная ипотека', 'Льготная ставка для семей с детьми', '👨‍👩‍👧'],
