@@ -14,7 +14,7 @@ const Contacts = {
                         <div class="contact-icon">
                             <img src="/static/images/map_simbol.svg" alt="Адрес" />
                         </div>
-                        <p class="h3"><span class="text-white">г. Пермь, ул. Окулова, 27</span></p>
+                        <p class="h3"><span class="text-white">г. Пермь, ул. Петропавловская, 41, оф. 209</span></p>
                     </div>
                     <div class="contact-item">
                         <div class="contact-icon">
@@ -26,7 +26,7 @@ const Contacts = {
                         <div class="contact-icon">
                             <img src="/static/images/mail_simbol.svg" alt="Email" />
                         </div>
-                        <p class="h3"><span class="text-white">avd_groupp@mail.ru</span></p>
+                        <p class="h3"><span class="text-white">avd_grupp@mail.ru</span></p>
                     </div>
                     <div class="contact-item">
                         <div class="contact-icon">
@@ -38,7 +38,7 @@ const Contacts = {
                         <div class="contact-icon">
                             <img src="/static/images/tg_simbol.svg" alt="Telegram" />
                         </div>
-                        <p class="h3"><span class="text-white"><a href="https://t.me/avd_groupp" target="_blank" class="contact-link">Наш Telegram</a></span></p>
+                        <p class="h3"><span class="text-white"><a href="https://t.me/avd_grupp" target="_blank" class="contact-link">Наш Telegram</a></span></p>
                     </div>
                     <div class="contact-item">
                         <div class="contact-icon">
@@ -76,7 +76,7 @@ const Contacts = {
             <!-- КАРТА -->
             <div class="map-section">
                 <div class="map-container">
-                    <iframe src="https://yandex.ru/map-widget/v1/?text=Пермь, улица Окулова, 27" allowfullscreen loading="lazy"></iframe>
+                    <iframe src="https://yandex.ru/map-widget/v1/?text=Пермь, улица Петропавловская, 41" allowfullscreen loading="lazy"></iframe>
                 </div>
                 <p class="h2"><span class="text-black">Офис застройщика — центр Перми</span></p>
             </div>

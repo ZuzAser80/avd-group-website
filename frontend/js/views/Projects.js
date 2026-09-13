@@ -38,6 +38,7 @@ const Projects = {
                                 <p>дом 99,6 м²</p>
                             </div>
                             <p class="foc-note">Семейная и IT-ипотека, жилищные сертификаты, взаимозачёт</p>
+                            <img src="/static/images/object/volskaya-1.jpg" class="foc-photo" alt="Комплекс таунхаусов на ул. Вольская, 29" />
                         </div>
                     </div>
 
@@ -63,7 +64,7 @@ const Projects = {
                 <div class="info-wrap">
                     <div class="info-text">
                         <p class="h3"><span class="text-white">Группа компаний «АВД ГРУПП»</span></p>
-                        <p class="body"><span class="text-white">Застройщик: ООО «Специализированный застройщик СК „Рост-Строй“»<br>ИНН 5903124969 · ОГРН 1165958080199 · г. Пермь, ул. Окулова, 27<br>тел. 8 (908) 25-85-888 · +7 902 80 32 835</span></p>
+                        <p class="body"><span class="text-white">Застройщик: ООО «Специализированный застройщик СК „Рост-Строй“»<br>ИНН 5903124969 · ОГРН 1165958080199 · г. Пермь, ул. Петропавловская, 41, оф. 209<br>тел. 8 (908) 25-85-888 · +7 902 80 32 835</span></p>
                     </div>
                     <img src="/static/images/monochrome_logo.png" class="footer-logo" alt="Логотип" />
                 </div>

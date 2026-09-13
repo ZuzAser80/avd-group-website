@@ -38,8 +38,8 @@ const Frontpage = {
             <div class="stats-section">
                 <div class="stats-grid">
                     <div class="stat-item animate-fade-in-up">
-                        <div class="stat-number">2016</div>
-                        <div class="stat-label">Год основания застройщика</div>
+                        <div class="stat-number">2013</div>
+                        <div class="stat-label">Строим с 2013 года</div>
                     </div>
                     <div class="stat-item animate-fade-in-up delay-1">
                         <div class="stat-number">5</div>
@@ -127,13 +127,13 @@ const Frontpage = {
                         <p class="about-subtitle">О компании</p>
                         <p class="h2"><span class="text-rgb-181-85-47">АВД ГРУПП</span></p>
                         <div class="frame-2-21">
-                            <p class="body"><span class="text-white">АВД ГРУПП — девелопер малоэтажного жилья в Перми. Мы строим и продаём собственные объекты: комплексы комфортных таунхаусов из кирпича с закрытыми территориями. Застройщиком выступает ООО «Специализированный застройщик СК „Рост-Строй“» — работаем с 2016 года, гарантируем качество, сроки и прозрачные условия сделки.</span></p>
+                            <p class="body"><span class="text-white">АВД ГРУПП — девелопер малоэтажного жилья в Перми. Мы строим и продаём собственные объекты: комплексы комфортных таунхаусов из кирпича с закрытыми территориями. Застройщиком выступает ООО «Специализированный застройщик СК „Рост-Строй“» — строим с 2013 года, гарантируем качество, сроки и прозрачные условия сделки.</span></p>
                         </div>
                     </div>
                     <div class="about-right animate-slide-right">
                         <div class="about-stat-card">
-                            <p class="stat-num">10 лет</p>
-                            <p class="stat-txt">развиваем малоэтажное строительство</p>
+                            <p class="stat-num">13 лет</p>
+                            <p class="stat-txt">занимаемся строительством</p>
                         </div>
                         <div class="about-stat-card">
                             <p class="stat-num">Собственный</p>
@@ -297,7 +297,7 @@ const Frontpage = {
                 <div class="info-wrap">
                     <div class="info-text">
                         <p class="h3"><span class="text-white">Группа компаний «АВД ГРУПП»</span></p>
-                        <p class="body"><span class="text-white">Застройщик: ООО «Специализированный застройщик СК „Рост-Строй“»<br>ИНН 5903124969 · ОГРН 1165958080199 · г. Пермь, ул. Окулова, 27<br>тел. 8 (908) 25-85-888 · +7 902 80 32 835<br>e-mail: avd_groupp@mail.ru</span></p>
+                        <p class="body"><span class="text-white">Застройщик: ООО «Специализированный застройщик СК „Рост-Строй“»<br>ИНН 5903124969 · ОГРН 1165958080199 · г. Пермь, ул. Петропавловская, 41, оф. 209<br>тел. 8 (908) 25-85-888 · +7 902 80 32 835<br>e-mail: avd_grupp@mail.ru</span></p>
                     </div>
                     <img src="/static/images/monochrome_logo.png" class="footer-logo" alt="Логотип" />
                 </div>

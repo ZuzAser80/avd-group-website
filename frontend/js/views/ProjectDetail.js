@@ -18,7 +18,7 @@ const ProjectDetail = {
                         <div class="hm-item"><b>12,83 млн ₽</b><span>максимальная цена</span></div>
                     </div>
                     <div class="hero-actions animate-fade-in-up delay-3">
-                        <a href="#pd-form" class="prototype-link">
+                        <a href="#" @click.prevent="scrollToForm" class="prototype-link">
                             <div class="button-primary-14">
                                 <p class="button"><span class="text-white">Записаться на просмотр</span></p>
                                 <span class="button-arrow">→</span>
@@ -115,7 +115,7 @@ const ProjectDetail = {
                                 <li>Свой участок-лужайка</li>
                                 <li>Автономный газовый котёл</li>
                             </ul>
-                            <a href="#pd-form" class="prototype-link"><div class="button-outline-orange">Заявка на дом</div></a>
+                            <a href="#" @click.prevent="scrollToForm" class="prototype-link"><div class="button-outline-orange">Заявка на дом</div></a>
                         </div>
                         <div class="pd-home-card pd-home-card-featured">
                             <span class="ph-tag">2 этажа · кирпич · больше света</span>
@@ -127,8 +127,40 @@ const ProjectDetail = {
                                 <li>Два санузла</li>
                                 <li>Подполье до 72 м² — кладовая и прачечная</li>
                             </ul>
-                            <a href="#pd-form" class="prototype-link"><div class="button-primary-14"><p class="button"><span class="text-white">Заявка на дом</span></p></div></a>
+                            <a href="#" @click.prevent="scrollToForm" class="prototype-link"><div class="button-primary-14"><p class="button"><span class="text-white">Заявка на дом</span></p></div></a>
                         </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ГАЛЕРЕЯ -->
+            <div class="pd-section pd-gallery-sec">
+                <div class="pd-container">
+                    <div class="section-header">
+                        <h2>Фотогалерея объекта</h2>
+                        <p>Реальные фото комплекса — от фундамента до благоустройства территории</p>
+                    </div>
+                    <div class="pd-gallery">
+                        <figure class="pd-gallery-item pd-gallery-main">
+                            <img src="/static/images/object/volskaya-1.jpg" alt="Комплекс таунхаусов на ул. Вольская, 29" />
+                            <figcaption>Комплекс из пяти блокированных кирпичных домов</figcaption>
+                        </figure>
+                        <figure class="pd-gallery-item">
+                            <img src="/static/images/object/volskaya-2.jpg" alt="Возведение стен и перегородок" />
+                            <figcaption>Возведение стен и перегородок</figcaption>
+                        </figure>
+                        <figure class="pd-gallery-item">
+                            <img src="/static/images/object/volskaya-3.jpg" alt="Установка межэтажных перекрытий" />
+                            <figcaption>Установка межэтажных перекрытий</figcaption>
+                        </figure>
+                        <figure class="pd-gallery-item">
+                            <img src="/static/images/object/volskaya-4.jpg" alt="Благоустройство и озеленение территории" />
+                            <figcaption>Благоустройство и озеленение территории</figcaption>
+                        </figure>
+                        <figure class="pd-gallery-item">
+                            <img src="/static/images/object/volskaya-5.jpg" alt="Придомовая территория и зона отдыха" />
+                            <figcaption>Детская площадка и зоны отдыха</figcaption>
+                        </figure>
                     </div>
                 </div>
             </div>
@@ -252,7 +284,7 @@ const ProjectDetail = {
                 <div class="info-wrap">
                     <div class="info-text">
                         <p class="h3"><span class="text-white">Группа компаний «АВД ГРУПП»</span></p>
-                        <p class="body"><span class="text-white">Застройщик: ООО «Специализированный застройщик СК „Рост-Строй“»<br>ИНН 5903124969 · ОГРН 1165958080199 · г. Пермь, ул. Окулова, 27<br>тел. 8 (908) 25-85-888 · +7 902 80 32 835 · avd_groupp@mail.ru</span></p>
+                        <p class="body"><span class="text-white">Застройщик: ООО «Специализированный застройщик СК „Рост-Строй“»<br>ИНН 5903124969 · ОГРН 1165958080199 · г. Пермь, ул. Петропавловская, 41, оф. 209<br>тел. 8 (908) 25-85-888 · +7 902 80 32 835 · avd_grupp@mail.ru</span></p>
                     </div>
                     <img src="/static/images/monochrome_logo.png" class="footer-logo" alt="Логотип" />
                 </div>
@@ -263,6 +295,10 @@ const ProjectDetail = {
         return { form: { name: '', phone: '', home: '' } };
     },
     methods: {
+        scrollToForm() {
+            const el = document.getElementById('pd-form');
+            if (el) el.scrollIntoView({ behavior: 'smooth' });
+        },
         submitForm() {
             alert('Спасибо! Заявка принята. Мы свяжемся с вами в ближайшее время и подберём удобное время для просмотра.');
             this.form = { name: '', phone: '', home: '' };
