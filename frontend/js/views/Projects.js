@@ -12,12 +12,12 @@ const Projects = {
                             <p class="menu"><span class="text-rgb-50-50-50">Главная</span></p>
                         </router-link>
                         <router-link to="/about" class="prototype-link">
-                            <p class="menu"><span class="text-rgb-50-50-50">О нас</span></p>
+                            <p class="menu"><span class="text-rgb-50-50-50">О компании</span></p>
                         </router-link>
+                        <p class="menu active"><span class="text-rgb-181-85-47">Объекты</span></p>
                         <router-link to="/contacts" class="prototype-link">
                             <p class="menu"><span class="text-rgb-50-50-50">Контакты</span></p>
                         </router-link>
-                        <p class="menu active"><span class="text-rgb-181-85-47">Объекты</span></p>
                     </div>
                     <div class="nav-auth">
                         <router-link to="/login" class="prototype-link">
@@ -27,18 +27,46 @@ const Projects = {
                     </div>
                 </div>
             </div>
-<<<<<<< HEAD
 
-=======
->>>>>>> 7586d8f31b2e96b7d2efa9b201c9db514cf8d25e
             <div class="page-wrap">
                 <div class="page">
                     <div class="page-header">
                         <h1 class="h1">Наши объекты</h1>
-                        <p class="body">Реальные проекты, реализованные командой АВД ГРУПП в Перми и Пермском крае</p>
+                        <p class="body">Собственные проекты АВД ГРУПП — готовое жильё от застройщика в Перми</p>
                     </div>
+
+                    <!-- ФЛАГМАНСКИЙ ОБЪЕКТ -->
+                    <div class="featured-object-card">
+                        <div class="foc-body">
+                            <span class="foc-status">Готовое жильё · дом сдан</span>
+                            <h2 class="foc-title">Комплекс таунхаусов<br>ул. Вольская, 29</h2>
+                            <p class="foc-address">Кировский район, Пермь · 20 минут от центра</p>
+                            <div class="foc-specs">
+                                <div class="spec-item"><b>5</b><span>блок-секций</span></div>
+                                <div class="spec-item"><b>99,6–133,6 м²</b><span>площадь домов</span></div>
+                                <div class="spec-item"><b>Кирпич</b><span>стены и фасады</span></div>
+                                <div class="spec-item"><b>12,83 млн ₽</b><span>максимальная цена</span></div>
+                            </div>
+                            <router-link to="/project/volskaya" class="prototype-link">
+                                <div class="button-primary-14">
+                                    <p class="button"><span class="text-white">Смотреть объект</span></p>
+                                    <span class="button-arrow">→</span>
+                                </div>
+                            </router-link>
+                        </div>
+                        <div class="foc-side">
+                            <div class="foc-price-box">
+                                <span>от</span>
+                                <b>9 960 000 ₽</b>
+                                <p>дом 99,6 м²</p>
+                            </div>
+                            <p class="foc-note">Семейная и IT-ипотека, жилищные сертификаты, взаимозачёт</p>
+                        </div>
+                    </div>
+
+                    <h2 class="projects-subtitle">Все объекты</h2>
                     <div v-if="loading" class="empty">Загрузка...</div>
-                    <div v-else-if="posts.length === 0" class="empty">Пока нет объектов</div>
+                    <div v-else-if="posts.length === 0" class="empty">Пока нет других объектов</div>
                     <div v-else class="projects-grid">
                         <div class="project-card" v-for="post in posts" :key="post.id">
                             <img v-if="post.image" :src="post.image" :alt="post.title" />
@@ -49,82 +77,6 @@ const Projects = {
                                 <span v-if="post.year" class="project-tag">{{ post.year }}</span>
                             </div>
                         </div>
-<<<<<<< HEAD
-                        <div class="project-card">
-                            <img src="/static/images/project2.jpg" alt="16-этажный жилой дом" />
-                            <div class="project-card-content">
-                                <h3>16-этажный жилой дом</h3>
-                                <p class="project-meta">г. Пермь, ул. Беляева, 8</p>
-                                <p class="project-meta">Заказчик: ОАО «ПЗСП»</p>
-                                <span class="project-tag">2013 год</span>
-                            </div>
-                        </div>
-                        <div class="project-card">
-                            <img src="/static/images/project3.jpg" alt="16-этажный жилой дом" />
-                            <div class="project-card-content">
-                                <h3>16-этажный жилой дом</h3>
-                                <p class="project-meta">г. Пермь, ул. Левченко, 31</p>
-                                <p class="project-meta">Заказчик: ООО «Альфа-Строй»</p>
-                                <span class="project-tag">2013-2014</span>
-                            </div>
-                        </div>
-                        <div class="project-card">
-                            <img src="/static/images/project4.jpg" alt="Малоэтажные дома" />
-                            <div class="project-card-content">
-                                <h3>Группа малоэтажных домов</h3>
-                                <p class="project-meta">с. Лобаново, секции №7, №8</p>
-                                <p class="project-meta">Заказчик: ООО «КУБ-Стройкомплекс»</p>
-                                <span class="project-tag">2014 год</span>
-                            </div>
-                        </div>
-                        <div class="project-card">
-                            <img src="/static/images/project5.jpg" alt="Комплекс 4-этажных домов" />
-                            <div class="project-card-content">
-                                <h3>Комплекс 4-этажных жилых домов</h3>
-                                <p class="project-meta">г. Пермь, ул. Кировоградская, 180</p>
-                                <p class="project-meta">Генподрядчик: ООО «КУБ-Стройкомплекс»</p>
-                                <span class="project-tag">2014-2015</span>
-                            </div>
-                        </div>
-                        <div class="project-card">
-                            <img src="/static/images/project6.jpg" alt="Апартаменты Усть-Качка" />
-                            <div class="project-card-content">
-                                <h3>Апартаменты при курорте Усть-Качка</h3>
-                                <p class="project-meta">Пермский край, с. Усть-Качка</p>
-                                <p class="project-meta">Заказчик: ООО «СОМ-Строй»</p>
-                                <span class="project-tag">2014-2015</span>
-                            </div>
-                        </div>
-                        <div class="project-card">
-                            <img src="/static/images/project7.jpg" alt="5-этажный жилой дом" />
-                            <div class="project-card-content">
-                                <h3>5-этажный жилой дом</h3>
-                                <p class="project-meta">с. Усть-Качка, ул. Победы, 18</p>
-                                <p class="project-meta">Заказчик: ООО «СОМ-Строй»</p>
-                                <span class="project-tag">2014-2015</span>
-                            </div>
-                        </div>
-                        <div class="project-card">
-                            <img src="/static/images/project8.jpg" alt="ЖК Олимп" />
-                            <div class="project-card-content">
-                                <h3>ЖК «Олимп»</h3>
-                                <p class="project-meta">г. Пермь, ул. Локомотивная, 1</p>
-                                <p class="project-meta">Заказчик: ООО «Альфа-Строй»</p>
-                                <span class="project-tag">2016 год</span>
-                            </div>
-                        </div>
-                        <div class="project-card">
-                            <img src="/static/images/project9.jpg" alt="ЖК Новый центр" />
-                            <div class="project-card-content">
-                                <h3>ЖК «Новый центр»</h3>
-                                <p class="project-meta">г. Пермь, ул. Революции, 22</p>
-                                <p class="project-meta">Застройщик: ООО «Талант»</p>
-                                <span class="project-tag">2017-2018</span>
-                            </div>
-                        </div>
-=======
-                    </div>
->>>>>>> 7586d8f31b2e96b7d2efa9b201c9db514cf8d25e
                     </div>
                 </div>
             </div>

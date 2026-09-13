@@ -36,7 +36,7 @@ const Contacts = {
                         <div class="contact-icon">
                             <img src="/static/images/map_simbol.svg" alt="Адрес" />
                         </div>
-                        <p class="h3"><span class="text-white">г. Пермь, ул. Ленина, 9, оф. 415</span></p>
+                        <p class="h3"><span class="text-white">г. Пермь, ул. Окулова, 27</span></p>
                     </div>
                     <div class="contact-item">
                         <div class="contact-icon">
@@ -72,7 +72,7 @@ const Contacts = {
                         <div class="contact-icon">
                             <img src="/static/images/vk_simbol.svg" alt="VK" />
                         </div>
-                        <p class="h3"><span class="text-white"><a href="https://vk.com/avd_groupp" target="_blank" class="contact-link">Мы ВКонтакте</a></span></p>
+                        <p class="h3"><span class="text-white"><a href="https://wa.me/79028032835" target="_blank" class="contact-link">Мы в мессенджерах</a></span></p>
                     </div>
                 </div>
             </div>
@@ -98,9 +98,9 @@ const Contacts = {
             <!-- КАРТА -->
             <div class="map-section">
                 <div class="map-container">
-                    <iframe src="https://2gis.ru/perm/firm/70000001022018321" allowfullscreen loading="lazy"></iframe>
+                    <iframe src="https://yandex.ru/map-widget/v1/?text=Пермь, улица Окулова, 27" allowfullscreen loading="lazy"></iframe>
                 </div>
-                <p class="h2"><span class="text-black">Мы находимся в центре Перми</span></p>
+                <p class="h2"><span class="text-black">Офис застройщика — центр Перми</span></p>
             </div>
         </div>
     `,
