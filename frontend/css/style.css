@@ -4949,3 +4949,231 @@ a { text-decoration: none; color: inherit; }
 @media (max-width: 600px) {
   .ts-about-stats { grid-template-columns: 1fr; }
 }
+
+/* --- Действия на карточке дома --- */
+.ts-home-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+/* --- Распроданные дома --- */
+.ts-sold {
+  margin-top: 56px;
+}
+.ts-sold-title {
+  font-family: var(--font-family-montserrat);
+  font-size: 22px;
+  font-weight: 700;
+  margin: 0 0 8px;
+  color: var(--text-dark);
+}
+.ts-sold-sub {
+  color: var(--text-gray);
+  font-size: 14px;
+  margin: 0 0 26px;
+  max-width: 640px;
+}
+.ts-sold-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 18px;
+}
+.ts-sold-card {
+  position: relative;
+  text-align: left;
+  background: #FFF;
+  border: 1px solid rgba(0,0,0,0.08);
+  border-radius: 16px;
+  padding: 26px 24px;
+  cursor: pointer;
+  font-family: inherit;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  transition: var(--transition);
+}
+.ts-sold-card:hover {
+  box-shadow: var(--shadow-lg);
+  transform: translateY(-3px);
+  border-color: var(--orange);
+}
+.ts-sold-badge {
+  position: absolute;
+  top: 16px; right: 16px;
+  background: var(--dark-bg);
+  color: #FFF;
+  font-weight: 700;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  border-radius: 30px;
+  padding: 5px 12px;
+}
+.ts-sold-name {
+  font-family: var(--font-family-montserrat);
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--text-dark);
+  padding-right: 70px;
+}
+.ts-sold-note {
+  font-size: 13px;
+  color: var(--text-gray);
+}
+.ts-sold-view {
+  margin-top: 10px;
+  font-weight: 700;
+  font-size: 13px;
+  color: var(--orange-dark);
+}
+
+/* --- Модалка --- */
+.ts-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  background: rgba(45,45,45,0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  overflow-y: auto;
+}
+.ts-modal-box {
+  position: relative;
+  background: #FFF;
+  border-radius: 20px;
+  max-width: 860px;
+  width: 100%;
+  padding: 34px;
+  box-shadow: var(--shadow-lg);
+}
+.ts-modal-narrow {
+  max-width: 640px;
+}
+.ts-modal-close {
+  position: absolute;
+  top: 16px; right: 16px;
+  width: 40px; height: 40px;
+  border-radius: 50%;
+  border: none;
+  background: var(--light-bg);
+  color: var(--text-dark);
+  font-size: 18px;
+  cursor: pointer;
+  transition: var(--transition);
+  z-index: 2;
+}
+.ts-modal-close:hover {
+  background: var(--orange);
+  color: #FFF;
+}
+.ts-modal-badge {
+  align-self: flex-start;
+  display: inline-block;
+  background: var(--orange);
+  color: #FFF;
+  font-weight: 700;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  border-radius: 30px;
+  padding: 7px 16px;
+  margin: 0 0 14px;
+}
+.ts-modal-sold {
+  background: var(--dark-bg);
+}
+.ts-modal-title {
+  font-family: var(--font-family-montserrat);
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--text-dark);
+  margin: 0 0 6px;
+}
+.ts-modal-price {
+  font-family: var(--font-family-montserrat);
+  font-size: 22px;
+  font-weight: 800;
+  color: var(--orange-dark);
+  margin: 0 0 8px;
+}
+.ts-modal-note {
+  color: var(--text-gray);
+  font-size: 14px;
+  margin: 0 0 22px;
+}
+.ts-modal-gallery {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px;
+  margin-bottom: 26px;
+}
+.ts-modal-gallery figure {
+  margin: 0;
+  border-radius: 14px;
+  overflow: hidden;
+  background: var(--light-bg);
+  border: 1px solid rgba(0,0,0,0.06);
+  display: flex;
+  flex-direction: column;
+}
+.ts-modal-gallery img {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+  display: block;
+}
+.ts-modal-gallery figcaption {
+  font-size: 12px;
+  color: var(--text-gray);
+  padding: 10px 12px;
+  line-height: 1.4;
+}
+.ts-modal-floors {
+  margin-bottom: 26px;
+}
+.ts-modal-img-lg {
+  width: 100%;
+  max-height: 340px;
+  object-fit: cover;
+  border-radius: 14px;
+  margin-bottom: 18px;
+  border: 1px solid rgba(0,0,0,0.06);
+}
+.ts-modal-cta-note {
+  font-size: 14px;
+  color: var(--text-gray);
+  margin: 10px 0 0;
+}
+
+/* --- Другие объекты как кнопки --- */
+button.ts-other-card {
+  border: 1px solid rgba(0,0,0,0.08);
+  background: #FFF;
+  color: inherit;
+  font-family: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+button.ts-other-card:hover {
+  transform: translateY(-3px);
+}
+
+/* --- Офис на странице «О компании» --- */
+.ts-contacts-simple .ts-contact-cards {
+  grid-template-columns: repeat(3, 1fr);
+}
+
+@media (max-width: 1024px) {
+  .ts-sold-grid { grid-template-columns: repeat(2, 1fr); }
+  .ts-modal-gallery { grid-template-columns: repeat(2, 1fr); }
+  .ts-contacts-simple .ts-contact-cards { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 600px) {
+  .ts-sold-grid { grid-template-columns: 1fr; }
+  .ts-modal-box { padding: 24px; }
+  .ts-modal-gallery { grid-template-columns: 1fr; }
+}

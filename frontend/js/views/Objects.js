@@ -9,18 +9,18 @@ const Objects = {
                 <div class="ts-hero-inner">
                     <p class="ts-hero-badge">Объекты</p>
                     <h1 class="ts-hero-h1">Готовое жильё, которое можно увидеть сегодня</h1>
-                    <p class="ts-hero-sub">Комплекс таунхаусов на ул. Вольская, 29 — сдан и заселён. Из 5 домов в продаже остался один — просторный дом 133,6 м². Ниже его состав и фотографии.</p>
+                    <p class="ts-hero-sub">Комплекс таунхаусов на ул. Вольская, 29 — сдан и заселён. Из 5 домов в продаже остался один — просторный дом 133,6 м². Ниже его состав и фотографии. Распроданные дома можно посмотреть — чтобы представить формат.</p>
                     <div class="ts-hero-actions">
                         <router-link to="/request" class="ts-btn ts-btn-orange">Записаться на просмотр</router-link>
                     </div>
                 </div>
             </section>
 
-            <!-- ДОМА В ПРОДАЖЕ -->
+            <!-- ДОМА КОМПЛЕКСА -->
             <section class="ts-section">
                 <div class="ts-container">
-                    <p class="ts-label">Дома в продаже</p>
-                    <h2 class="ts-h2">Всего в комплексе 5 домов — <span>остался последний</span></h2>
+                    <p class="ts-label">Дома комплекса</p>
+                    <h2 class="ts-h2">Всего 5 домов — <span>остался последний</span></h2>
                     <div class="ts-avail-strip">
                         <span class="ts-avail-chip">3 дома 99,6 м² — проданы</span>
                         <span class="ts-avail-chip">1 дом 133,6 м² — продан</span>
@@ -34,13 +34,29 @@ const Objects = {
                                 <h3 class="ts-home-name">Таунхаус 133,6 м²</h3>
                                 <p class="ts-home-note">Просторный дом с максимальным панорамным светом — последний в комплексе</p>
                                 <ul class="ts-home-floors">
-                                    <li><b>1 этаж</b>прихожая, кухня-гостиная, санузел, котельная, тёплые полы</li>
-                                    <li><b>2 этаж</b>спальни с панорамными окнами, санузел, дополнительные окна в санузле и на лестнице</li>
-                                    <li><b>Подполье</b>техническое помещение</li>
+                                    <li><b>1 этаж</b>прихожая, просторная кухня-гостиная, санузел, котельная, тёплые полы</li>
+                                    <li><b>2 этаж</b>3 спальни с панорамными окнами, дополнительные окна на лестнице</li>
                                     <li><b>Участок</b>закрытая лужайка до 70 м²</li>
                                 </ul>
-                                <router-link to="/request" class="ts-btn ts-btn-orange">Заявка на дом</router-link>
+                                <div class="ts-home-actions">
+                                    <router-link to="/request" class="ts-btn ts-btn-orange">Заявка на дом</router-link>
+                                    <button type="button" class="ts-btn ts-btn-outline" @click="openHome(homes[0])">Состав и фото</button>
+                                </div>
                             </div>
+                        </div>
+                    </div>
+
+                    <!-- РАСПРОДАННЫЕ ДОМА -->
+                    <div class="ts-sold">
+                        <h3 class="ts-sold-title">Распроданные дома — посмотреть</h3>
+                        <p class="ts-sold-sub">Каждый дом комплекса уже куплен и заселён. Откройте карточку, чтобы увидеть формат, состав и фотографии.</p>
+                        <div class="ts-sold-grid">
+                            <button type="button" class="ts-sold-card" v-for="h in soldHomes" :key="h.key" @click="openHome(h)">
+                                <span class="ts-sold-badge">Продано</span>
+                                <b class="ts-sold-name">{{ h.name }}</b>
+                                <span class="ts-sold-note">{{ h.note }}</span>
+                                <span class="ts-sold-view">Смотреть состав и фото →</span>
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -128,7 +144,7 @@ const Objects = {
                     <p class="ts-label">Другие объекты</p>
                     <h2 class="ts-h2">Чем ещё мы занимались</h2>
                     <div class="ts-posts">
-                        <div class="ts-other-card ts-other-card-lg" v-for="post in posts" :key="post.id">
+                        <button type="button" class="ts-other-card ts-other-card-lg" v-for="post in posts" :key="post.id" @click="openPost(post)">
                             <img v-if="post.image" :src="post.image" :alt="post.title" />
                             <div>
                                 <h3>{{ post.title }}</h3>
@@ -136,10 +152,44 @@ const Objects = {
                                 <p v-if="post.content" class="ts-post-content">{{ post.content }}</p>
                                 <span v-if="post.year" class="ts-other-year">{{ post.year }}</span>
                             </div>
-                        </div>
+                        </button>
                     </div>
                 </div>
             </section>
+
+            <!-- МОДАЛКА ДОМА -->
+            <div v-if="activeHome" class="ts-modal" @click.self="activeHome = null">
+                <div class="ts-modal-box">
+                    <button type="button" class="ts-modal-close" @click="activeHome = null">✕</button>
+                    <p class="ts-modal-badge" :class="{ 'ts-modal-sold': activeHome.sold }">{{ activeHome.sold ? 'Продано' : 'В продаже' }}</p>
+                    <h3 class="ts-modal-title">{{ activeHome.name }}</h3>
+                    <p v-if="!activeHome.sold" class="ts-modal-price">{{ activeHome.price }}</p>
+                    <p class="ts-modal-note">{{ activeHome.note }}</p>
+                    <div class="ts-modal-gallery">
+                        <figure v-for="(ph, i) in activeHome.photos" :key="i">
+                            <img :src="ph.src" :alt="ph.caption" />
+                            <figcaption>{{ ph.caption }}</figcaption>
+                        </figure>
+                    </div>
+                    <ul class="ts-home-floors ts-modal-floors">
+                        <li v-for="(f, i) in activeHome.floors" :key="i"><b>{{ f[0] }}</b> — {{ f[1] }}</li>
+                    </ul>
+                    <router-link v-if="!activeHome.sold" to="/request" class="ts-btn ts-btn-orange">Заявка на дом</router-link>
+                    <p v-else class="ts-modal-cta-note">Этот дом уже продан. Оставьте заявку — расскажем о похожих вариантах.</p>
+                </div>
+            </div>
+
+            <!-- МОДАЛКА ДРУГОГО ОБЪЕКТА -->
+            <div v-if="activePost" class="ts-modal" @click.self="activePost = null">
+                <div class="ts-modal-box ts-modal-narrow">
+                    <button type="button" class="ts-modal-close" @click="activePost = null">✕</button>
+                    <img v-if="activePost.image" :src="activePost.image" :alt="activePost.title" class="ts-modal-img-lg" />
+                    <h3 class="ts-modal-title">{{ activePost.title }}</h3>
+                    <p v-if="activePost.year" class="ts-modal-note">{{ activePost.year }}</p>
+                    <p v-if="activePost.address" class="ts-modal-note">{{ activePost.address }}</p>
+                    <p v-if="activePost.content" class="ts-post-content">{{ activePost.content }}</p>
+                </div>
+            </div>
 
             <!-- ФУТЕР -->
             <footer class="ts-footer">
@@ -163,21 +213,139 @@ const Objects = {
                     </div>
                 </div>
                 <div class="ts-container">
-                    <p class="ts-footer-legal">Застройщик: ООО «Специализированный застройщик СК „Рост-Строй“» · ИНН 5903124969 · ОГРН 1165958080199<br>Информация на сайте носит справочный характер и не является публичной офертой · © АВД ГРУПП</p>
+                    <p class="ts-footer-legal">АВД ГРУПП — застройщик малоэтажного жилья в Перми<br>Информация на сайте носит справочный характер и не является публичной офертой · © АВД ГРУПП</p>
                 </div>
             </footer>
         </div>
     `,
     data() {
         return {
-            posts: []
+            posts: [],
+            activeHome: null,
+            activePost: null,
+            homes: [
+                {
+                    key: 'last',
+                    tag: '2 этажа · кирпич · дом сдан',
+                    price: '12 830 000 ₽',
+                    name: 'Таунхаус 133,6 м²',
+                    note: 'Просторный дом с максимальным панорамным светом — последний в комплексе',
+                    sold: false,
+                    floors: [
+                        ['1 этаж', 'прихожая, просторная кухня-гостиная, санузел, котельная, тёплые полы'],
+                        ['2 этаж', '3 спальни с панорамными окнами, дополнительные окна на лестнице'],
+                        ['Участок', 'закрытая лужайка до 70 м²']
+                    ],
+                    photos: [
+                        { src: '/static/images/object/volskaya-1.jpg', caption: 'Комплекс из пяти блокированных кирпичных домов' },
+                        { src: '/static/images/object/volskaya-2.jpg', caption: 'Стены и перегородки' },
+                        { src: '/static/images/object/volskaya-3.jpg', caption: 'Межэтажные перекрытия' },
+                        { src: '/static/images/object/volskaya-4.jpg', caption: 'Благоустройство территории' },
+                        { src: '/static/images/object/volskaya-5.jpg', caption: 'Детская площадка и зоны отдыха' }
+                    ]
+                },
+                {
+                    key: 's-133-1',
+                    tag: '2 этажа · кирпич',
+                    name: 'Таунхаус 133,6 м²',
+                    note: 'Второй просторный дом комплекса — продан',
+                    sold: true,
+                    floors: [
+                        ['1 этаж', 'прихожая, просторная кухня-гостиная, санузел, котельная, тёплые полы'],
+                        ['2 этаж', '3 спальни с панорамными окнами, дополнительные окна на лестнице'],
+                        ['Участок', 'закрытая лужайка до 70 м²']
+                    ],
+                    photos: [
+                        { src: '/static/images/object/volskaya-1.jpg', caption: 'Комплекс из пяти блокированных кирпичных домов' },
+                        { src: '/static/images/object/volskaya-4.jpg', caption: 'Благоустройство территории' },
+                        { src: '/static/images/object/volskaya-5.jpg', caption: 'Детская площадка и зоны отдыха' }
+                    ]
+                },
+                {
+                    key: 's-99-1',
+                    tag: '2 этажа · кирпич',
+                    name: 'Таунхаус 99,6 м²',
+                    note: 'Компактный семейный дом — продан',
+                    sold: true,
+                    floors: [
+                        ['1 этаж', 'прихожая, кухня-гостиная, санузел, котельная, тёплые полы'],
+                        ['2 этаж', 'спальни с панорамными окнами'],
+                        ['Участок', 'закрытая лужайка до 40 м²']
+                    ],
+                    photos: [
+                        { src: '/static/images/object/volskaya-1.jpg', caption: 'Комплекс из пяти блокированных кирпичных домов' },
+                        { src: '/static/images/object/volskaya-4.jpg', caption: 'Благоустройство территории' },
+                        { src: '/static/images/object/volskaya-5.jpg', caption: 'Детская площадка и зоны отдыха' }
+                    ]
+                },
+                {
+                    key: 's-99-2',
+                    tag: '2 этажа · кирпич',
+                    name: 'Таунхаус 99,6 м²',
+                    note: 'Компактный семейный дом — продан',
+                    sold: true,
+                    floors: [
+                        ['1 этаж', 'прихожая, кухня-гостиная, санузел, котельная, тёплые полы'],
+                        ['2 этаж', 'спальни с панорамными окнами'],
+                        ['Участок', 'закрытая лужайка до 40 м²']
+                    ],
+                    photos: [
+                        { src: '/static/images/object/volskaya-1.jpg', caption: 'Комплекс из пяти блокированных кирпичных домов' },
+                        { src: '/static/images/object/volskaya-4.jpg', caption: 'Благоустройство территории' },
+                        { src: '/static/images/object/volskaya-5.jpg', caption: 'Детская площадка и зоны отдыха' }
+                    ]
+                },
+                {
+                    key: 's-99-3',
+                    tag: '2 этажа · кирпич',
+                    name: 'Таунхаус 99,6 м²',
+                    note: 'Компактный семейный дом — продан',
+                    sold: true,
+                    floors: [
+                        ['1 этаж', 'прихожая, кухня-гостиная, санузел, котельная, тёплые полы'],
+                        ['2 этаж', 'спальни с панорамными окнами'],
+                        ['Участок', 'закрытая лужайка до 40 м²']
+                    ],
+                    photos: [
+                        { src: '/static/images/object/volskaya-1.jpg', caption: 'Комплекс из пяти блокированных кирпичных домов' },
+                        { src: '/static/images/object/volskaya-4.jpg', caption: 'Благоустройство территории' },
+                        { src: '/static/images/object/volskaya-5.jpg', caption: 'Детская площадка и зоны отдыха' }
+                    ]
+                }
+            ]
         };
+    },
+    computed: {
+        soldHomes() {
+            return this.homes.filter(h => h.sold);
+        }
+    },
+    watch: {
+        activeHome() {
+            this.activePost = null;
+            this.toggleScroll();
+        },
+        activePost() {
+            this.activeHome = null;
+            this.toggleScroll();
+        }
     },
     async created() {
         try {
             this.posts = await API.request('/post/all');
         } catch (e) {
             console.error('Failed to load posts:', e);
+        }
+    },
+    methods: {
+        openHome(h) {
+            this.activeHome = h;
+        },
+        openPost(p) {
+            this.activePost = p;
+        },
+        toggleScroll() {
+            document.body.style.overflow = (this.activeHome || this.activePost) ? 'hidden' : '';
         }
     }
 };
