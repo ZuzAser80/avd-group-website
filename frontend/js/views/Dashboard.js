@@ -8,9 +8,7 @@ const Dashboard = {
                 </div>
                 <nav class="sidebar-nav">
                     <a href="#" class="active" @click.prevent><span>📊</span> Профиль</a>
-                    <a href="#" @click.prevent><span>📁</span> Мои проекты</a>
-                    <a href="#" @click.prevent><span>📄</span> Документы</a>
-                    <a href="#" @click.prevent><span>⚙️</span> Настройки</a>
+                    <router-link to="/posts"><span>📄</span> Все объекты</router-link>
                 </nav>
                 <div class="sidebar-footer">
                     <button class="btn-logout" @click="handleLogout">Выйти</button>
@@ -44,6 +42,7 @@ const Dashboard = {
 
                 <div class="dashboard-content-card">
                     <h2>Информация о профиле</h2>
+<<<<<<< HEAD
                     <div v-if="user">
                         <div class="info-row">
                             <span class="label">ID</span>
@@ -59,10 +58,19 @@ const Dashboard = {
                         </div>
                     </div>
                     <p v-else class="info-row">Нет данных</p>
+=======
+                    <p class="info-row">Скоро здесь появится больше информации</p>
+>>>>>>> 7586d8f31b2e96b7d2efa9b201c9db514cf8d25e
                 </div>
             </div>
         </div>
     `,
+<<<<<<< HEAD
+=======
+    data() {
+        return {};
+    },
+>>>>>>> 7586d8f31b2e96b7d2efa9b201c9db514cf8d25e
     computed: {
         user() {
             return API.parseToken();
@@ -75,27 +83,17 @@ const Dashboard = {
             return new Date().toLocaleString('ru-RU');
         },
         userName() {
-            return this.user ? ('Пользователь ' + this.user.sub) : 'Гость';
+            return this.user ? this.user.name : 'Гость';
         },
         userInitials() {
-            return this.user ? 'АВ' : 'Г';
+            if (!this.user || !this.user.name) return 'Г';
+            return this.user.name.substring(0, 2).toUpperCase();
         }
     },
     async created() {
         if (!API.isLoggedIn()) {
             this.$router.push('/login');
             return;
-        }
-        try {
-            this.user = await API.request('/user/me');
-            const tokenData = API.parseToken();
-            if (tokenData && tokenData.exp) {
-                this.exp = new Date(tokenData.exp * 1000).toLocaleString('ru-RU');
-            }
-        } catch (e) {
-            console.error('Failed to load profile:', e);
-        } finally {
-            this.loading = false;
         }
     },
     methods: {

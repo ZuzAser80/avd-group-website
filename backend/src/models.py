@@ -12,5 +12,8 @@ class Post(Base):
     __tablename__ = "posts"
     id = Column(Integer, primary_key=True, index=True)
     title = Column(String, index=True)
-    content = Column(String, index=True)
+    content = Column(String, nullable=True)
     image = Column(String, nullable=True)
+    address = Column(String, nullable=True)
+    client = Column(String, nullable=True)
+    year = Column(String, nullable=True)

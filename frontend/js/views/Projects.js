@@ -27,23 +27,29 @@ const Projects = {
                     </div>
                 </div>
             </div>
+<<<<<<< HEAD
 
+=======
+>>>>>>> 7586d8f31b2e96b7d2efa9b201c9db514cf8d25e
             <div class="page-wrap">
                 <div class="page">
                     <div class="page-header">
                         <h1 class="h1">Наши объекты</h1>
                         <p class="body">Реальные проекты, реализованные командой АВД ГРУПП в Перми и Пермском крае</p>
                     </div>
-                    <div class="projects-grid">
-                        <div class="project-card">
-                            <img src="/static/images/project1.jpg" alt="4-этажный жилой дом" />
+                    <div v-if="loading" class="empty">Загрузка...</div>
+                    <div v-else-if="posts.length === 0" class="empty">Пока нет объектов</div>
+                    <div v-else class="projects-grid">
+                        <div class="project-card" v-for="post in posts" :key="post.id">
+                            <img v-if="post.image" :src="post.image" :alt="post.title" />
                             <div class="project-card-content">
-                                <h3>4-этажный жилой дом</h3>
-                                <p class="project-meta">г. Пермь, ул. Левченко, 11</p>
-                                <p class="project-meta">Заказчик: ООО «АЯК-Строй»</p>
-                                <span class="project-tag">2012 год</span>
+                                <h3>{{ post.title }}</h3>
+                                <p v-if="post.address" class="project-meta">{{ post.address }}</p>
+                                <p v-if="post.client" class="project-meta">{{ post.client }}</p>
+                                <span v-if="post.year" class="project-tag">{{ post.year }}</span>
                             </div>
                         </div>
+<<<<<<< HEAD
                         <div class="project-card">
                             <img src="/static/images/project2.jpg" alt="16-этажный жилой дом" />
                             <div class="project-card-content">
@@ -116,6 +122,9 @@ const Projects = {
                                 <span class="project-tag">2017-2018</span>
                             </div>
                         </div>
+=======
+                    </div>
+>>>>>>> 7586d8f31b2e96b7d2efa9b201c9db514cf8d25e
                     </div>
                 </div>
             </div>
