@@ -7,6 +7,13 @@ class PostCreate(BaseModel):
     address: str | None = None
     client: str | None = None
     year: str | None = None
+    tag: str | None = None
+    price: str | None = None
+    sold: bool = False
+    kind: str = "post"
+    position: int = 0
+    floors: list | None = None
+    photos: list | None = None
 
 class PostResponse(BaseModel):
     id: int
@@ -16,6 +23,13 @@ class PostResponse(BaseModel):
     address: str | None = None
     client: str | None = None
     year: str | None = None
+    tag: str | None = None
+    price: str | None = None
+    sold: bool = False
+    kind: str = "post"
+    position: int = 0
+    floors: list | None = None
+    photos: list | None = None
 
     class Config:
         from_attributes = True
