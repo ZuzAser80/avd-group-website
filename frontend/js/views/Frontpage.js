@@ -174,7 +174,8 @@ const Frontpage = {
     },
     async created() {
         try {
-            this.posts = await API.request('/post/all');
+            const items = await API.request('/post/all');
+            this.posts = items.filter(p => p.kind !== 'home');
         } catch (e) {
             console.error('Failed to load posts:', e);
         }

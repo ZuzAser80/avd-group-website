@@ -1,6 +1,8 @@
 /backend/.venv
+database_startup.txt
 .idea
 backend/.env
 *.pyc
 *__pycache__
 .vscode
+backend/src/**/seed.py
