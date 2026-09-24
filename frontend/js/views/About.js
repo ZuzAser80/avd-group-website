@@ -70,12 +70,12 @@ const About = {
                         <div class="ts-contact-card">
                             <div class="ts-contact-ico">📍</div>
                             <b>Адрес </b>
-                            <span>г. Пермь, ул. Петропавловская, 41, оф. 209</span>
+                            <span>614000, Пермский край, г. Пермь, ул. Окулова, д. 27 оф. 103</span>
                         </div>
                         <div class="ts-contact-card">
                             <div class="ts-contact-ico">📞</div>
                             <b>Телефон </b>
-                            <span>8 (908) 25-85-888 · +7 902 80 32 835</span>
+                            <span>8 (908) 25-85-888</span>
                         </div>
                         <div class="ts-contact-card">
                             <div class="ts-contact-ico">✉️</div>
@@ -91,12 +91,12 @@ const About = {
                 <div class="ts-container ts-footer-grid">
                     <div>
                         <p class="ts-footer-title">Офис продаж</p>
-                        <p class="ts-footer-item">г. Пермь, ул. Петропавловская, 41, оф. 209</p>
+                        <p class="ts-footer-item">614000, Пермский край, г. Пермь, ул. Окулова, д. 27 оф. 103</p>
                         <p class="ts-footer-item">пн–пт: 9:00–18:00 · сб: 10:00–14:00</p>
                     </div>
                     <div>
                         <p class="ts-footer-title">Контакты</p>
-                        <p class="ts-footer-item">8 (908) 25-85-888 · +7 902 80 32 835</p>
+                        <p class="ts-footer-item">8 (908) 25-85-888</p>
                         <p class="ts-footer-item">avd_grupp@mail.ru</p>
                         <div class="ts-footer-links">
                             <a href="https://t.me/avd_grupp" target="_blank">Telegram</a>

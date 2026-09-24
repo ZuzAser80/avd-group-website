@@ -27,20 +27,18 @@ const Objects = {
                         <span class="ts-avail-chip ts-avail-chip-hot">1 дом 133,6 м² — в продаже</span>
                     </div>
                     <div class="ts-homes ts-homes-single">
-                        <div class="ts-home ts-home-featured">
+                        <div class="ts-home ts-home-featured" v-if="featuredHome">
                             <div class="ts-home-card">
-                                <span class="ts-home-tag">2 этажа · кирпич · дом сдан</span>
-                                <p class="ts-home-price"><b>12 830 000 ₽</b></p>
-                                <h3 class="ts-home-name">Таунхаус 133,6 м²</h3>
-                                <p class="ts-home-note">Просторный дом с максимальным панорамным светом — последний в комплексе</p>
+                                <span class="ts-home-tag">{{ featuredHome.tag }}</span>
+                                <p class="ts-home-price"><b>{{ featuredHome.price }}</b></p>
+                                <h3 class="ts-home-name">{{ featuredHome.name }}</h3>
+                                <p class="ts-home-note">{{ featuredHome.note }}</p>
                                 <ul class="ts-home-floors">
-                                    <li><b>1 этаж</b>прихожая, просторная кухня-гостиная, санузел, котельная, тёплые полы</li>
-                                    <li><b>2 этаж</b>3 спальни с панорамными окнами, дополнительные окна на лестнице</li>
-                                    <li><b>Участок</b>закрытая лужайка до 70 м²</li>
+                                    <li v-for="(f, i) in featuredHome.floors" :key="i"><b>{{ f[0] }}</b>{{ f[1] }}</li>
                                 </ul>
                                 <div class="ts-home-actions">
                                     <router-link to="/request" class="ts-btn ts-btn-orange">Заявка на дом</router-link>
-                                    <button type="button" class="ts-btn ts-btn-outline" @click="openHome(homes[0])">Состав и фото</button>
+                                    <button type="button" class="ts-btn ts-btn-outline" @click="openHome(featuredHome)">Состав и фото</button>
                                 </div>
                             </div>
                         </div>
@@ -196,12 +194,12 @@ const Objects = {
                 <div class="ts-container ts-footer-grid">
                     <div>
                         <p class="ts-footer-title">Офис продаж</p>
-                        <p class="ts-footer-item">г. Пермь, ул. Петропавловская, 41, оф. 209</p>
+                        <p class="ts-footer-item">614000, Пермский край, г. Пермь, ул. Окулова, д. 27 оф. 103</p>
                         <p class="ts-footer-item">пн–пт: 9:00–18:00 · сб: 10:00–14:00</p>
                     </div>
                     <div>
                         <p class="ts-footer-title">Контакты</p>
-                        <p class="ts-footer-item">8 (908) 25-85-888 · +7 902 80 32 835</p>
+                        <p class="ts-footer-item">8 (908) 25-85-888</p>
                         <p class="ts-footer-item">avd_grupp@mail.ru</p>
                         <div class="ts-footer-links">
                             <a href="https://t.me/avd_grupp" target="_blank">Telegram</a>
@@ -221,101 +219,15 @@ const Objects = {
     data() {
         return {
             posts: [],
+            homes: [],
             activeHome: null,
             activePost: null,
-            homes: [
-                {
-                    key: 'last',
-                    tag: '2 этажа · кирпич · дом сдан',
-                    price: '12 830 000 ₽',
-                    name: 'Таунхаус 133,6 м²',
-                    note: 'Просторный дом с максимальным панорамным светом — последний в комплексе',
-                    sold: false,
-                    floors: [
-                        ['1 этаж', 'прихожая, просторная кухня-гостиная, санузел, котельная, тёплые полы'],
-                        ['2 этаж', '3 спальни с панорамными окнами, дополнительные окна на лестнице'],
-                        ['Участок', 'закрытая лужайка до 70 м²']
-                    ],
-                    photos: [
-                        { src: '/static/images/object/volskaya-1.jpg', caption: 'Комплекс из пяти блокированных кирпичных домов' },
-                        { src: '/static/images/object/volskaya-2.jpg', caption: 'Стены и перегородки' },
-                        { src: '/static/images/object/volskaya-3.jpg', caption: 'Межэтажные перекрытия' },
-                        { src: '/static/images/object/volskaya-4.jpg', caption: 'Благоустройство территории' },
-                        { src: '/static/images/object/volskaya-5.jpg', caption: 'Детская площадка и зоны отдыха' }
-                    ]
-                },
-                {
-                    key: 's-133-1',
-                    tag: '2 этажа · кирпич',
-                    name: 'Таунхаус 133,6 м²',
-                    note: 'Второй просторный дом комплекса — продан',
-                    sold: true,
-                    floors: [
-                        ['1 этаж', 'прихожая, просторная кухня-гостиная, санузел, котельная, тёплые полы'],
-                        ['2 этаж', '3 спальни с панорамными окнами, дополнительные окна на лестнице'],
-                        ['Участок', 'закрытая лужайка до 70 м²']
-                    ],
-                    photos: [
-                        { src: '/static/images/object/volskaya-1.jpg', caption: 'Комплекс из пяти блокированных кирпичных домов' },
-                        { src: '/static/images/object/volskaya-4.jpg', caption: 'Благоустройство территории' },
-                        { src: '/static/images/object/volskaya-5.jpg', caption: 'Детская площадка и зоны отдыха' }
-                    ]
-                },
-                {
-                    key: 's-99-1',
-                    tag: '2 этажа · кирпич',
-                    name: 'Таунхаус 99,6 м²',
-                    note: 'Компактный семейный дом — продан',
-                    sold: true,
-                    floors: [
-                        ['1 этаж', 'прихожая, кухня-гостиная, санузел, котельная, тёплые полы'],
-                        ['2 этаж', 'спальни с панорамными окнами'],
-                        ['Участок', 'закрытая лужайка до 40 м²']
-                    ],
-                    photos: [
-                        { src: '/static/images/object/volskaya-1.jpg', caption: 'Комплекс из пяти блокированных кирпичных домов' },
-                        { src: '/static/images/object/volskaya-4.jpg', caption: 'Благоустройство территории' },
-                        { src: '/static/images/object/volskaya-5.jpg', caption: 'Детская площадка и зоны отдыха' }
-                    ]
-                },
-                {
-                    key: 's-99-2',
-                    tag: '2 этажа · кирпич',
-                    name: 'Таунхаус 99,6 м²',
-                    note: 'Компактный семейный дом — продан',
-                    sold: true,
-                    floors: [
-                        ['1 этаж', 'прихожая, кухня-гостиная, санузел, котельная, тёплые полы'],
-                        ['2 этаж', 'спальни с панорамными окнами'],
-                        ['Участок', 'закрытая лужайка до 40 м²']
-                    ],
-                    photos: [
-                        { src: '/static/images/object/volskaya-1.jpg', caption: 'Комплекс из пяти блокированных кирпичных домов' },
-                        { src: '/static/images/object/volskaya-4.jpg', caption: 'Благоустройство территории' },
-                        { src: '/static/images/object/volskaya-5.jpg', caption: 'Детская площадка и зоны отдыха' }
-                    ]
-                },
-                {
-                    key: 's-99-3',
-                    tag: '2 этажа · кирпич',
-                    name: 'Таунхаус 99,6 м²',
-                    note: 'Компактный семейный дом — продан',
-                    sold: true,
-                    floors: [
-                        ['1 этаж', 'прихожая, кухня-гостиная, санузел, котельная, тёплые полы'],
-                        ['2 этаж', 'спальни с панорамными окнами'],
-                        ['Участок', 'закрытая лужайка до 40 м²']
-                    ],
-                    photos: [
-                        { src: '/static/images/object/volskaya-1.jpg', caption: 'Комплекс из пяти блокированных кирпичных домов' },
-                        { src: '/static/images/object/volskaya-4.jpg', caption: 'Благоустройство территории' },
-                        { src: '/static/images/object/volskaya-5.jpg', caption: 'Детская площадка и зоны отдыха' }
-                    ]
-                }
-            ]
         };
     },
     computed: {
+        featuredHome() {
+            return this.homes.length ? this.homes[0] : null;
+        },
         soldHomes() {
             return this.homes.filter(h => h.sold);
         }
@@ -332,7 +244,21 @@ const Objects = {
     },
     async created() {
         try {
-            this.posts = await API.request('/post/all');
+            const items = await API.request('/post/all');
+            this.homes = items
+                .filter(p => p.kind === 'home')
+                .sort((a, b) => a.position - b.position)
+                .map(p => ({
+                    key: p.id,
+                    tag: p.tag,
+                    price: p.price,
+                    name: p.title,
+                    note: p.content,
+                    sold: !!p.sold,
+                    floors: Array.isArray(p.floors) ? p.floors : [],
+                    photos: Array.isArray(p.photos) ? p.photos : [],
+                }));
+            this.posts = items.filter(p => p.kind !== 'home');
         } catch (e) {
             console.error('Failed to load posts:', e);
         }

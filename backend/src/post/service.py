@@ -86,7 +86,10 @@ class PostRepository:
         new_post = Post(
             title=post.title, content=post.content,
             image=image_path,
-            address=post.address, client=post.client, year=post.year
+            address=post.address, client=post.client, year=post.year,
+            tag=post.tag, price=post.price,
+            sold=post.sold, kind=post.kind, position=post.position,
+            floors=post.floors, photos=post.photos,
         )
         session.add(new_post)
         await session.commit()
@@ -152,6 +155,13 @@ class PostRepository:
         db_post.address = post.address
         db_post.client = post.client
         db_post.year = post.year
+        db_post.tag = post.tag
+        db_post.price = post.price
+        db_post.sold = post.sold
+        db_post.kind = post.kind
+        db_post.position = post.position
+        db_post.floors = post.floors
+        db_post.photos = post.photos
         
         await session.commit()
         await session.refresh(db_post)

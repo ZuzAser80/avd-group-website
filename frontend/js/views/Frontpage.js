@@ -125,12 +125,12 @@ const Frontpage = {
                 <div class="ts-container ts-footer-grid">
                     <div>
                         <p class="ts-footer-title">Офис продаж</p>
-                        <p class="ts-footer-item">г. Пермь, ул. Петропавловская, 41, оф. 209</p>
+                        <p class="ts-footer-item">614000, Пермский край, г. Пермь, ул. Окулова, д. 27 оф. 103</p>
                         <p class="ts-footer-item">пн–пт: 9:00–18:00 · сб: 10:00–14:00</p>
                     </div>
                     <div>
                         <p class="ts-footer-title">Контакты</p>
-                        <p class="ts-footer-item">8 (908) 25-85-888 · +7 902 80 32 835</p>
+                        <p class="ts-footer-item">8 (908) 25-85-888</p>
                         <p class="ts-footer-item">avd_grupp@mail.ru</p>
                         <div class="ts-footer-links">
                             <a href="https://t.me/avd_grupp" target="_blank">Telegram</a>
@@ -174,7 +174,8 @@ const Frontpage = {
     },
     async created() {
         try {
-            this.posts = await API.request('/post/all');
+            const items = await API.request('/post/all');
+            this.posts = items.filter(p => p.kind !== 'home');
         } catch (e) {
             console.error('Failed to load posts:', e);
         }

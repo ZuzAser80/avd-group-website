@@ -49,6 +49,41 @@ const Posts = {
                         <label>Год</label>
                         <input type="text" v-model="newPost.year" placeholder="2024 год" />
 
+                        <label>Тип карточки</label>
+                        <select v-model="newPost.kind">
+                            <option value="post">Другие объекты</option>
+                            <option value="home">Карточка дома (страница «Объекты»)</option>
+                        </select>
+
+                        <label>Цена</label>
+                        <input type="text" v-model="newPost.price" placeholder="12 830 000 ₽" />
+
+                        <label>Метка (тег)</label>
+                        <input type="text" v-model="newPost.tag" placeholder="2 этажа · кирпич · дом сдан" />
+
+                        <label style="display: flex; align-items: center; gap: 8px; margin: 8px 0;">
+                            <input type="checkbox" v-model="newPost.sold" style="width: auto;" /> Дом продан
+                        </label>
+
+                        <label>Позиция (порядок вывода)</label>
+                        <input type="number" v-model.number="newPost.position" min="0" />
+
+                        <label>Этажи / состав</label>
+                        <div v-for="(f, i) in newPost.floors" :key="i" style="display: flex; gap: 6px; margin-bottom: 6px;" class="floors-row">
+                            <input type="text" v-model="f.label" placeholder="1 этаж" style="flex: 0 0 90px;" />
+                            <input type="text" v-model="f.text" placeholder="прихожая, кухня-гостиная..." style="flex: 1;" />
+                            <button type="button" class="btn-secondary" style="padding: 4px 10px; font-size: 12px;" @click="removeFloor(i)">✕</button>
+                        </div>
+                        <button type="button" class="btn-secondary" style="margin-bottom: 12px;" @click="addFloor">+ Добавить этаж</button>
+
+                        <label>Фото галереи</label>
+                        <div v-for="(ph, i) in newPost.photos" :key="i" style="display: flex; gap: 6px; margin-bottom: 6px;" class="photos-row">
+                            <input type="text" v-model="ph.src" placeholder="/static/uploads/..." style="flex: 1;" />
+                            <input type="text" v-model="ph.caption" placeholder="Подпись" style="flex: 1;" />
+                            <button type="button" class="btn-secondary" style="padding: 4px 10px; font-size: 12px;" @click="removePhoto(i)">✕</button>
+                        </div>
+                        <button type="button" class="btn-secondary" @click="addPhoto">+ Добавить фото</button>
+
                         <label>Фото</label>
                         <input type="file" accept="image/*" @change="onFileChange" class="file-input" />
 
@@ -70,7 +105,7 @@ const Posts = {
             showCreateModal: false,
             successMessage: '',
             submitting: false,
-            newPost: { title: '', content: '', address: '', client: '', year: '' },
+            newPost: { title: '', content: '', address: '', client: '', year: '', kind: 'post', price: '', tag: '', sold: false, position: 0, floors: [], photos: [] },
             newPostFile: null,
             editingPostId: null,
         };
@@ -96,7 +131,7 @@ const Posts = {
         openCreateModal() {
             this.showCreateModal = true;
             this.editingPostId = null;
-            this.newPost = { title: '', content: '', address: '', client: '', year: '' };
+            this.newPost = { title: '', content: '', address: '', client: '', year: '', kind: 'post', price: '', tag: '', sold: false, position: 0, floors: [], photos: [] };
             this.newPostFile = null;
         },
         editPost(post) {
@@ -107,9 +142,28 @@ const Posts = {
                 content: post.content || '',
                 address: post.address || '',
                 client: post.client || '',
-                year: post.year || ''
+                year: post.year || '',
+                kind: post.kind || 'post',
+                price: post.price || '',
+                tag: post.tag || '',
+                sold: !!post.sold,
+                position: post.position || 0,
+                floors: Array.isArray(post.floors) ? post.floors.map(f => ({ label: f[0], text: f[1] })) : [],
+                photos: Array.isArray(post.photos) ? post.photos.map(p => ({ src: p.src, caption: p.caption })) : [],
             };
             this.newPostFile = null;
+        },
+        addFloor() {
+            this.newPost.floors.push({ label: '', text: '' });
+        },
+        removeFloor(i) {
+            this.newPost.floors.splice(i, 1);
+        },
+        addPhoto() {
+            this.newPost.photos.push({ src: '', caption: '' });
+        },
+        removePhoto(i) {
+            this.newPost.photos.splice(i, 1);
         },
         async deletePost(postId) {
             if (!confirm('Вы уверены, что хотите удалить этот объект?')) {
@@ -134,7 +188,7 @@ const Posts = {
         closeCreateModal() {
             this.showCreateModal = false;
             this.editingPostId = null;
-            this.newPost = { title: '', content: '', address: '', client: '', year: '' };
+            this.newPost = { title: '', content: '', address: '', client: '', year: '', kind: 'post', price: '', tag: '', sold: false, position: 0, floors: [], photos: [] };
             this.newPostFile = null;
         },
         onFileChange(e) {
@@ -149,6 +203,17 @@ const Posts = {
                 if (this.newPost.address) formData.append('address', this.newPost.address);
                 if (this.newPost.client) formData.append('client', this.newPost.client);
                 if (this.newPost.year) formData.append('year', this.newPost.year);
+                formData.append('kind', this.newPost.kind || 'post');
+                if (this.newPost.price) formData.append('price', this.newPost.price);
+                if (this.newPost.tag) formData.append('tag', this.newPost.tag);
+                formData.append('sold', this.newPost.sold ? 'true' : 'false');
+                formData.append('position', String(this.newPost.position || 0));
+                if (this.newPost.floors.length) {
+                    formData.append('floors', JSON.stringify(this.newPost.floors.map(f => [f.label, f.text])));
+                }
+                if (this.newPost.photos.length) {
+                    formData.append('photos', JSON.stringify(this.newPost.photos.map(p => ({ src: p.src, caption: p.caption }))));
+                }
                 if (this.newPostFile) formData.append('file', this.newPostFile);
 
                 const token = API.getToken();
