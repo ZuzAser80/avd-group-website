@@ -187,31 +187,10 @@ a { text-decoration: none; color: inherit; }
   color: var(--orange);
 }
 
-/* Личный кабинет в шапке */
 .nav-auth {
   display: flex;
   align-items: center;
   gap: 20px;
-}
-
-.btn-login {
-  font-family: var(--font-family-montserrat);
-  font-weight: 600;
-  font-size: 13px;
-  color: var(--orange);
-  padding: 8px 20px;
-  border: 2px solid var(--orange);
-  border-radius: 20px;
-  transition: var(--transition);
-  cursor: pointer;
-  background: transparent;
-}
-
-.btn-login:hover {
-  background: var(--orange);
-  color: var(--white);
-  transform: translateY(-2px);
-  box-shadow: var(--shadow-md);
 }
 
 /* Телефон */
