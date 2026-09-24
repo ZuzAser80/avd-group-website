@@ -22,12 +22,12 @@ const Contacts = {
                         <div class="ts-contact-card">
                             <div class="ts-contact-ico">🏢</div>
                             <h3>Офис продаж</h3>
-                            <p>г. Пермь, ул. Петропавловская, 41, оф. 209</p>
+                            <p>614000, Пермский край, г. Пермь, ул. Окулова, д. 27 оф. 103</p>
                         </div>
                         <div class="ts-contact-card">
                             <div class="ts-contact-ico">📞</div>
                             <h3>Телефон</h3>
-                            <p><a href="tel:+79082585888">8 (908) 25-85-888</a><br><a href="tel:+79028032835">+7 902 80 32 835</a></p>
+                            <p><a href="tel:+79082585888">8 (908) 25-85-888</a></p>
                         </div>
                         <div class="ts-contact-card">
                             <div class="ts-contact-ico">✉️</div>
@@ -47,7 +47,6 @@ const Contacts = {
                         <div class="ts-contact-card">
                             <div class="ts-contact-ico">📍</div>
                             <h3>Офис застройщика</h3>
-                            <p>Центр Перми · 5 минут пешком от остановки «Газета Звезда»</p>
                         </div>
                     </div>
                 </div>
@@ -96,7 +95,7 @@ const Contacts = {
                     <p class="ts-label">Карта</p>
                     <h2 class="ts-h2">Как добраться до офиса</h2>
                     <div class="ts-contact-map">
-                        <iframe src="https://yandex.ru/map-widget/v1/?text=Пермь, улица Петропавловская, 41" allowfullscreen loading="lazy"></iframe>
+                        <iframe src="https://yandex.ru/map-widget/v1/?text=Пермь, улица Окулова, 27" allowfullscreen loading="lazy"></iframe>
                     </div>
                 </div>
             </section>
@@ -106,12 +105,12 @@ const Contacts = {
                 <div class="ts-container ts-footer-grid">
                     <div>
                         <p class="ts-footer-title">Офис продаж</p>
-                        <p class="ts-footer-item">г. Пермь, ул. Петропавловская, 41, оф. 209</p>
+                        <p class="ts-footer-item">614000, Пермский край, г. Пермь, ул. Окулова, д. 27 оф. 103</p>
                         <p class="ts-footer-item">пн–пт: 9:00–18:00 · сб: 10:00–14:00</p>
                     </div>
                     <div>
                         <p class="ts-footer-title">Контакты</p>
-                        <p class="ts-footer-item">8 (908) 25-85-888 · +7 902 80 32 835</p>
+                        <p class="ts-footer-item">8 (908) 25-85-888</p>
                         <p class="ts-footer-item">avd_grupp@mail.ru</p>
                         <div class="ts-footer-links">
                             <a href="https://t.me/avd_grupp" target="_blank">Telegram</a>

@@ -42,7 +42,7 @@ const AppHeader = {
                         <router-link to="/login" class="prototype-link">
                             <button class="btn-login">Личный кабинет</button>
                         </router-link>
-                        <p class="text-46"><span class="text-rgb-207-120-85">+7 902 80 32 835</span></p>
+                        <p class="text-46"><span class="text-rgb-207-120-85">8 (908) 25-85-888</span></p>
                     </div>
                 </div>
             </div>
