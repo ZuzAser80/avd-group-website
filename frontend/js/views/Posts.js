@@ -9,13 +9,23 @@ const Posts = {
                         <button class="btn-create" @click="openCreateModal" style="margin-top: 16px;">Создать объект</button>
                     </div>
                     <p v-if="successMessage" class="success-message">{{ successMessage }}</p>
+                    <div class="status-tabs" v-if="!loading">
+                        <button type="button" v-for="tab in statusTabs" :key="tab.key"
+                                class="status-tab" :class="{ 'status-tab-active': activeStatus === tab.key }"
+                                @click="activeStatus = tab.key">
+                            {{ tab.label }}
+                            <span class="status-tab-count">{{ statusCounts[tab.key] }}</span>
+                        </button>
+                    </div>
                     <div v-if="loading" class="empty">Загрузка...</div>
                     <div v-else-if="posts.length === 0" class="empty">Нет объектов</div>
+                    <div v-else-if="visiblePosts.length === 0" class="empty">{{ statusEmptyText(activeStatus) }}</div>
                     <div v-else class="projects-grid">
-                        <div class="project-card" v-for="post in posts" :key="post.id">
+                        <div class="project-card" v-for="post in visiblePosts" :key="post.id">
                             <img v-if="post.image" :src="post.image" :alt="post.title" />
                             <div class="project-card-content">
                                 <h3>{{ post.title }}</h3>
+                                <span class="project-status" :class="'project-status-' + postStatus(post)">{{ statusBadgeLabel(postStatus(post)) }}</span>
                                 <p v-if="post.address" class="project-meta">{{ post.address }}</p>
                                 <p v-if="post.client" class="project-meta">{{ post.client }}</p>
                                 <span v-if="post.year" class="project-tag">{{ post.year }}</span>
@@ -40,6 +50,14 @@ const Posts = {
                         <label>Описание</label>
                         <textarea v-model="newPost.content" placeholder="Описание объекта"></textarea>
 
+                        <label>Статус объекта</label>
+                        <select v-model="newPost.status">
+                            <option value="planned">Планируемые</option>
+                            <option value="selling">В продаже</option>
+                            <option value="sold">Продано</option>
+                        </select>
+                        <p class="form-hint">Объект появится во вкладке «{{ statusTabLabel }}» на странице «Объекты».</p>
+
                         <label>Адрес</label>
                         <input type="text" v-model="newPost.address" placeholder="г. Пермь, ул. ..." />
 
@@ -49,21 +67,11 @@ const Posts = {
                         <label>Год</label>
                         <input type="text" v-model="newPost.year" placeholder="2024 год" />
 
-                        <label>Тип карточки</label>
-                        <select v-model="newPost.kind">
-                            <option value="post">Другие объекты</option>
-                            <option value="home">Карточка дома (страница «Объекты»)</option>
-                        </select>
-
                         <label>Цена</label>
                         <input type="text" v-model="newPost.price" placeholder="12 830 000 ₽" />
 
                         <label>Метка (тег)</label>
                         <input type="text" v-model="newPost.tag" placeholder="2 этажа · кирпич · дом сдан" />
-
-                        <label style="display: flex; align-items: center; gap: 8px; margin: 8px 0;">
-                            <input type="checkbox" v-model="newPost.sold" style="width: auto;" /> Дом продан
-                        </label>
 
                         <label>Позиция (порядок вывода)</label>
                         <input type="number" v-model.number="newPost.position" min="0" />
@@ -105,10 +113,23 @@ const Posts = {
             showCreateModal: false,
             successMessage: '',
             submitting: false,
-            newPost: { title: '', content: '', address: '', client: '', year: '', kind: 'post', price: '', tag: '', sold: false, position: 0, floors: [], photos: [] },
+            activeStatus: DEFAULT_OBJECT_STATUS,
+            statusTabs: OBJECT_STATUS_TABS,
+            newPost: { title: '', content: '', address: '', client: '', year: '', status: 'selling', price: '', tag: '', position: 0, floors: [], photos: [] },
             newPostFile: null,
             editingPostId: null,
         };
+    },
+    computed: {
+        statusCounts() {
+            return countByStatus(this.posts);
+        },
+        visiblePosts() {
+            return this.posts.filter(p => normalizeObjectStatus(p) === this.activeStatus);
+        },
+        statusTabLabel() {
+            return statusLabel(this.newPost.status);
+        },
     },
     async created() {
         if (!API.isLoggedIn()) {
@@ -118,6 +139,12 @@ const Posts = {
         await this.loadPosts();
     },
     methods: {
+        blankPost() {
+            return { title: '', content: '', address: '', client: '', year: '', status: 'selling', price: '', tag: '', position: 0, floors: [], photos: [] };
+        },
+        postStatus(post) {
+            return normalizeObjectStatus(post);
+        },
         async loadPosts() {
             this.loading = true;
             try {
@@ -131,7 +158,7 @@ const Posts = {
         openCreateModal() {
             this.showCreateModal = true;
             this.editingPostId = null;
-            this.newPost = { title: '', content: '', address: '', client: '', year: '', kind: 'post', price: '', tag: '', sold: false, position: 0, floors: [], photos: [] };
+            this.newPost = this.blankPost();
             this.newPostFile = null;
         },
         editPost(post) {
@@ -143,10 +170,9 @@ const Posts = {
                 address: post.address || '',
                 client: post.client || '',
                 year: post.year || '',
-                kind: post.kind || 'post',
+                status: normalizeObjectStatus(post),
                 price: post.price || '',
                 tag: post.tag || '',
-                sold: !!post.sold,
                 position: post.position || 0,
                 floors: Array.isArray(post.floors) ? post.floors.map(f => ({ label: f[0], text: f[1] })) : [],
                 photos: Array.isArray(post.photos) ? post.photos.map(p => ({ src: p.src, caption: p.caption })) : [],
@@ -188,7 +214,7 @@ const Posts = {
         closeCreateModal() {
             this.showCreateModal = false;
             this.editingPostId = null;
-            this.newPost = { title: '', content: '', address: '', client: '', year: '', kind: 'post', price: '', tag: '', sold: false, position: 0, floors: [], photos: [] };
+            this.newPost = this.blankPost();
             this.newPostFile = null;
         },
         onFileChange(e) {
@@ -203,10 +229,9 @@ const Posts = {
                 if (this.newPost.address) formData.append('address', this.newPost.address);
                 if (this.newPost.client) formData.append('client', this.newPost.client);
                 if (this.newPost.year) formData.append('year', this.newPost.year);
-                formData.append('kind', this.newPost.kind || 'post');
+                formData.append('status', this.newPost.status || 'selling');
                 if (this.newPost.price) formData.append('price', this.newPost.price);
                 if (this.newPost.tag) formData.append('tag', this.newPost.tag);
-                formData.append('sold', this.newPost.sold ? 'true' : 'false');
                 formData.append('position', String(this.newPost.position || 0));
                 if (this.newPost.floors.length) {
                     formData.append('floors', JSON.stringify(this.newPost.floors.map(f => [f.label, f.text])));

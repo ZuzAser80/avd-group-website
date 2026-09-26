@@ -23,14 +23,21 @@ POST_COLUMN_DEFS = [
     ("price", "VARCHAR"),
     ("sold", "BOOLEAN DEFAULT false NOT NULL"),
     ("kind", "VARCHAR DEFAULT 'post' NOT NULL"),
+    ("status", "VARCHAR DEFAULT 'selling' NOT NULL"),
     ("position", "INTEGER DEFAULT 0 NOT NULL"),
     ("floors", "JSON"),
     ("photos", "JSON"),
 ]
 
 async def _ensure_post_columns(conn):
+    status_existed = (await conn.execute(text(
+        "SELECT 1 FROM information_schema.columns "
+        "WHERE table_name = 'posts' AND column_name = 'status'"
+    ))).first() is not None
     for name, ddl in POST_COLUMN_DEFS:
         await conn.execute(text(f"ALTER TABLE posts ADD COLUMN IF NOT EXISTS {name} {ddl}"))
+    if not status_existed:
+        await conn.execute(text("UPDATE posts SET status = 'sold' WHERE sold = true"))
 
 async def init_models():
     from src import models  # noqa: F401 — registers models with Base.metadata

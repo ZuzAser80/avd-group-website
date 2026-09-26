@@ -5,7 +5,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 from src.auth.utils import get_current_user
 from src.post.service import PostRepository
-from src.post.schemes import PostCreate, PostResponse
+from src.post.schemes import DEFAULT_POST_STATUS, POST_STATUSES, PostCreate, PostResponse
 from src.db import get_db
 
 post_router = APIRouter(prefix='/post', tags=['post'])
@@ -23,10 +23,10 @@ def parse_json_field(value: str | None, field: str) -> list | None:
     return parsed
 
 
-def parse_bool(value: str | None) -> bool:
-    if value is None:
-        return False
-    return value.lower() in ("true", "1", "yes", "on")
+def parse_status(value: str | None) -> str:
+    if value in POST_STATUSES:
+        return value
+    return DEFAULT_POST_STATUS
 
 
 @post_router.get('/all')
@@ -67,8 +67,7 @@ async def create_post(
     year: str = Form(None),
     tag: str = Form(None),
     price: str = Form(None),
-    sold: str = Form(None),
-    kind: str = Form("post"),
+    status: str = Form(DEFAULT_POST_STATUS),
     position: int = Form(0),
     floors: str = Form(None),
     photos: str = Form(None),
@@ -77,7 +76,7 @@ async def create_post(
     ):
     post = PostCreate(
         title=title, content=content, address=address, client=client, year=year,
-        tag=tag, price=price, sold=parse_bool(sold), kind=kind, position=position,
+        tag=tag, price=price, status=parse_status(status), position=position,
         floors=parse_json_field(floors, "floors"), photos=parse_json_field(photos, "photos"),
     )
     created = await PostRepository.create_post(session=session, post=post, file=file)
@@ -94,8 +93,7 @@ async def update_post(
     year: str = Form(None),
     tag: str = Form(None),
     price: str = Form(None),
-    sold: str = Form(None),
-    kind: str = Form("post"),
+    status: str = Form(DEFAULT_POST_STATUS),
     position: int = Form(0),
     floors: str = Form(None),
     photos: str = Form(None),
@@ -104,7 +102,7 @@ async def update_post(
     ):
     post = PostCreate(
         title=title, content=content, address=address, client=client, year=year,
-        tag=tag, price=price, sold=parse_bool(sold), kind=kind, position=position,
+        tag=tag, price=price, status=parse_status(status), position=position,
         floors=parse_json_field(floors, "floors"), photos=parse_json_field(photos, "photos"),
     )
     updated = await PostRepository.update_post(session=session, post_id=post_id, post=post, file=file)

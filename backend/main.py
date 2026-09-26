@@ -43,10 +43,12 @@ async def lifespan(app: FastAPI):
 from src.user.router import user_router
 from src.auth.router import auth_router
 from src.post.router import post_router
+from src.lead.router import lead_router
 
 app.include_router(user_router)
 app.include_router(auth_router)
 app.include_router(post_router)
+app.include_router(lead_router)
 
 app.mount("/static", StaticFiles(directory=str(FRONTEND_DIR / "static")), name="static")
 

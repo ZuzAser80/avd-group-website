@@ -89,7 +89,7 @@ const RequestPage = {
         return {
             form: { name: '', phone: '', object_name: '', message: '' },
             pick: '',
-            posts: [],
+            objects: [],
             sent: false,
             error: '',
             submitting: false
@@ -97,25 +97,38 @@ const RequestPage = {
     },
     computed: {
         choiceOptions() {
-            const staticOpts = [
-                { key: 'av', title: 'Таунхаус 133,6 м²', sub: 'Вольская 29 · 12 830 000 ₽', badge: 'последний дом', disabled: false },
-                { key: 'consult', title: 'Нужна консультация', sub: 'Подбор дома и условий ипотеки', badge: '', disabled: false },
-                { key: 'sold', title: 'Таунхаус 99,6 м²', sub: 'Все дома этого формата проданы', badge: 'продано', disabled: true }
-            ];
-            const postOpts = this.posts.map(p => ({
-                key: 'p' + p.id,
-                title: p.title,
-                sub: p.address || 'Другой объект',
+            const consult = {
+                key: 'consult',
+                title: 'Нужна консультация',
+                sub: 'Подбор дома и условий ипотеки',
                 badge: '',
                 disabled: false
+            };
+            const objectOpts = this.objects.map(o => ({
+                key: 'p' + o.key,
+                title: o.name,
+                sub: [o.address, o.price].filter(Boolean).join(' · ') || 'Объект компании',
+                badge: o.status === 'sold' ? 'продано' : (o.status === 'planned' ? 'планируется' : ''),
+                disabled: o.status === 'sold'
             }));
-            return [...staticOpts, ...postOpts];
+            return [consult, ...objectOpts];
         }
     },
     async created() {
         try {
-            const items = await API.request('/post/all');
-            this.posts = items.filter(p => p.kind !== 'home');
+            const raw = await API.request('/post/all');
+            const order = { selling: 0, planned: 1, sold: 2 };
+            this.objects = raw
+                .map(p => ({
+                    key: p.id,
+                    status: normalizeObjectStatus(p),
+                    position: p.position || 0,
+                    name: p.title,
+                    address: p.address,
+                    price: p.price,
+                    tag: p.tag,
+                }))
+                .sort((a, b) => (order[a.status] - order[b.status]) || (a.position - b.position));
         } catch (e) {
             console.error('Failed to load posts:', e);
         }

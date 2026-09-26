@@ -18,7 +18,10 @@ const Frontpage = {
                         <div class="ts-hero-meta-item"><b>Дом сдан</b><span>Переезд уже сейчас</span></div>
                         <div class="ts-hero-meta-item"><b>20 мин</b><span>До центра Перми</span></div>
                         <div class="ts-hero-meta-item"><b>10 м</b><span>До остановки</span></div>
-                        <div class="ts-hero-meta-item"><b>1 дом</b><span>Остался в продаже</span></div>
+                        <div class="ts-hero-meta-item">
+                            <b>{{ counts.selling }} {{ plural(counts.selling, ['дом', 'дома', 'домов']) }}</b>
+                            <span>в продаже</span>
+                        </div>
                     </div>
                 </div>
             </section>
@@ -70,29 +73,30 @@ const Frontpage = {
                 <div class="ts-container">
                     <p class="ts-label">Наши объекты</p>
                     <h2 class="ts-h2">Посмотрите, что мы <span>уже построили</span></h2>
-                    <div class="ts-featured-object">
+                    <div class="ts-featured-object" v-if="featured">
                         <div class="ts-featured-media">
-                            <img src="/static/images/object/volskaya-1.jpg" alt="Комплекс таунхаусов на ул. Вольская, 29" />
-                            <span class="ts-featured-status">Готовое жильё · дом сдан</span>
+                            <img :src="featured.image || '/static/images/object/volskaya-1.jpg'" :alt="featured.name" />
+                            <span class="ts-featured-status">{{ statusBadgeLabel(featured.status) }}</span>
                         </div>
                         <div class="ts-featured-body">
-                            <h3 class="ts-featured-title">Комплекс таунхаусов<br>ул. Вольская, 29</h3>
-                            <p class="ts-featured-addr">Кировский район, Пермь · 20 минут от центра</p>
+                            <h3 class="ts-featured-title">{{ featured.name }}</h3>
+                            <p class="ts-featured-addr">{{ featured.address || 'Кировский район, Пермь' }}</p>
                             <div class="ts-featured-specs">
-                                <div class="ts-fspec"><b>5</b><span>блок-секций</span></div>
-                                <div class="ts-fspec"><b>99,6–133,6 м²</b><span>площадь домов</span></div>
-                                <div class="ts-fspec"><b>1</b><span>дом в продаже</span></div>
+                                <div class="ts-fspec"><b>{{ objects.length }}</b><span>всего объектов</span></div>
+                                <div class="ts-fspec"><b>{{ counts.selling }}</b><span>в продаже</span></div>
+                                <div class="ts-fspec"><b>{{ counts.sold }}</b><span>продано</span></div>
                             </div>
-                            <p class="ts-featured-price"><b>12 830 000 ₽</b><span>последний дом 133,6 м² · дома 99,6 м² проданы</span></p>
+                            <p class="ts-featured-price"><b>{{ featured.price }}</b><span>{{ featured.note }}</span></p>
                             <router-link to="/objects" class="ts-btn ts-btn-orange">Подробнее об объекте</router-link>
                         </div>
                     </div>
+                    <p v-else class="status-empty">Сейчас нет объектов в продаже. Загляните в раздел <router-link to="/objects">«Объекты»</router-link> — там есть и планирующиеся, и проданные.</p>
 
-                    <div v-if="posts.length" class="ts-other-objects">
-                        <div class="ts-other-card" v-for="post in posts" :key="post.id">
-                            <img v-if="post.image" :src="post.image" :alt="post.title" />
+                    <div v-if="otherSelling.length" class="ts-other-objects">
+                        <div class="ts-other-card" v-for="post in otherSelling" :key="post.key">
+                            <img v-if="post.image" :src="post.image" :alt="post.name" />
                             <div>
-                                <h3>{{ post.title }}</h3>
+                                <h3>{{ post.name }}</h3>
                                 <p v-if="post.address">{{ post.address }}</p>
                                 <span v-if="post.year" class="ts-other-year">{{ post.year }}</span>
                             </div>
@@ -169,13 +173,39 @@ const Frontpage = {
                 ['Жилищные сертификаты', 'Принимаем все виды сертификатов', '📜'],
                 ['Взаимозачёт', 'Вторичное жильё в счёт нового дома', '🔄']
             ],
-            posts: []
+            objects: []
         };
+    },
+    computed: {
+        counts() {
+            return countByStatus(this.objects);
+        },
+        sellingObjects() {
+            return this.objects.filter(o => o.status === 'selling');
+        },
+        featured() {
+            return this.sellingObjects[0] || null;
+        },
+        otherSelling() {
+            return this.sellingObjects.slice(1);
+        },
     },
     async created() {
         try {
-            const items = await API.request('/post/all');
-            this.posts = items.filter(p => p.kind !== 'home');
+            const raw = await API.request('/post/all');
+            this.objects = raw
+                .map(p => ({
+                    key: p.id,
+                    status: normalizeObjectStatus(p),
+                    position: p.position || 0,
+                    image: p.image,
+                    name: p.title,
+                    note: p.content,
+                    address: p.address,
+                    year: p.year,
+                    price: p.price,
+                }))
+                .sort((a, b) => a.position - b.position);
         } catch (e) {
             console.error('Failed to load posts:', e);
         }
