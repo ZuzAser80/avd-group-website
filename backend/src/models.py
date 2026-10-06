@@ -35,3 +35,11 @@ class Lead(Base):
     object_name = Column(String, nullable=True)
     message = Column(String, nullable=True)
     created_at = Column(DateTime(timezone=True), nullable=False, server_default=func.now())
+
+class GalleryPhoto(Base):
+    __tablename__ = "gallery_photos"
+    id = Column(Integer, primary_key=True, index=True)
+    src = Column(String, nullable=False)
+    caption = Column(String, nullable=True)
+    position = Column(Integer, nullable=False, server_default=text("0"))
+    created_at = Column(DateTime(timezone=True), nullable=False, server_default=func.now())

@@ -21,7 +21,13 @@ from src.limiter import limiter
 
 FRONTEND_DIR = Path(__file__).resolve().parent.parent / "frontend"
 
-app = FastAPI(title='AVD group')
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    (FRONTEND_DIR / "static" / "uploads").mkdir(parents=True, exist_ok=True)
+    await init_models()
+    yield
+
+app = FastAPI(title='AVD group', lifespan=lifespan)
 app.state.limiter = limiter
 app.add_exception_handler(RateLimitExceeded, _rate_limit_exceeded_handler)
 
@@ -34,21 +40,19 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-@asynccontextmanager
-async def lifespan(app: FastAPI):
-    (FRONTEND_DIR / "static" / "uploads").mkdir(parents=True, exist_ok=True)
-    await init_models()
-    yield
-
 from src.user.router import user_router
 from src.auth.router import auth_router
 from src.post.router import post_router
 from src.lead.router import lead_router
+from src.gallery.router import gallery_router
+from src.media.router import media_router
 
 app.include_router(user_router)
 app.include_router(auth_router)
 app.include_router(post_router)
 app.include_router(lead_router)
+app.include_router(gallery_router)
+app.include_router(media_router)
 
 app.mount("/static", StaticFiles(directory=str(FRONTEND_DIR / "static")), name="static")
 

@@ -1,3 +1,11 @@
+const DEFAULT_GALLERY = [
+    { src: '/static/images/object/volskaya-1.jpg', caption: 'Комплекс из пяти блокированных кирпичных домов' },
+    { src: '/static/images/object/volskaya-2.jpg', caption: 'Стены и перегородки' },
+    { src: '/static/images/object/volskaya-3.jpg', caption: 'Межэтажные перекрытия' },
+    { src: '/static/images/object/volskaya-4.jpg', caption: 'Благоустройство территории' },
+    { src: '/static/images/object/volskaya-5.jpg', caption: 'Детская площадка и зоны отдыха' },
+];
+
 const Objects = {
     template: `
         <div class="ts">
@@ -5,7 +13,7 @@ const Objects = {
 
             <!-- ГЕРОЙ СТРАНИЦЫ -->
             <section class="ts-hero ts-hero-small">
-                <div class="ts-hero-bg"></div>
+                <div class="ts-hero-bg ts-hero-bg--cover1"></div>
                 <div class="ts-hero-inner">
                     <p class="ts-hero-badge">Объекты</p>
                     <h1 class="ts-hero-h1">Готовое жильё, которое можно увидеть сегодня</h1>
@@ -74,25 +82,11 @@ const Objects = {
                     <p class="ts-label">Фотогалерея</p>
                     <h2 class="ts-h2">Как это выглядит <span>по-настоящему</span></h2>
                     <div class="ts-gallery">
-                        <figure class="ts-g-item ts-g-main-photo">
-                            <img src="/static/images/object/volskaya-1.jpg" alt="Комплекс таунхаусов на ул. Вольская, 29" />
-                            <figcaption>Комплекс из пяти блокированных кирпичных домов</figcaption>
-                        </figure>
-                        <figure class="ts-g-item">
-                            <img src="/static/images/object/volskaya-2.jpg" alt="Возведение стен и перегородок" />
-                            <figcaption>Стены и перегородки</figcaption>
-                        </figure>
-                        <figure class="ts-g-item">
-                            <img src="/static/images/object/volskaya-3.jpg" alt="Установка межэтажных перекрытий" />
-                            <figcaption>Межэтажные перекрытия</figcaption>
-                        </figure>
-                        <figure class="ts-g-item">
-                            <img src="/static/images/object/volskaya-4.jpg" alt="Благоустройство и озеленение территории" />
-                            <figcaption>Благоустройство территории</figcaption>
-                        </figure>
-                        <figure class="ts-g-item">
-                            <img src="/static/images/object/volskaya-5.jpg" alt="Детская площадка и зоны отдыха" />
-                            <figcaption>Детская площадка и зоны отдыха</figcaption>
+                        <figure class="ts-g-item" :class="{ 'ts-g-main-photo': i === 0 }"
+                                v-for="(ph, i) in galleryPhotos" :key="ph.src + '-' + i"
+                                @click="openLightbox(i)">
+                            <img :src="ph.src" :alt="ph.caption || 'Фото объекта'" />
+                            <figcaption v-if="ph.caption">{{ ph.caption }}</figcaption>
                         </figure>
                     </div>
                 </div>
@@ -171,6 +165,18 @@ const Objects = {
                 </div>
             </div>
 
+            <!-- ЛАЙТБОКС ГАЛЕРЕИ -->
+            <div v-if="lightboxOpen && lightboxPhoto" class="ts-lightbox" @click.self="closeLightbox">
+                <button type="button" class="ts-lb-close" @click="closeLightbox" aria-label="Закрыть">✕</button>
+                <button type="button" class="ts-lb-arrow ts-lb-prev" @click.stop="prevPhoto" aria-label="Предыдущее фото">‹</button>
+                <figure class="ts-lb-figure">
+                    <img :src="lightboxPhoto.src" :alt="lightboxPhoto.caption || ''" />
+                    <figcaption v-if="lightboxPhoto.caption">{{ lightboxPhoto.caption }}</figcaption>
+                </figure>
+                <button type="button" class="ts-lb-arrow ts-lb-next" @click.stop="nextPhoto" aria-label="Следующее фото">›</button>
+                <span class="ts-lb-counter">{{ lightboxIndex + 1 }} / {{ galleryPhotos.length }}</span>
+            </div>
+
             <!-- ФУТЕР -->
             <footer class="ts-footer">
                 <div class="ts-container ts-footer-grid">
@@ -204,6 +210,11 @@ const Objects = {
             activeItem: null,
             activeStatus: DEFAULT_OBJECT_STATUS,
             statusTabs: OBJECT_STATUS_TABS,
+            sitePhotos: [],
+            lightboxOpen: false,
+            lightboxIndex: 0,
+            _wheelLock: 0,
+            _touchX: null,
         };
     },
     computed: {
@@ -252,6 +263,12 @@ const Objects = {
             }
             return { total: 'Всего ' + total + ' ' + plural(total, ['объект', 'объекта', 'объектов']), highlight };
         },
+        galleryPhotos() {
+            return this.sitePhotos.length ? this.sitePhotos : DEFAULT_GALLERY;
+        },
+        lightboxPhoto() {
+            return this.galleryPhotos[this.lightboxIndex] || null;
+        },
         statusChips() {
             const counts = this.tabCounts;
             const defs = [
@@ -269,7 +286,18 @@ const Objects = {
             this.toggleScroll();
         }
     },
+    beforeUnmount() {
+        this.teardownLightbox();
+    },
     async created() {
+        try {
+            const photos = await API.request('/gallery/all');
+            if (Array.isArray(photos) && photos.length) {
+                this.sitePhotos = photos;
+            }
+        } catch (e) {
+            console.error('Failed to load gallery:', e);
+        }
         try {
             const raw = await API.request('/post/all');
             this.items = raw
@@ -302,6 +330,61 @@ const Objects = {
         },
         toggleScroll() {
             document.body.style.overflow = this.activeItem ? 'hidden' : '';
-        }
+        },
+        openLightbox(i) {
+            this.lightboxIndex = i;
+            this.lightboxOpen = true;
+            document.body.style.overflow = 'hidden';
+            window.addEventListener('keydown', this.onLightboxKey);
+            window.addEventListener('wheel', this.onLightboxWheel, { passive: true });
+            window.addEventListener('touchstart', this.onTouchStart, { passive: true });
+            window.addEventListener('touchend', this.onTouchEnd, { passive: true });
+        },
+        closeLightbox() {
+            this.lightboxOpen = false;
+            this.teardownLightbox();
+        },
+        teardownLightbox() {
+            window.removeEventListener('keydown', this.onLightboxKey);
+            window.removeEventListener('wheel', this.onLightboxWheel);
+            window.removeEventListener('touchstart', this.onTouchStart);
+            window.removeEventListener('touchend', this.onTouchEnd);
+            if (!this.activeItem) {
+                document.body.style.overflow = '';
+            }
+        },
+        nextPhoto() {
+            const total = this.galleryPhotos.length;
+            if (total) this.lightboxIndex = (this.lightboxIndex + 1) % total;
+        },
+        prevPhoto() {
+            const total = this.galleryPhotos.length;
+            if (total) this.lightboxIndex = (this.lightboxIndex - 1 + total) % total;
+        },
+        onLightboxKey(e) {
+            if (!this.lightboxOpen) return;
+            if (e.key === 'Escape') this.closeLightbox();
+            else if (e.key === 'ArrowRight') this.nextPhoto();
+            else if (e.key === 'ArrowLeft') this.prevPhoto();
+        },
+        onLightboxWheel(e) {
+            if (!this.lightboxOpen) return;
+            const now = Date.now();
+            if (now - this._wheelLock < 250) return;
+            this._wheelLock = now;
+            if (e.deltaY > 0 || e.deltaX > 0) this.nextPhoto();
+            else this.prevPhoto();
+        },
+        onTouchStart(e) {
+            this._touchX = e.touches[0].clientX;
+        },
+        onTouchEnd(e) {
+            if (this._touchX == null || !this.lightboxOpen) return;
+            const dx = e.changedTouches[0].clientX - this._touchX;
+            this._touchX = null;
+            if (Math.abs(dx) < 40) return;
+            if (dx < 0) this.nextPhoto();
+            else this.prevPhoto();
+        },
     }
 };

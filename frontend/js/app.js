@@ -10,6 +10,7 @@ const routes = [
     { path: '/dashboard', component: Dashboard },
     { path: '/posts', component: Posts },
     { path: '/leads', component: Leads },
+    { path: '/gallery', component: Gallery },
 ];
 
 const router = VueRouter.createRouter({

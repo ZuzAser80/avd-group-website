@@ -85,8 +85,10 @@ const Posts = {
                         <button type="button" class="btn-secondary" style="margin-bottom: 12px;" @click="addFloor">+ Добавить этаж</button>
 
                         <label>Фото галереи</label>
-                        <div v-for="(ph, i) in newPost.photos" :key="i" style="display: flex; gap: 6px; margin-bottom: 6px;" class="photos-row">
-                            <input type="text" v-model="ph.src" placeholder="/static/uploads/..." style="flex: 1;" />
+                        <div v-for="(ph, i) in newPost.photos" :key="i" style="display: flex; gap: 6px; margin-bottom: 6px; align-items: center;" class="photos-row">
+                            <img v-if="ph.src" :src="ph.src" class="photo-thumb" alt="" />
+                            <input v-else type="file" accept="image/*" @change="onPhotoFileChange($event, i)" class="file-input" />
+                            <span v-if="ph.uploading" class="photo-uploading">Загрузка...</span>
                             <input type="text" v-model="ph.caption" placeholder="Подпись" style="flex: 1;" />
                             <button type="button" class="btn-secondary" style="padding: 4px 10px; font-size: 12px;" @click="removePhoto(i)">✕</button>
                         </div>
@@ -186,10 +188,38 @@ const Posts = {
             this.newPost.floors.splice(i, 1);
         },
         addPhoto() {
-            this.newPost.photos.push({ src: '', caption: '' });
+            this.newPost.photos.push({ src: '', caption: '', uploading: false });
         },
         removePhoto(i) {
             this.newPost.photos.splice(i, 1);
+        },
+        async onPhotoFileChange(e, i) {
+            const file = e.target.files && e.target.files[0];
+            if (!file) return;
+            const row = this.newPost.photos[i];
+            row.uploading = true;
+            try {
+                const formData = new FormData();
+                formData.append('file', file);
+                const token = API.getToken();
+                const res = await fetch('/media/upload', {
+                    method: 'POST',
+                    headers: { 'Authorization': `Bearer ${token}` },
+                    body: formData,
+                });
+                if (!res.ok) {
+                    const data = await res.json();
+                    throw new Error(data.detail || 'Ошибка загрузки файла');
+                }
+                const data = await res.json();
+                row.src = data.src;
+            } catch (err) {
+                console.error('Failed to upload photo:', err);
+                alert('Ошибка: ' + err.message);
+            } finally {
+                row.uploading = false;
+                e.target.value = '';
+            }
         },
         async deletePost(postId) {
             if (!confirm('Вы уверены, что хотите удалить этот объект?')) {

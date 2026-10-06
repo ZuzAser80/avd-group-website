@@ -5,7 +5,7 @@ const About = {
 
             <!-- ГЕРОЙ -->
             <section class="ts-hero ts-hero-small">
-                <div class="ts-hero-bg"></div>
+                <div class="ts-hero-bg ts-hero-bg--cover1"></div>
                 <div class="ts-hero-inner">
                     <p class="ts-hero-badge">О компании</p>
                     <h1 class="ts-hero-h1">Малоэтажный девелопер АВД ГРУПП</h1>

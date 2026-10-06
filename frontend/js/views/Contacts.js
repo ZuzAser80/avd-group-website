@@ -5,7 +5,7 @@ const Contacts = {
 
             <!-- ГЕРОЙ -->
             <section class="ts-hero ts-hero-small">
-                <div class="ts-hero-bg"></div>
+                <div class="ts-hero-bg ts-hero-bg--cover2"></div>
                 <div class="ts-hero-inner">
                     <p class="ts-hero-badge">Контакты</p>
                     <h1 class="ts-hero-h1">Свяжитесь с нами удобным способом</h1>
