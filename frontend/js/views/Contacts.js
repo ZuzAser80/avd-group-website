@@ -26,9 +26,14 @@ const Contacts = {
                         </div>
                         <div class="ts-contact-card">
                             <div class="ts-contact-ico">📞</div>
+                            <h3>Отдел продаж</h3>
+                            <p><a href="tel:+79223747050">7 (922) 37-47-050</a></p>
+                        </div>
+                        <div class="ts-contact-card">
+                            <div class="ts-contact-ico">📞</div>
                             <h3>Телефон</h3>
                             <p><a href="tel:+79082585888">8 (908) 25-85-888</a></p>
-                        </div>
+                        </div>                        
                         <div class="ts-contact-card">
                             <div class="ts-contact-ico">✉️</div>
                             <h3>Электронная почта</h3>
@@ -122,7 +127,7 @@ const Contacts = {
                     </div>
                 </div>
                 <div class="ts-container">
-                    <p class="ts-footer-legal">АВД ГРУПП — застройщик малоэтажного жилья в Перми<br>Информация на сайте носит справочный характер и не является публичной офертой · © АВД ГРУПП</p>
+                    <p class="ts-footer-legal">АВД ГРУПП — застройщик в Перми<br>Информация на сайте носит справочный характер и не является публичной офертой · © АВД ГРУПП</p>
                 </div>
             </footer>
         </div>

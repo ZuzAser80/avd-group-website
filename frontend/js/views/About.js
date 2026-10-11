@@ -8,7 +8,7 @@ const About = {
                 <div class="ts-hero-bg ts-hero-bg--cover1"></div>
                 <div class="ts-hero-inner">
                     <p class="ts-hero-badge">О компании</p>
-                    <h1 class="ts-hero-h1">Малоэтажный девелопер АВД ГРУПП</h1>
+                    <h1 class="ts-hero-h1">Девелопер АВД ГРУПП</h1>
                     <p class="ts-hero-sub">Строим кирпичные таунхаусы в Перми: сами проектируем, сами строим, сами отвечаем за результат.</p>
                 </div>
             </section>
@@ -108,7 +108,7 @@ const About = {
                     </div>
                 </div>
                 <div class="ts-container">
-                    <p class="ts-footer-legal">АВД ГРУПП — застройщик малоэтажного жилья в Перми<br>Информация на сайте носит справочный характер и не является публичной офертой · © АВД ГРУПП</p>
+                    <p class="ts-footer-legal">АВД ГРУПП — застройщик в Перми<br>Информация на сайте носит справочный характер и не является публичной офертой · © АВД ГРУПП</p>
                 </div>
             </footer>
         </div>
