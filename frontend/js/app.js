@@ -10,6 +10,7 @@ const routes = [
     { path: '/dashboard', component: Dashboard },
     { path: '/posts', component: Posts },
     { path: '/leads', component: Leads },
+    { path: '/gallery', component: Gallery },
 ];
 
 const router = VueRouter.createRouter({
@@ -32,6 +33,25 @@ router.beforeEach((to, from, next) => {
 // ✅ ИСПРАВЛЕНО: добавлен template с router-view
 const app = Vue.createApp({
     template: '<router-view></router-view>'
+});
+
+// Шаблоны компилируются в `with (_ctx) { ... }`, и прокси экземпляра
+// перехватывает любое имя: обращение к глобальной функции/константе из шаблона
+// даёт "X is not a function". Поэтому публикуем общие хелперы как
+// глобальные свойства приложения — только тогда шаблоны их видят.
+Object.assign(app.config.globalProperties, {
+    OBJECT_STATUS_TABS,
+    DEFAULT_OBJECT_STATUS,
+    OBJECT_STATUS_FALLBACK,
+    OBJECT_STATUS_BADGE,
+    normalizeObjectStatus,
+    statusLabel,
+    statusEmptyText,
+    statusBadgeLabel,
+    firstPopulatedStatus,
+    countByStatus,
+    plural,
+    API,
 });
 
 app.component('AppHeader', AppHeader);

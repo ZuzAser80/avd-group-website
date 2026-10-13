@@ -1,4 +1,4 @@
-from sqlalchemy import Boolean, Column, Integer, JSON, String, text
+from sqlalchemy import Boolean, Column, DateTime, Integer, JSON, String, func, text
 from src.db import Base
 
 
@@ -21,6 +21,25 @@ class Post(Base):
     price = Column(String, nullable=True)
     sold = Column(Boolean, nullable=False, server_default=text("false"))
     kind = Column(String, nullable=False, server_default="post")
+    status = Column(String, nullable=False, server_default="selling")
     position = Column(Integer, nullable=False, server_default="0")
     floors = Column(JSON, nullable=True)
     photos = Column(JSON, nullable=True)
+
+class Lead(Base):
+    __tablename__ = "leads"
+    id = Column(Integer, primary_key=True, index=True)
+    name = Column(String, nullable=False)
+    phone = Column(String, nullable=False, index=True)
+    subject = Column(String, nullable=True)
+    object_name = Column(String, nullable=True)
+    message = Column(String, nullable=True)
+    created_at = Column(DateTime(timezone=True), nullable=False, server_default=func.now())
+
+class GalleryPhoto(Base):
+    __tablename__ = "gallery_photos"
+    id = Column(Integer, primary_key=True, index=True)
+    src = Column(String, nullable=False)
+    caption = Column(String, nullable=True)
+    position = Column(Integer, nullable=False, server_default=text("0"))
+    created_at = Column(DateTime(timezone=True), nullable=False, server_default=func.now())

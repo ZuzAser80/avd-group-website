@@ -1,3 +1,11 @@
+const DEFAULT_GALLERY = [
+    { src: '/static/images/object/volskaya-1.jpg', caption: 'Комплекс из пяти блокированных кирпичных домов' },
+    { src: '/static/images/object/volskaya-2.jpg', caption: 'Стены и перегородки' },
+    { src: '/static/images/object/volskaya-3.jpg', caption: 'Межэтажные перекрытия' },
+    { src: '/static/images/object/volskaya-4.jpg', caption: 'Благоустройство территории' },
+    { src: '/static/images/object/volskaya-5.jpg', caption: 'Детская площадка и зоны отдыха' },
+];
+
 const Objects = {
     template: `
         <div class="ts">
@@ -5,58 +13,66 @@ const Objects = {
 
             <!-- ГЕРОЙ СТРАНИЦЫ -->
             <section class="ts-hero ts-hero-small">
-                <div class="ts-hero-bg"></div>
+                <div class="ts-hero-bg ts-hero-bg--cover1"></div>
                 <div class="ts-hero-inner">
                     <p class="ts-hero-badge">Объекты</p>
                     <h1 class="ts-hero-h1">Готовое жильё, которое можно увидеть сегодня</h1>
-                    <p class="ts-hero-sub">Комплекс таунхаусов на ул. Вольская, 29 — сдан и заселён. Из 5 домов в продаже остался один — просторный дом 133,6 м². Ниже его состав и фотографии. Распроданные дома можно посмотреть — чтобы представить формат.</p>
+                    <p class="ts-hero-sub">{{ heroSummary }}</p>
                     <div class="ts-hero-actions">
                         <router-link to="/request" class="ts-btn ts-btn-orange">Записаться на просмотр</router-link>
                     </div>
                 </div>
             </section>
 
-            <!-- ДОМА КОМПЛЕКСА -->
+            <!-- ОБЪЕКТЫ ПО ВКЛАДКАМ -->
             <section class="ts-section">
                 <div class="ts-container">
-                    <p class="ts-label">Дома комплекса</p>
-                    <h2 class="ts-h2">Всего 5 домов — <span>остался последний</span></h2>
-                    <div class="ts-avail-strip">
-                        <span class="ts-avail-chip">3 дома 99,6 м² — проданы</span>
-                        <span class="ts-avail-chip">1 дом 133,6 м² — продан</span>
-                        <span class="ts-avail-chip ts-avail-chip-hot">1 дом 133,6 м² — в продаже</span>
+                    <div class="ts-object-banner" v-if="featuredSelling">
+                        <img :src="featuredSelling.image || '/static/images/object/volskaya-1.jpg'" :alt="featuredSelling.name" />
+                        <div class="ts-object-banner-body">
+                            <span class="ts-object-banner-badge">{{ statusBadgeLabel(featuredSelling.status) }}</span>
+                            <h3 class="ts-object-banner-title">{{ featuredSelling.name }}</h3>
+                            <p class="ts-object-banner-price" v-if="featuredSelling.price">{{ featuredSelling.price }}</p>
+                        </div>
                     </div>
-                    <div class="ts-homes ts-homes-single">
-                        <div class="ts-home ts-home-featured" v-if="featuredHome">
+                    <p class="ts-label">Объекты</p>
+                    <h1 class="ts-h1">{{ objectsHeading.total }} — <span>{{ objectsHeading.highlight }}</span></h1>
+                    <div class="ts-avail-strip" v-if="statusChips.length">
+                        <span class="ts-avail-chip" v-for="chip in statusChips" :key="chip.label"
+                              :class="{ 'ts-avail-chip-hot': chip.hot }">
+                            {{ chip.count }} {{ plural(chip.count, chip.forms) }} — {{ chip.label }}
+                        </span>
+                    </div>
+
+                    <div class="status-tabs status-tabs-dark">
+                        <button type="button" v-for="tab in statusTabs" :key="tab.key"
+                                class="status-tab" :class="{ 'status-tab-active': activeStatus === tab.key }"
+                                @click="activeStatus = tab.key">
+                            {{ tab.label }}
+                            <span class="status-tab-count">{{ tabCounts[tab.key] }}</span>
+                        </button>
+                    </div>
+
+                    <div class="ts-homes" :class="{ 'ts-homes-single': activeItems.length < 2 }" v-if="activeItems.length">
+                        <div v-for="(item, i) in activeItems" :key="item.key"
+                             class="ts-home" :class="{ 'ts-home-featured': isFeatured(i) }">
                             <div class="ts-home-card">
-                                <span class="ts-home-tag">{{ featuredHome.tag }}</span>
-                                <p class="ts-home-price"><b>{{ featuredHome.price }}</b></p>
-                                <h3 class="ts-home-name">{{ featuredHome.name }}</h3>
-                                <p class="ts-home-note">{{ featuredHome.note }}</p>
+                                <img v-if="item.image" class="ts-home-photo" :src="item.image" :alt="item.name" />
+                                <span v-if="item.tag" class="ts-home-tag">{{ item.tag }}</span>
+                                <p class="ts-home-price"><b>{{ item.price }}</b></p>
+                                <h3 class="ts-home-name">{{ item.name }}</h3>
+                                <p v-if="item.note" class="ts-home-note">{{ item.note }}</p>
                                 <ul class="ts-home-floors">
-                                    <li v-for="(f, i) in featuredHome.floors" :key="i"><b>{{ f[0] }}</b>{{ f[1] }}</li>
+                                    <li v-for="(f, j) in item.floors" :key="j"><b>{{ f[0] }}</b>{{ f[1] }}</li>
                                 </ul>
                                 <div class="ts-home-actions">
-                                    <router-link to="/request" class="ts-btn ts-btn-orange">Заявка на дом</router-link>
-                                    <button type="button" class="ts-btn ts-btn-outline" @click="openHome(featuredHome)">Состав и фото</button>
+                                    <router-link v-if="item.status !== 'sold'" to="/request" class="ts-btn ts-btn-orange">Заявка на дом</router-link>
+                                    <button type="button" class="ts-btn ts-btn-outline" @click="openItem(item)">Состав и фото</button>
                                 </div>
                             </div>
                         </div>
                     </div>
-
-                    <!-- РАСПРОДАННЫЕ ДОМА -->
-                    <div class="ts-sold">
-                        <h3 class="ts-sold-title">Распроданные дома — посмотреть</h3>
-                        <p class="ts-sold-sub">Каждый дом комплекса уже куплен и заселён. Откройте карточку, чтобы увидеть формат, состав и фотографии.</p>
-                        <div class="ts-sold-grid">
-                            <button type="button" class="ts-sold-card" v-for="h in soldHomes" :key="h.key" @click="openHome(h)">
-                                <span class="ts-sold-badge">Продано</span>
-                                <b class="ts-sold-name">{{ h.name }}</b>
-                                <span class="ts-sold-note">{{ h.note }}</span>
-                                <span class="ts-sold-view">Смотреть состав и фото →</span>
-                            </button>
-                        </div>
-                    </div>
+                    <p v-else class="status-empty">{{ statusEmptyText(activeStatus) }}</p>
                 </div>
             </section>
 
@@ -66,25 +82,11 @@ const Objects = {
                     <p class="ts-label">Фотогалерея</p>
                     <h2 class="ts-h2">Как это выглядит <span>по-настоящему</span></h2>
                     <div class="ts-gallery">
-                        <figure class="ts-g-item ts-g-main-photo">
-                            <img src="/static/images/object/volskaya-1.jpg" alt="Комплекс таунхаусов на ул. Вольская, 29" />
-                            <figcaption>Комплекс из пяти блокированных кирпичных домов</figcaption>
-                        </figure>
-                        <figure class="ts-g-item">
-                            <img src="/static/images/object/volskaya-2.jpg" alt="Возведение стен и перегородок" />
-                            <figcaption>Стены и перегородки</figcaption>
-                        </figure>
-                        <figure class="ts-g-item">
-                            <img src="/static/images/object/volskaya-3.jpg" alt="Установка межэтажных перекрытий" />
-                            <figcaption>Межэтажные перекрытия</figcaption>
-                        </figure>
-                        <figure class="ts-g-item">
-                            <img src="/static/images/object/volskaya-4.jpg" alt="Благоустройство и озеленение территории" />
-                            <figcaption>Благоустройство территории</figcaption>
-                        </figure>
-                        <figure class="ts-g-item">
-                            <img src="/static/images/object/volskaya-5.jpg" alt="Детская площадка и зоны отдыха" />
-                            <figcaption>Детская площадка и зоны отдыха</figcaption>
+                        <figure class="ts-g-item" :class="{ 'ts-g-main-photo': i === 0 }"
+                                v-for="(ph, i) in galleryPhotos" :key="ph.src + '-' + i"
+                                @click="openLightbox(i)">
+                            <img :src="ph.src" :alt="ph.caption || 'Фото объекта'" />
+                            <figcaption v-if="ph.caption">{{ ph.caption }}</figcaption>
                         </figure>
                     </div>
                 </div>
@@ -136,57 +138,43 @@ const Objects = {
                 </div>
             </section>
 
-            <!-- ДРУГИЕ ОБЪЕКТЫ -->
-            <section class="ts-section" v-if="posts.length">
-                <div class="ts-container">
-                    <p class="ts-label">Другие объекты</p>
-                    <h2 class="ts-h2">Чем ещё мы занимались</h2>
-                    <div class="ts-posts">
-                        <button type="button" class="ts-other-card ts-other-card-lg" v-for="post in posts" :key="post.id" @click="openPost(post)">
-                            <img v-if="post.image" :src="post.image" :alt="post.title" />
-                            <div>
-                                <h3>{{ post.title }}</h3>
-                                <p v-if="post.address">{{ post.address }}</p>
-                                <p v-if="post.content" class="ts-post-content">{{ post.content }}</p>
-                                <span v-if="post.year" class="ts-other-year">{{ post.year }}</span>
-                            </div>
-                        </button>
-                    </div>
-                </div>
-            </section>
-
-            <!-- МОДАЛКА ДОМА -->
-            <div v-if="activeHome" class="ts-modal" @click.self="activeHome = null">
+            <!-- МОДАЛКА ОБЪЕКТА -->
+            <div v-if="activeItem" class="ts-modal" @click.self="activeItem = null">
                 <div class="ts-modal-box">
-                    <button type="button" class="ts-modal-close" @click="activeHome = null">✕</button>
-                    <p class="ts-modal-badge" :class="{ 'ts-modal-sold': activeHome.sold }">{{ activeHome.sold ? 'Продано' : 'В продаже' }}</p>
-                    <h3 class="ts-modal-title">{{ activeHome.name }}</h3>
-                    <p v-if="!activeHome.sold" class="ts-modal-price">{{ activeHome.price }}</p>
-                    <p class="ts-modal-note">{{ activeHome.note }}</p>
+                    <button type="button" class="ts-modal-close" @click="activeItem = null">✕</button>
+                    <p class="ts-modal-badge"
+                       :class="{ 'ts-modal-sold': activeItem.status === 'sold', 'ts-modal-planned': activeItem.status === 'planned' }">
+                        {{ statusBadgeLabel(activeItem.status) }}
+                    </p>
+                    <h3 class="ts-modal-title">{{ activeItem.name }}</h3>
+                    <p v-if="activeItem.address" class="ts-modal-note">{{ activeItem.address }}</p>
+                    <p v-if="activeItem.status !== 'sold' && activeItem.price" class="ts-modal-price">{{ activeItem.price }}</p>
+                    <p v-if="activeItem.note" class="ts-modal-note">{{ activeItem.note }}</p>
+                    <img v-if="activeItem.image" :src="activeItem.image" :alt="activeItem.name" class="ts-modal-img-lg" />
                     <div class="ts-modal-gallery">
-                        <figure v-for="(ph, i) in activeHome.photos" :key="i">
+                        <figure v-for="(ph, i) in activeItem.photos" :key="i">
                             <img :src="ph.src" :alt="ph.caption" />
                             <figcaption>{{ ph.caption }}</figcaption>
                         </figure>
                     </div>
                     <ul class="ts-home-floors ts-modal-floors">
-                        <li v-for="(f, i) in activeHome.floors" :key="i"><b>{{ f[0] }}</b> — {{ f[1] }}</li>
+                        <li v-for="(f, i) in activeItem.floors" :key="i"><b>{{ f[0] }}</b> — {{ f[1] }}</li>
                     </ul>
-                    <router-link v-if="!activeHome.sold" to="/request" class="ts-btn ts-btn-orange">Заявка на дом</router-link>
+                    <router-link v-if="activeItem.status !== 'sold'" to="/request" class="ts-btn ts-btn-orange">Заявка на дом</router-link>
                     <p v-else class="ts-modal-cta-note">Этот дом уже продан. Оставьте заявку — расскажем о похожих вариантах.</p>
                 </div>
             </div>
 
-            <!-- МОДАЛКА ДРУГОГО ОБЪЕКТА -->
-            <div v-if="activePost" class="ts-modal" @click.self="activePost = null">
-                <div class="ts-modal-box ts-modal-narrow">
-                    <button type="button" class="ts-modal-close" @click="activePost = null">✕</button>
-                    <img v-if="activePost.image" :src="activePost.image" :alt="activePost.title" class="ts-modal-img-lg" />
-                    <h3 class="ts-modal-title">{{ activePost.title }}</h3>
-                    <p v-if="activePost.year" class="ts-modal-note">{{ activePost.year }}</p>
-                    <p v-if="activePost.address" class="ts-modal-note">{{ activePost.address }}</p>
-                    <p v-if="activePost.content" class="ts-post-content">{{ activePost.content }}</p>
-                </div>
+            <!-- ЛАЙТБОКС ГАЛЕРЕИ -->
+            <div v-if="lightboxOpen && lightboxPhoto" class="ts-lightbox" @click.self="closeLightbox">
+                <button type="button" class="ts-lb-close" @click="closeLightbox" aria-label="Закрыть">✕</button>
+                <button type="button" class="ts-lb-arrow ts-lb-prev" @click.stop="prevPhoto" aria-label="Предыдущее фото">‹</button>
+                <figure class="ts-lb-figure">
+                    <img :src="lightboxPhoto.src" :alt="lightboxPhoto.caption || ''" />
+                    <figcaption v-if="lightboxPhoto.caption">{{ lightboxPhoto.caption }}</figcaption>
+                </figure>
+                <button type="button" class="ts-lb-arrow ts-lb-next" @click.stop="nextPhoto" aria-label="Следующее фото">›</button>
+                <span class="ts-lb-counter">{{ lightboxIndex + 1 }} / {{ galleryPhotos.length }}</span>
             </div>
 
             <!-- ФУТЕР -->
@@ -211,67 +199,192 @@ const Objects = {
                     </div>
                 </div>
                 <div class="ts-container">
-                    <p class="ts-footer-legal">АВД ГРУПП — застройщик малоэтажного жилья в Перми<br>Информация на сайте носит справочный характер и не является публичной офертой · © АВД ГРУПП</p>
+                    <p class="ts-footer-legal">АВД ГРУПП — застройщик в Перми<br>Информация на сайте носит справочный характер и не является публичной офертой · © АВД ГРУПП</p>
                 </div>
             </footer>
         </div>
     `,
     data() {
         return {
-            posts: [],
-            homes: [],
-            activeHome: null,
-            activePost: null,
+            items: [],
+            activeItem: null,
+            activeStatus: DEFAULT_OBJECT_STATUS,
+            statusTabs: OBJECT_STATUS_TABS,
+            sitePhotos: [],
+            lightboxOpen: false,
+            lightboxIndex: 0,
+            _wheelLock: 0,
+            _touchX: null,
         };
     },
     computed: {
-        featuredHome() {
-            return this.homes.length ? this.homes[0] : null;
+        tabCounts() {
+            return countByStatus(this.items);
         },
-        soldHomes() {
-            return this.homes.filter(h => h.sold);
-        }
+        activeItems() {
+            return this.items.filter(i => i.status === this.activeStatus);
+        },
+        sellingCount() {
+            return this.tabCounts.selling;
+        },
+        featuredSelling() {
+            return this.items.filter(i => i.status === 'selling')[0] || null;
+        },
+        heroSummary() {
+            const total = this.items.length;
+            if (!total) {
+                return 'Объекты появятся здесь совсем скоро. Оставьте заявку, и мы сообщим о новых поступлениях.';
+            }
+            const selling = this.sellingCount;
+            let clause;
+            if (selling === 1) {
+                clause = 'в продаже остался последний';
+            } else if (selling > 1) {
+                clause = 'в продаже ' + selling + ' ' + plural(selling, ['объект', 'объекта', 'объектов']);
+            } else {
+                clause = 'сейчас в продаже нет';
+            }
+            return 'Комплекс таунхаусов на ул. Вольская, 29 — сдан и заселён. Из ' + total + ' ' +
+                plural(total, ['объекта', 'объектов', 'объектов']) + ' ' + clause +
+                '. Состав и фотографии каждого объекта — ниже.';
+        },
+        objectsHeading() {
+            const total = this.items.length;
+            const selling = this.sellingCount;
+            let highlight;
+            if (!total) {
+                highlight = 'объектов пока нет';
+            } else if (selling === 1) {
+                highlight = 'остался последний';
+            } else if (selling > 1) {
+                highlight = selling + ' ' + plural(selling, ['в продаже', 'в продаже', 'в продаже']);
+            } else {
+                highlight = 'всё распродано';
+            }
+            return { total: 'Всего ' + total + ' ' + plural(total, ['объект', 'объекта', 'объектов']), highlight };
+        },
+        galleryPhotos() {
+            return this.sitePhotos.length ? this.sitePhotos : DEFAULT_GALLERY;
+        },
+        lightboxPhoto() {
+            return this.galleryPhotos[this.lightboxIndex] || null;
+        },
+        statusChips() {
+            const counts = this.tabCounts;
+            const defs = [
+                { key: 'planned', label: 'планируются', forms: ['дом', 'дома', 'домов'] },
+                { key: 'selling', label: 'в продаже', forms: ['дом', 'дома', 'домов'] },
+                { key: 'sold', label: 'проданы', forms: ['дом', 'дома', 'домов'] },
+            ];
+            return defs
+                .filter(d => counts[d.key] > 0)
+                .map(d => ({ count: counts[d.key], label: d.label, forms: d.forms, hot: d.key === 'selling' }));
+        },
     },
     watch: {
-        activeHome() {
-            this.activePost = null;
-            this.toggleScroll();
-        },
-        activePost() {
-            this.activeHome = null;
+        activeItem() {
             this.toggleScroll();
         }
+    },
+    beforeUnmount() {
+        this.teardownLightbox();
     },
     async created() {
         try {
-            const items = await API.request('/post/all');
-            this.homes = items
-                .filter(p => p.kind === 'home')
-                .sort((a, b) => a.position - b.position)
+            const photos = await API.request('/gallery/all');
+            if (Array.isArray(photos) && photos.length) {
+                this.sitePhotos = photos;
+            }
+        } catch (e) {
+            console.error('Failed to load gallery:', e);
+        }
+        try {
+            const raw = await API.request('/post/all');
+            this.items = raw
                 .map(p => ({
                     key: p.id,
+                    status: normalizeObjectStatus(p),
+                    position: p.position || 0,
+                    image: p.image,
                     tag: p.tag,
                     price: p.price,
                     name: p.title,
                     note: p.content,
-                    sold: !!p.sold,
+                    address: p.address,
+                    year: p.year,
                     floors: Array.isArray(p.floors) ? p.floors : [],
                     photos: Array.isArray(p.photos) ? p.photos : [],
-                }));
-            this.posts = items.filter(p => p.kind !== 'home');
+                }))
+                .sort((a, b) => a.position - b.position);
+            this.activeStatus = firstPopulatedStatus(this.items);
         } catch (e) {
             console.error('Failed to load posts:', e);
         }
     },
     methods: {
-        openHome(h) {
-            this.activeHome = h;
+        isFeatured(index) {
+            return this.activeStatus === 'selling' && this.activeItems.length === 1 && index === 0;
         },
-        openPost(p) {
-            this.activePost = p;
+        openItem(item) {
+            this.activeItem = item;
         },
         toggleScroll() {
-            document.body.style.overflow = (this.activeHome || this.activePost) ? 'hidden' : '';
-        }
+            document.body.style.overflow = this.activeItem ? 'hidden' : '';
+        },
+        openLightbox(i) {
+            this.lightboxIndex = i;
+            this.lightboxOpen = true;
+            document.body.style.overflow = 'hidden';
+            window.addEventListener('keydown', this.onLightboxKey);
+            window.addEventListener('wheel', this.onLightboxWheel, { passive: true });
+            window.addEventListener('touchstart', this.onTouchStart, { passive: true });
+            window.addEventListener('touchend', this.onTouchEnd, { passive: true });
+        },
+        closeLightbox() {
+            this.lightboxOpen = false;
+            this.teardownLightbox();
+        },
+        teardownLightbox() {
+            window.removeEventListener('keydown', this.onLightboxKey);
+            window.removeEventListener('wheel', this.onLightboxWheel);
+            window.removeEventListener('touchstart', this.onTouchStart);
+            window.removeEventListener('touchend', this.onTouchEnd);
+            if (!this.activeItem) {
+                document.body.style.overflow = '';
+            }
+        },
+        nextPhoto() {
+            const total = this.galleryPhotos.length;
+            if (total) this.lightboxIndex = (this.lightboxIndex + 1) % total;
+        },
+        prevPhoto() {
+            const total = this.galleryPhotos.length;
+            if (total) this.lightboxIndex = (this.lightboxIndex - 1 + total) % total;
+        },
+        onLightboxKey(e) {
+            if (!this.lightboxOpen) return;
+            if (e.key === 'Escape') this.closeLightbox();
+            else if (e.key === 'ArrowRight') this.nextPhoto();
+            else if (e.key === 'ArrowLeft') this.prevPhoto();
+        },
+        onLightboxWheel(e) {
+            if (!this.lightboxOpen) return;
+            const now = Date.now();
+            if (now - this._wheelLock < 250) return;
+            this._wheelLock = now;
+            if (e.deltaY > 0 || e.deltaX > 0) this.nextPhoto();
+            else this.prevPhoto();
+        },
+        onTouchStart(e) {
+            this._touchX = e.touches[0].clientX;
+        },
+        onTouchEnd(e) {
+            if (this._touchX == null || !this.lightboxOpen) return;
+            const dx = e.changedTouches[0].clientX - this._touchX;
+            this._touchX = null;
+            if (Math.abs(dx) < 40) return;
+            if (dx < 0) this.nextPhoto();
+            else this.prevPhoto();
+        },
     }
 };
