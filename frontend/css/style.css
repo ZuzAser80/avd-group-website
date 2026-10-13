@@ -5498,7 +5498,53 @@ button.ts-other-card:hover {
   border-bottom: 1px solid rgba(0,0,0,0.08);
   padding-bottom: 2px;
 }
-.status-tabs-dark { margin-top: 34px; }
+.status-tabs-dark {
+  margin-top: 34px;
+  flex-wrap: nowrap;
+  gap: 12px;
+  border-bottom: none;
+  padding-bottom: 0;
+}
+.status-tabs-dark .status-tab {
+  flex: 1 1 0;
+  justify-content: center;
+  gap: 10px;
+  padding: 18px 20px;
+  margin-bottom: 0;
+  border: 1px solid rgba(0,0,0,0.08);
+  border-radius: 12px;
+  background: var(--light-bg);
+  color: var(--text-dark);
+  font-size: 18px;
+  font-weight: 700;
+}
+.status-tabs-dark .status-tab:hover {
+  background: #F1EDE8;
+  border-color: rgba(0,0,0,0.14);
+  color: var(--text-dark);
+}
+.status-tabs-dark .status-tab-active {
+  background: var(--orange);
+  border-color: var(--orange);
+  color: #FFF;
+  box-shadow: var(--shadow-sm);
+}
+.status-tabs-dark .status-tab-active:hover {
+  background: var(--orange);
+  border-color: var(--orange);
+  color: #FFF;
+}
+.status-tabs-dark .status-tab-count {
+  min-width: 28px;
+  padding: 4px 10px;
+  font-size: 13px;
+  background: rgba(0,0,0,0.06);
+  color: var(--text-dark);
+}
+.status-tabs-dark .status-tab-active .status-tab-count {
+  background: rgba(255,255,255,0.25);
+  color: #FFF;
+}
 .status-tab {
   display: inline-flex;
   align-items: center;
@@ -5631,6 +5677,7 @@ button.ts-other-card:hover {
   }
   .status-tabs::-webkit-scrollbar { display: none; }
   .status-tab { font-size: 14px; padding: 10px 4px 12px; }
+  .status-tabs-dark .status-tab { flex: 0 0 auto; padding: 14px 16px; font-size: 15px; }
 }
 
 /* ============================================

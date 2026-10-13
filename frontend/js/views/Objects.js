@@ -36,7 +36,7 @@ const Objects = {
                         </div>
                     </div>
                     <p class="ts-label">Объекты</p>
-                    <h2 class="ts-h2">{{ objectsHeading.total }} — <span>{{ objectsHeading.highlight }}</span></h2>
+                    <h1 class="ts-h1">{{ objectsHeading.total }} — <span>{{ objectsHeading.highlight }}</span></h1>
                     <div class="ts-avail-strip" v-if="statusChips.length">
                         <span class="ts-avail-chip" v-for="chip in statusChips" :key="chip.label"
                               :class="{ 'ts-avail-chip-hot': chip.hot }">
