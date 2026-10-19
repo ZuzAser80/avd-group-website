@@ -111,7 +111,7 @@ const Contacts = {
                     <div>
                         <p class="ts-footer-title">Офис продаж</p>
                         <p class="ts-footer-item">614000, Пермский край, г. Пермь, ул. Окулова, д. 27 оф. 103</p>
-                        <p class="ts-footer-item">пн–пт: 9:00–18:00 · сб: 10:00–14:00</p>
+                        <p class="ts-footer-item">пн–пт: 9:00–18:00</p>
                     </div>
                     <div>
                         <p class="ts-footer-title">Контакты</p>
